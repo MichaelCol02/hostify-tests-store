@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Barlow:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Barlow', sans-serif;
+  color: #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.btn-primary {
+  @apply px-6 py-3 bg-verde text-white rounded-lg font-semibold hover:bg-verde-light transition;
+}
+
+.btn-secondary {
+  @apply px-6 py-3 border-2 border-verde text-verde rounded-lg font-semibold hover:bg-verde/5 transition;
+}
+
+.card-shadow {
+  @apply shadow-lg hover:shadow-xl transition;
+}

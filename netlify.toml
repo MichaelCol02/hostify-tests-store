@@ -1,0 +1,71 @@
+[build]
+command = "npm run build"
+functions = "netlify/functions"
+publish = ".next"
+
+[dev]
+command = "npm run dev"
+port = 3000
+
+# Redirecciones HTTP -> HTTPS
+[[redirects]]
+from = "http://:splat"
+to = "https://:splat"
+status = 301
+force = true
+
+# Headers de seguridad globales
+[[headers]]
+for = "/*"
+[headers.values]
+  # Evita clickjacking
+  "X-Frame-Options" = "DENY"
+
+  # Evita sniffing de tipos MIME
+  "X-Content-Type-Options" = "nosniff"
+
+  # Habilita protección XSS en navegadores antiguos
+  "X-XSS-Protection" = "1; mode=block"
+
+  # Content Security Policy - muy restrictiva
+  "Content-Security-Policy" = "default-src 'self'; script-src 'self' 'unsafe-inline' cdnjs.cloudflare.com cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' fonts.googleapis.com cdn.jsdelivr.net; font-src 'self' fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' vvxwcatyrcpxiztfzydt.supabase.co api.stripe.com; frame-ancestors 'none'; upgrade-insecure-requests"
+
+  # Política de referrer
+  "Referrer-Policy" = "strict-origin-when-cross-origin"
+
+  # Permisos de características
+  "Permissions-Policy" = "geolocation=(), microphone=(), camera=(), payment=(self)"
+
+  # HSTS (fuerza HTTPS por 1 año)
+  "Strict-Transport-Security" = "max-age=31536000; includeSubDomains; preload"
+
+  # Evita caché de datos sensibles
+  "Cache-Control" = "public, max-age=3600, must-revalidate"
+
+# Headers específicos para API
+[[headers]]
+for = "/api/*"
+[headers.values]
+  "Content-Type" = "application/json"
+  "X-Content-Type-Options" = "nosniff"
+  "Cache-Control" = "no-cache, no-store, must-revalidate"
+  "Pragma" = "no-cache"
+  "Expires" = "0"
+
+# Headers para assets estáticos
+[[headers]]
+for = "/_next/static/*"
+[headers.values]
+  "Cache-Control" = "public, max-age=31536000, immutable"
+
+# Rate limiting (Netlify Bot Manager)
+[[headers]]
+for = "/*"
+[headers.values]
+  "X-Robots-Tag" = "noindex, nofollow"
+
+# Evita que buscadores cachen
+[[headers]]
+for = "/api/*"
+[headers.values]
+  "X-Robots-Tag" = "noindex, nofollow, noarchive"
