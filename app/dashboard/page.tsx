@@ -17,7 +17,7 @@ const allTests: Record<string, any> = {
 
 export default function DashboardPage() {
   const { user, loading: userLoading } = useAuth()
-  const { purchases, loading: purchasesLoading } = usePurchases(user?.id)
+  const { purchases } = usePurchases(user?.id)
   const router = useRouter()
 
   useEffect(() => {

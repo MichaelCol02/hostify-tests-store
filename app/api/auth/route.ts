@@ -32,6 +32,8 @@ export async function POST(req: Request) {
       if (error) throw error
       return NextResponse.json({ ok: true }, { status: 200 })
     }
+
+    return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 400 })
   }

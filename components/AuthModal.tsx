@@ -26,7 +26,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
 
     try {
       if (isLogin) {
-        const { data, error: err } = await supabase.auth.signInWithPassword({
+        const { error: err } = await supabase.auth.signInWithPassword({
           email,
           password,
         })

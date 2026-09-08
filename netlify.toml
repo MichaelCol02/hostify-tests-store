@@ -7,12 +7,7 @@ publish = ".next"
 command = "npm run dev"
 port = 3000
 
-# Redirecciones HTTP -> HTTPS
-[[redirects]]
-from = "http://:splat"
-to = "https://:splat"
-status = 301
-force = true
+# HTTP -> HTTPS redirect handled automatically by Netlify
 
 # Headers de seguridad globales
 [[headers]]

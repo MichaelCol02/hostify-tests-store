@@ -15,3 +15,7 @@ out/
 *.swo
 *~
 .env*
+!.env.example
+
+# Local Netlify folder
+.netlify
