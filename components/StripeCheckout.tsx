@@ -19,9 +19,11 @@ export default function StripeCheckout({
   email,
 }: StripeCheckoutProps) {
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const handleCheckout = async () => {
     setLoading(true)
+    setError('')
 
     try {
       const response = await fetch('/api/stripe/checkout', {
@@ -36,25 +38,31 @@ export default function StripeCheckout({
         }),
       })
 
-      const { sessionId, url } = await response.json()
+      const { url } = await response.json()
 
-      if (url) {
+      if (response.ok && url) {
         window.location.href = url
+        return
       }
-    } catch (error) {
-      console.error('Checkout error:', error)
+      setError('No pudimos iniciar el pago. Intenta de nuevo en unos minutos.')
+    } catch (err) {
+      console.error('Checkout error:', err)
+      setError('No pudimos conectar con el servidor de pagos. Revisa tu conexión e intenta de nuevo.')
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <button
-      onClick={handleCheckout}
-      disabled={loading}
-      className="btn-primary disabled:opacity-50"
-    >
-      {loading ? 'Procesando...' : `Desbloquear por $${price}`}
-    </button>
+    <div>
+      <button
+        onClick={handleCheckout}
+        disabled={loading}
+        className="btn-primary disabled:opacity-50"
+      >
+        {loading ? 'Procesando...' : `Desbloquear por $${price}`}
+      </button>
+      {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
+    </div>
   )
 }
