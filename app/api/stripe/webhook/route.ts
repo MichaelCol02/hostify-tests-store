@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server'
 import type Stripe from 'stripe'
 import { stripe } from '@/lib/stripe'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 
 export async function POST(req: NextRequest) {
   const body = await req.text()
