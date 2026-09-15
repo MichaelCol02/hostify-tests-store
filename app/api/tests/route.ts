@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase'
 export async function GET() {
   try {
     const { data: tests, error } = await supabase
-      .from('tests')
+      .from('store_tests')
       .select('*')
       .order('created_at', { ascending: true })
 
