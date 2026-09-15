@@ -1,137 +1,162 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
+import Logo from './Logo'
 
 interface AuthModalProps {
-  isOpen: boolean
+  mode: 'login' | 'signup' | null
+  onModeChange: (mode: 'login' | 'signup') => void
   onClose: () => void
-  onSuccess?: () => void
 }
 
-export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
-  const [isLogin, setIsLogin] = useState(true)
+const ERRORS: Record<string, string> = {
+  'Invalid login credentials': 'Correo o contraseña incorrectos.',
+  'Email not confirmed': 'Confirma tu correo antes de ingresar. Revisa tu bandeja de entrada.',
+  'User already registered': 'Ya existe una cuenta con este correo. Ingresa en su lugar.',
+}
+
+export default function AuthModal({ mode, onModeChange, onClose }: AuthModalProps) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [notice, setNotice] = useState('')
 
-  if (!isOpen) return null
+  useEffect(() => {
+    setError('')
+    setNotice('')
+  }, [mode])
+
+  useEffect(() => {
+    if (!mode) return
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [mode, onClose])
+
+  if (!mode) return null
+  const isLogin = mode === 'login'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+    setNotice('')
     setLoading(true)
 
     try {
       if (isLogin) {
-        const { error: err } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        })
+        const { error: err } = await supabase.auth.signInWithPassword({ email, password })
         if (err) throw err
+        onClose()
       } else {
         const { data, error: err } = await supabase.auth.signUp({
           email,
           password,
+          options: { data: { name } },
         })
         if (err) throw err
 
-        // Insert user profile
-        await supabase.from('users').insert({
-          id: data.user?.id,
-          email,
-          name,
-        })
-      }
+        if (!data.session) {
+          setNotice('Te enviamos un correo para confirmar tu cuenta. Después vuelve aquí e ingresa.')
+          onModeChange('login')
+          return
+        }
 
-      onClose()
-      onSuccess?.()
+        if (data.user) {
+          await supabase.from('users').insert({ id: data.user.id, email, name })
+        }
+        onClose()
+      }
     } catch (err: any) {
-      setError(err.message)
+      setError(ERRORS[err.message] || err.message || 'Algo salió mal. Intenta de nuevo.')
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-xl p-8 max-w-md w-full mx-4">
-        <h2 className="font-cormorant text-2xl font-bold text-verde mb-6">
-          {isLogin ? 'Ingresar' : 'Crear cuenta'}
-        </h2>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {!isLogin && (
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Nombre</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-verde"
-                required
-              />
-            </div>
-          )}
-
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-verde"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Contraseña</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-verde"
-              required
-            />
-          </div>
-
-          {error && <div className="text-red-600 text-sm">{error}</div>}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="btn-primary w-full disabled:opacity-50"
-          >
-            {loading ? 'Cargando...' : isLogin ? 'Ingresar' : 'Crear cuenta'}
-          </button>
-        </form>
-
-        <div className="mt-6 text-center text-sm">
-          <p className="text-gray-600">
-            {isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}
-            <button
-              type="button"
-              onClick={() => {
-                setIsLogin(!isLogin)
-                setError('')
-              }}
-              className="text-verde font-semibold hover:underline ml-1"
-            >
-              {isLogin ? 'Crear' : 'Ingresar'}
-            </button>
-          </p>
-        </div>
-
+    <div
+      className="fixed inset-0 z-[60] flex items-end justify-center bg-black/40 p-0 backdrop-blur-md sm:items-center sm:p-4"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="auth-title"
+    >
+      <div
+        className="relative w-full max-w-md animate-fade-up rounded-t-4xl bg-white p-8 shadow-lift sm:rounded-4xl sm:p-10"
+        onClick={(e) => e.stopPropagation()}
+      >
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+          aria-label="Cerrar"
+          className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full bg-ink-100 text-ink-500 transition hover:bg-ink-300/60 hover:text-ink"
         >
-          ✕
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+          </svg>
         </button>
+
+        <Logo />
+        <h2 id="auth-title" className="mt-8 text-3xl font-semibold">
+          {isLogin ? 'Bienvenido de nuevo.' : 'Crea tu cuenta.'}
+        </h2>
+        <p className="mt-2 text-[15px] text-ink-500">
+          {isLogin ? 'Ingresa para usar tus créditos.' : 'Tus créditos y resultados, siempre contigo.'}
+        </p>
+
+        <form onSubmit={handleSubmit} className="mt-8 space-y-3">
+          {!isLogin && (
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="field"
+              placeholder="Nombre"
+              autoComplete="name"
+              required
+            />
+          )}
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="field"
+            placeholder="Correo electrónico"
+            autoComplete="email"
+            required
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="field"
+            placeholder="Contraseña"
+            autoComplete={isLogin ? 'current-password' : 'new-password'}
+            minLength={6}
+            required
+          />
+
+          {error && <p className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
+          {notice && <p className="rounded-2xl bg-brand-soft px-4 py-3 text-sm text-brand-deep">{notice}</p>}
+
+          <button type="submit" disabled={loading} className="btn-primary !mt-6 w-full py-3.5">
+            {loading ? 'Un momento…' : isLogin ? 'Ingresar' : 'Crear cuenta'}
+          </button>
+        </form>
+
+        <p className="mt-6 text-center text-sm text-ink-500">
+          {isLogin ? '¿Primera vez aquí?' : '¿Ya tienes cuenta?'}{' '}
+          <button
+            type="button"
+            onClick={() => onModeChange(isLogin ? 'signup' : 'login')}
+            className="font-semibold text-brand-deep hover:underline"
+          >
+            {isLogin ? 'Crea una cuenta' : 'Ingresa'}
+          </button>
+        </p>
       </div>
     </div>
   )

@@ -1,36 +1,97 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Barlow:wght@300;400;500;600&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-ink-50 font-sans text-ink antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tighter text-ink;
+  }
+
+  ::selection {
+    @apply bg-brand/20;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand ring-offset-2 ring-offset-transparent;
+  }
 }
 
-html {
-  scroll-behavior: smooth;
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.18em] text-brand;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[15px] font-semibold transition-all duration-300 ease-out disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn bg-gradient-to-b from-brand to-brand-deep text-white shadow-glow hover:-translate-y-0.5 hover:brightness-110 active:translate-y-0;
+  }
+
+  .btn-dark {
+    @apply btn bg-ink text-white hover:-translate-y-0.5 hover:bg-ink-700 active:translate-y-0;
+  }
+
+  .btn-ghost {
+    @apply btn bg-white/70 text-ink ring-1 ring-black/10 backdrop-blur hover:bg-white;
+  }
+
+  .btn-ghost-dark {
+    @apply btn bg-white/10 text-white ring-1 ring-white/20 backdrop-blur hover:bg-white/15;
+  }
+
+  .card {
+    @apply rounded-4xl bg-white shadow-soft ring-1 ring-black/[0.05];
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-[#FF8A55] via-brand to-brand-deep bg-clip-text text-transparent;
+  }
+
+  .field {
+    @apply w-full rounded-2xl border-0 bg-ink-100 px-4 py-3.5 text-[15px] text-ink placeholder:text-ink-400 ring-1 ring-transparent transition focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand;
+  }
 }
 
-body {
-  font-family: 'Barlow', sans-serif;
-  color: #333;
+@layer utilities {
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 55%, transparent);
+  }
+
+  .delay-1 { animation-delay: 80ms; }
+  .delay-2 { animation-delay: 160ms; }
+  .delay-3 { animation-delay: 240ms; }
+  .delay-4 { animation-delay: 320ms; }
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Cormorant Garamond', serif;
-}
-
-.btn-primary {
-  @apply px-6 py-3 bg-verde text-white rounded-lg font-semibold hover:bg-verde-light transition;
-}
-
-.btn-secondary {
-  @apply px-6 py-3 border-2 border-verde text-verde rounded-lg font-semibold hover:bg-verde/5 transition;
-}
-
-.card-shadow {
-  @apply shadow-lg hover:shadow-xl transition;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

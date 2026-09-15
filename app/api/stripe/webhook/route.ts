@@ -2,6 +2,7 @@ import { NextResponse, NextRequest } from 'next/server'
 import type Stripe from 'stripe'
 import { stripe } from '@/lib/stripe'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { getPack } from '@/lib/pricing'
 
 export async function POST(req: NextRequest) {
   const body = await req.text()
@@ -28,12 +29,12 @@ export async function POST(req: NextRequest) {
   }
 
   const session = event.data.object as Stripe.Checkout.Session
-  const testId = session.metadata?.testId
   const userId = session.metadata?.userId
+  const pack = getPack(session.metadata?.packId)
 
   // Sessions not created by our checkout (e.g. `stripe trigger`) can never be recorded, so retrying is pointless.
-  if (!testId || !userId) {
-    console.warn(`Webhook ${event.id}: session ${session.id} has no testId/userId metadata, skipping`)
+  if (!userId || !pack) {
+    console.warn(`Webhook ${event.id}: session ${session.id} has no userId/pack metadata, skipping`)
     return NextResponse.json({ received: true, skipped: 'missing metadata' })
   }
 
@@ -42,9 +43,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ received: true, skipped: 'not paid' })
   }
 
+  if (session.amount_total !== Math.round(pack.priceUsd * 100)) {
+    console.error(`Webhook ${event.id}: session ${session.id} amount ${session.amount_total} does not match pack ${pack.id}`)
+    return NextResponse.json({ received: true, skipped: 'amount mismatch' })
+  }
+
   const email = session.customer_details?.email || session.customer_email
   if (email) {
-    // purchases.user_id references users(id); client-side profile inserts are blocked by RLS, so ensure the row here.
+    // credit_transactions.user_id references users(id); make sure the profile row exists.
     const { error: userError } = await supabaseAdmin.from('users').upsert(
       {
         id: userId,
@@ -59,26 +65,22 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const paymentIntentId =
-    typeof session.payment_intent === 'string'
-      ? session.payment_intent
-      : session.payment_intent?.id
-
-  // Upsert on (user_id, test_id) makes Stripe's retries of the same event idempotent.
-  const { error: purchaseError } = await supabaseAdmin.from('purchases').upsert(
+  // stripe_session_id is UNIQUE, so Stripe retries of the same event never grant credits twice.
+  const { error: creditError } = await supabaseAdmin.from('credit_transactions').upsert(
     {
       user_id: userId,
-      test_id: testId,
+      delta: pack.credits,
+      reason: 'purchase',
+      pack_id: pack.id,
       amount: (session.amount_total ?? 0) / 100,
       currency: (session.currency || 'usd').toUpperCase(),
-      stripe_payment_id: paymentIntentId || session.id,
-      status: 'completed',
+      stripe_session_id: session.id,
     },
-    { onConflict: 'user_id,test_id' }
+    { onConflict: 'stripe_session_id', ignoreDuplicates: true }
   )
 
-  if (purchaseError) {
-    console.error(`Webhook ${event.id}: failed to record purchase for user ${userId}, test ${testId}:`, purchaseError.message)
+  if (creditError) {
+    console.error(`Webhook ${event.id}: failed to add ${pack.credits} credits for user ${userId}:`, creditError.message)
     return NextResponse.json({ error: 'Failed to record purchase' }, { status: 500 })
   }
 

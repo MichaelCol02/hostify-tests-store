@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { LogoMark } from '@/components/Logo'
 
 export default function Error({
   reset,
@@ -9,24 +10,20 @@ export default function Error({
   reset: () => void
 }) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="max-w-md w-full text-center">
-        <h1 className="font-cormorant text-4xl font-bold text-verde mb-4">Oops...</h1>
-        <p className="text-gray-600 mb-6">
-          Algo salió mal. Por favor intenta de nuevo.
-        </p>
-        <div className="space-y-4">
-          <button
-            onClick={() => reset()}
-            className="btn-primary w-full"
-          >
+    <main className="flex min-h-screen items-center justify-center px-5">
+      <div className="w-full max-w-md text-center">
+        <LogoMark className="mx-auto h-12 w-12" />
+        <h1 className="mt-8 text-4xl font-semibold tracking-tightest">Algo no salió bien.</h1>
+        <p className="mt-3 text-ink-500">Fue un error de nuestra parte. Intenta de nuevo en un momento.</p>
+        <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+          <button type="button" onClick={() => reset()} className="btn-primary px-7 py-3.5">
             Intentar de nuevo
           </button>
-          <Link href="/" className="btn-secondary block w-full">
+          <Link href="/" className="btn-ghost px-7 py-3.5">
             Ir al inicio
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   )
 }

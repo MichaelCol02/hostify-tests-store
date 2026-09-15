@@ -1,36 +1,41 @@
+import Link from 'next/link'
+import Logo from './Logo'
+import { CATALOG } from '@/lib/catalog'
+
 export default function Footer() {
   return (
-    <footer className="bg-verde text-white mt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-4 gap-8 mb-8">
-          <div>
-            <h3 className="font-cormorant text-lg font-bold mb-4">Hostify</h3>
-            <p className="text-sm opacity-90">Impulsamos la hospitalidad.</p>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4">Tests</h4>
-            <ul className="text-sm space-y-2 opacity-90">
-              <li><a href="#" className="hover:opacity-100">5 Niveles</a></li>
-              <li><a href="#" className="hover:opacity-100">DISC</a></li>
-              <li><a href="#" className="hover:opacity-100">HII</a></li>
-              <li><a href="#" className="hover:opacity-100">5 Casas</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4">Legal</h4>
-            <ul className="text-sm space-y-2 opacity-90">
-              <li><a href="#" className="hover:opacity-100">Términos</a></li>
-              <li><a href="#" className="hover:opacity-100">Privacidad</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4">Contacto</h4>
-            <p className="text-sm opacity-90">info@hostify.co</p>
-          </div>
+    <footer className="mt-auto border-t border-black/[0.06] bg-ink-50">
+      <div className="container-x grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="sm:col-span-2 lg:col-span-2">
+          <Logo />
+          <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink-500">
+            Impulsamos la hospitalidad. Evaluaciones creadas para los equipos que hacen sentir a otros como en casa.
+          </p>
         </div>
-        <div className="border-t border-white/20 pt-8 text-center text-sm opacity-75">
-          <p>&copy; 2026 Hostify. Todos los derechos reservados.</p>
+        <div>
+          <h4 className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-400">Tests</h4>
+          <ul className="mt-4 space-y-2.5 text-sm">
+            {CATALOG.map((t) => (
+              <li key={t.id}>
+                <Link href={`/tests/${t.id}`} className="text-ink-500 transition hover:text-ink">
+                  {t.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
+        <div>
+          <h4 className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-400">Hostify</h4>
+          <ul className="mt-4 space-y-2.5 text-sm">
+            <li><Link href="/precios" className="text-ink-500 transition hover:text-ink">Precios</Link></li>
+            <li><Link href="/dashboard" className="text-ink-500 transition hover:text-ink">Mi panel</Link></li>
+            <li><a href="mailto:michael2colmenares@gmail.com" className="text-ink-500 transition hover:text-ink">Contacto</a></li>
+          </ul>
+        </div>
+      </div>
+      <div className="container-x flex flex-col gap-2 border-t border-black/[0.06] py-6 text-xs text-ink-400 sm:flex-row sm:items-center sm:justify-between">
+        <p>© {new Date().getFullYear()} Hostify. Todos los derechos reservados.</p>
+        <p>Pagos seguros con Stripe · Precios en USD</p>
       </div>
     </footer>
   )

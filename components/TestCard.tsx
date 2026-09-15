@@ -1,53 +1,58 @@
 import Link from 'next/link'
-import { Test } from '@/lib/types'
+import type { CatalogTest } from '@/lib/catalog'
+import TestIcon from './TestIcon'
 
-export default function TestCard({ test }: { test: Test }) {
+export default function TestCard({ test, featured = false }: { test: CatalogTest; featured?: boolean }) {
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-6 card-shadow">
-      <div className="mb-4">
-        <h3 className="font-cormorant text-2xl font-bold text-verde mb-2">{test.name}</h3>
-        <p className="text-gray-600 text-sm">{test.description}</p>
-      </div>
-
-      <div className="space-y-3 mb-6 text-sm text-gray-700">
-        <div className="flex items-center justify-between">
-          <span className="text-gray-600">Duración</span>
-          <span className="font-semibold">{test.duration}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-gray-600">Preguntas</span>
-          <span className="font-semibold">{test.questions}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-gray-600">Versión gratis</span>
-          <span className="font-semibold">{test.freeQuestions} preguntas</span>
-        </div>
-      </div>
-
-      {test.modules.length > 0 && (
-        <div className="mb-6">
-          <h4 className="text-sm font-semibold text-gray-700 mb-2">Módulos</h4>
-          <div className="flex flex-wrap gap-2">
-            {test.modules.map((module) => (
-              <span key={module} className="text-xs bg-verde/10 text-verde px-2 py-1 rounded">
-                {module}
-              </span>
-            ))}
-          </div>
-        </div>
+    <Link
+      href={`/tests/${test.id}`}
+      className={`group relative flex h-full flex-col overflow-hidden rounded-4xl p-7 transition-all duration-500 ease-out hover:-translate-y-1 sm:p-8 ${
+        featured
+          ? 'bg-ink-900 text-white shadow-lift'
+          : 'bg-white shadow-soft ring-1 ring-black/[0.05] hover:shadow-lift'
+      }`}
+    >
+      {featured && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-brand/40 blur-3xl transition-opacity duration-700 group-hover:opacity-80"
+        />
       )}
 
-      <div className="border-t border-gray-200 pt-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-xs text-gray-600">Precio</p>
-            <p className="text-2xl font-bold text-verde">${test.price}</p>
-          </div>
-          <Link href={`/tests/${test.id}`} className="btn-primary">
-            Empezar
-          </Link>
-        </div>
+      <div className="relative flex items-start justify-between">
+        <span
+          className={`flex h-12 w-12 items-center justify-center rounded-2xl ${
+            featured ? 'bg-white/10 text-white' : 'bg-brand-soft text-brand-deep'
+          }`}
+        >
+          <TestIcon name={test.icon} />
+        </span>
+        <span className={`text-xs font-medium ${featured ? 'text-white/50' : 'text-ink-400'}`}>{test.duration}</span>
       </div>
-    </div>
+
+      <p className={`relative mt-8 text-xs font-semibold uppercase tracking-[0.16em] ${featured ? 'text-brand' : 'text-brand-deep'}`}>
+        {test.kicker}
+      </p>
+      <h3 className={`relative mt-2 text-2xl font-semibold leading-tight ${featured ? 'text-white' : ''}`}>{test.name}</h3>
+      <p className={`relative mt-3 text-[15px] leading-relaxed ${featured ? 'text-white/65' : 'text-ink-500'}`}>
+        {test.description}
+      </p>
+
+      <div className="relative mt-auto flex items-center justify-between pt-8">
+        <span className={`text-sm ${featured ? 'text-white/50' : 'text-ink-400'}`}>
+          {test.questions} preguntas · 1 crédito
+        </span>
+        <span
+          className={`flex h-10 w-10 items-center justify-center rounded-full transition-all duration-500 group-hover:translate-x-0.5 ${
+            featured ? 'bg-brand text-white' : 'bg-ink text-white'
+          }`}
+          aria-hidden="true"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
+      </div>
+    </Link>
   )
 }

@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const { data: tests, error } = await supabase
       .from('store_tests')
-      .select('*')
+      .select('id, name, description, price, free_questions, created_at')
       .order('created_at', { ascending: true })
 
     if (error) throw error
