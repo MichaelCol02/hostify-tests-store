@@ -23,6 +23,7 @@ export default function AuthModal({ mode, onModeChange, onClose }: AuthModalProp
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
 
   useEffect(() => {
     setError('')
@@ -128,16 +129,28 @@ export default function AuthModal({ mode, onModeChange, onClose }: AuthModalProp
             autoComplete="email"
             required
           />
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="field"
-            placeholder="Contraseña"
-            autoComplete={isLogin ? 'current-password' : 'new-password'}
-            minLength={6}
-            required
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="field pr-12"
+              placeholder="Contraseña"
+              autoComplete={isLogin ? 'current-password' : 'new-password'}
+              minLength={6}
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((v) => !v)}
+              aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+              aria-pressed={showPassword}
+              title={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+              className="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-xl text-ink-400 transition hover:bg-black/5 hover:text-ink"
+            >
+              <EyeIcon off={showPassword} />
+            </button>
+          </div>
 
           {error && <p className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
           {notice && <p className="rounded-2xl bg-brand-soft px-4 py-3 text-sm text-brand-deep">{notice}</p>}
@@ -146,6 +159,10 @@ export default function AuthModal({ mode, onModeChange, onClose }: AuthModalProp
             {loading ? 'Un momento…' : isLogin ? 'Ingresar' : 'Crear cuenta'}
           </button>
         </form>
+
+        {mode === 'signup' && password.length > 0 && password.length < 6 && (
+          <p className="mt-3 text-center text-xs text-ink-400">La contraseña necesita al menos 6 caracteres.</p>
+        )}
 
         <p className="mt-6 text-center text-sm text-ink-500">
           {isLogin ? '¿Primera vez aquí?' : '¿Ya tienes cuenta?'}{' '}
@@ -159,5 +176,15 @@ export default function AuthModal({ mode, onModeChange, onClose }: AuthModalProp
         </p>
       </div>
     </div>
+  )
+}
+
+function EyeIcon({ off }: { off: boolean }) {
+  return (
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" />
+      <circle cx="12" cy="12" r="3" />
+      {off && <path d="M4 20 20 4" />}
+    </svg>
   )
 }

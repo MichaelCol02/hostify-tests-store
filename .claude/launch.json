@@ -1,0 +1,35 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "hostify-tests-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
+      "autoPort": true
+    },
+    {
+      "name": "eneagrama-estatico",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "3131",
+        "-d",
+        "Test Eneagrama"
+      ],
+      "port": 3131
+    },
+    {
+      "name": "hostify-prod-preview",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "start"
+      ],
+      "autoPort": true
+    }
+  ]
+}
