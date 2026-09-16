@@ -6,6 +6,10 @@ import PricingCards from '@/components/PricingCards'
 import ReportPreview from '@/components/ReportPreview'
 import { CATALOG } from '@/lib/catalog'
 
+const PALABRAS = ['cero','una','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez']
+const cuantos = PALABRAS[CATALOG.length] ?? String(CATALOG.length)
+const Cuantos = cuantos.charAt(0).toUpperCase() + cuantos.slice(1)
+
 const STEPS = [
   { n: '01', title: 'Elige tus créditos', body: 'Un test por $5, tres por $9 o diez por $15. Pagas una vez y los usas cuando quieras.' },
   { n: '02', title: 'Responde a tu ritmo', body: 'Cada crédito abre un test completo durante 24 horas. Sin prisas, desde cualquier dispositivo.' },
@@ -14,7 +18,7 @@ const STEPS = [
 
 const FAQ = [
   { q: '¿Qué es un crédito?', a: 'Un crédito equivale a un test completo. Lo gastas al comenzar y el test queda abierto 24 horas para que lo termines, incluso si cierras la ventana.' },
-  { q: '¿Puedo usar los créditos en tests distintos?', a: 'Sí. Tus créditos sirven para cualquiera de los cinco tests, y también para repetir el mismo test más adelante o evaluar a otra persona de tu equipo.' },
+  { q: '¿Puedo usar los créditos en tests distintos?', a: 'Sí. Tus créditos sirven para cualquiera de los tests, y también para repetir el mismo test más adelante o evaluar a otra persona de tu equipo.' },
   { q: '¿Los créditos vencen?', a: 'No. Quedan en tu cuenta hasta que los uses.' },
   { q: '¿Cómo pago?', a: 'Con tarjeta, a través de Stripe. Nunca vemos ni guardamos los datos de tu tarjeta.' },
 ]
@@ -43,7 +47,7 @@ export default function Home() {
               Descubre el talento que hace grande tu <span className="text-gradient">hospitalidad.</span>
             </h1>
             <p className="delay-2 mx-auto mt-7 max-w-2xl animate-fade-up text-lg leading-relaxed text-white/60 sm:text-xl">
-              Cinco evaluaciones de liderazgo, perfil conductual e inteligencia de hospitalidad. Resultados al instante para ti y todo tu equipo.
+              {Cuantos} evaluaciones de liderazgo, perfil conductual e inteligencia de hospitalidad. Resultados al instante para ti y todo tu equipo.
             </p>
             <div className="delay-3 mt-10 flex animate-fade-up flex-col items-center justify-center gap-3 sm:flex-row">
               <Link href="/tests" className="btn-primary px-7 py-3.5 text-base">
@@ -64,7 +68,7 @@ export default function Home() {
         <section className="border-b border-black/[0.06] bg-white">
           <div className="container-x grid grid-cols-2 gap-y-8 py-12 text-center lg:grid-cols-4">
             {[
-              { k: '5', v: 'evaluaciones especializadas' },
+              { k: String(CATALOG.length), v: 'evaluaciones especializadas' },
               { k: '<30 min', v: 'por test completo' },
               { k: '24 h', v: 'para terminar a tu ritmo' },
               { k: '$1.50', v: 'por test en paquete Equipo' },
@@ -83,7 +87,7 @@ export default function Home() {
             <div className="max-w-2xl">
               <p className="eyebrow">Los tests</p>
               <h2 className="mt-4 text-4xl font-semibold leading-[1.05] sm:text-6xl">
-                Cinco miradas.
+                {Cuantos} miradas.
                 <br />
                 <span className="text-ink-400">Un mismo propósito.</span>
               </h2>

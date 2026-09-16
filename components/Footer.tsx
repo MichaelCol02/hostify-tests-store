@@ -1,6 +1,18 @@
 import Link from 'next/link'
 import Logo from './Logo'
 import { CATALOG } from '@/lib/catalog'
+import { WHATSAPP_NUMBER, whatsappLink } from '@/lib/contact'
+
+function ContactLink() {
+  if (!WHATSAPP_NUMBER) return null
+  return (
+    <li>
+      <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="text-ink-500 transition hover:text-ink">
+        WhatsApp
+      </a>
+    </li>
+  )
+}
 
 export default function Footer() {
   return (
@@ -29,7 +41,8 @@ export default function Footer() {
           <ul className="mt-4 space-y-2.5 text-sm">
             <li><Link href="/precios" className="text-ink-500 transition hover:text-ink">Precios</Link></li>
             <li><Link href="/dashboard" className="text-ink-500 transition hover:text-ink">Mi panel</Link></li>
-            <li><a href="mailto:michael2colmenares@gmail.com" className="text-ink-500 transition hover:text-ink">Contacto</a></li>
+            <ContactLink />
+            <li><a href="mailto:michael2colmenares@gmail.com" className="text-ink-500 transition hover:text-ink">Correo</a></li>
           </ul>
         </div>
       </div>

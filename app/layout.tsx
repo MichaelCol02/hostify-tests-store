@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter_Tight, Manrope } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from '@/components/AuthProvider'
+import WhatsAppButton from '@/components/WhatsAppButton'
 
 // Inter Tight stands in for Neue Montreal (brand display face, not freely licensed); Manrope is the brand body face.
 const display = Inter_Tight({ subsets: ['latin'], weight: ['500', '600', '700'], variable: '--font-display', display: 'swap' })
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <AuthProvider>
           <div className="flex min-h-screen flex-col">{children}</div>
+          <WhatsAppButton />
         </AuthProvider>
       </body>
     </html>
