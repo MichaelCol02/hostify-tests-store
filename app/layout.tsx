@@ -9,7 +9,9 @@ const display = Inter_Tight({ subsets: ['latin'], weight: ['500', '600', '700'],
 const body = Manrope({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-body', display: 'swap' })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://hostifycol.netlify.app'),
   title: 'Hostify Tests — Evaluaciones para la hospitalidad',
+  openGraph: { type: 'website', locale: 'es_CO', siteName: 'Hostify Tests' },
   description: 'Tests de liderazgo, perfil conductual e inteligencia de hospitalidad. Resultados al instante. Desde $1.50 por test.',
 }
 

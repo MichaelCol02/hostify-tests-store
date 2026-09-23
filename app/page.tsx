@@ -4,6 +4,9 @@ import Footer from '@/components/Footer'
 import TestCard from '@/components/TestCard'
 import PricingCards from '@/components/PricingCards'
 import ReportPreview from '@/components/ReportPreview'
+import AudiencePicker from '@/components/AudiencePicker'
+import TestComparison from '@/components/TestComparison'
+import TeamContactButton from '@/components/TeamContactButton'
 import { CATALOG } from '@/lib/catalog'
 
 const PALABRAS = ['cero','una','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez']
@@ -44,19 +47,28 @@ export default function Home() {
             </Link>
 
             <h1 className="delay-1 mx-auto mt-8 max-w-4xl animate-fade-up text-5xl font-semibold leading-[1.02] tracking-tightest text-white sm:text-7xl lg:text-[5.5rem]">
-              Descubre el talento que hace grande tu <span className="text-gradient">hospitalidad.</span>
+              Deja de contratar <span className="text-gradient">a ciegas.</span>
             </h1>
             <p className="delay-2 mx-auto mt-7 max-w-2xl animate-fade-up text-lg leading-relaxed text-white/60 sm:text-xl">
-              {Cuantos} evaluaciones de liderazgo, perfil conductual e inteligencia de hospitalidad. Resultados al instante para ti y todo tu equipo.
+              Descubre en 20 minutos quién nació para servir. {Cuantos} evaluaciones de talento, liderazgo y perfil
+              conductual, con resultado al instante.
             </p>
             <div className="delay-3 mt-10 flex animate-fade-up flex-col items-center justify-center gap-3 sm:flex-row">
               <Link href="/tests" className="btn-primary px-7 py-3.5 text-base">
-                Explorar tests
+                Haz tu primer test
               </Link>
-              <Link href="/precios" className="btn-ghost-dark px-7 py-3.5 text-base">
-                Ver precios
+              <Link href="#hoteles" className="btn-ghost-dark px-7 py-3.5 text-base">
+                Evaluar a mi equipo
               </Link>
             </div>
+            <ul className="delay-4 mt-7 flex animate-fade-up flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/45">
+              {['Resultados al instante', 'Tus créditos no vencen', 'Pago seguro con Stripe'].map((t) => (
+                <li key={t} className="flex items-center gap-2">
+                  <span aria-hidden="true" className="h-1 w-1 rounded-full bg-brand" />
+                  {t}
+                </li>
+              ))}
+            </ul>
 
             <div className="delay-4 mt-20 animate-fade-up">
               <ReportPreview />
@@ -98,6 +110,72 @@ export default function Home() {
                   <TestCard test={test} featured={i === 0} />
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ¿Para quién es? */}
+        <section className="bg-white py-24 sm:py-28">
+          <div className="container-x">
+            <div className="mx-auto max-w-2xl text-center">
+              <p className="eyebrow">¿Para quién es?</p>
+              <h2 className="mt-4 text-4xl font-semibold leading-[1.05] sm:text-5xl">Dinos quién eres y te decimos por dónde empezar.</h2>
+            </div>
+            <div className="mt-12">
+              <AudiencePicker />
+            </div>
+          </div>
+        </section>
+
+        {/* Comparador */}
+        <section className="py-24 sm:py-28">
+          <div className="container-x">
+            <div className="max-w-2xl">
+              <p className="eyebrow">Compara</p>
+              <h2 className="mt-4 text-4xl font-semibold leading-[1.05] sm:text-5xl">Todos los tests, lado a lado.</h2>
+            </div>
+            <div className="mt-10">
+              <TestComparison />
+            </div>
+          </div>
+        </section>
+
+        {/* Para hoteles */}
+        <section id="hoteles" className="scroll-mt-20 bg-white py-24 sm:py-28">
+          <div className="container-x">
+            <div className="relative overflow-hidden rounded-[2.5rem] bg-ink-900 p-8 text-white sm:p-14">
+              <div aria-hidden="true" className="pointer-events-none absolute -right-20 -top-28 h-80 w-80 rounded-full bg-brand/30 blur-3xl" />
+              <div className="relative grid items-center gap-10 lg:grid-cols-[1.2fr,1fr]">
+                <div>
+                  <p className="eyebrow">Para hoteles</p>
+                  <h2 className="mt-4 text-4xl font-semibold leading-[1.05] text-white sm:text-5xl">
+                    Evalúa a todo tu equipo.
+                  </h2>
+                  <p className="mt-5 max-w-xl text-lg text-white/60">
+                    Un paquete de créditos alcanza para todo tu personal: cada persona responde desde su celular y tú
+                    decides a quién evaluar primero.
+                  </p>
+                  <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+                    {[
+                      'Créditos que reparte quien tú quieras',
+                      'Desde $1.50 por persona',
+                      'Responden desde el celular',
+                      'Sin vencimiento ni mensualidad',
+                    ].map((t) => (
+                      <li key={t} className="flex items-start gap-2.5 text-[15px] text-white/80">
+                        <span aria-hidden="true" className="mt-2 h-1 w-1 shrink-0 rounded-full bg-brand" />
+                        {t}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="flex flex-col gap-3">
+                  <TeamContactButton />
+                  <Link href="/precios" className="btn-ghost-dark py-3.5">
+                    Ver paquetes
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </section>

@@ -40,7 +40,8 @@ export default function TestCard({ test, featured = false }: { test: CatalogTest
 
       <div className="relative mt-auto flex items-center justify-between pt-8">
         <span className={`text-sm ${featured ? 'text-white/50' : 'text-ink-400'}`}>
-          {test.questions} preguntas · 1 crédito
+          {test.questions} preguntas · {test.credits} {test.credits === 1 ? 'crédito' : 'créditos'}
+          {test.people > 1 && ` · ${test.people} personas`}
         </span>
         <span
           className={`flex h-10 w-10 items-center justify-center rounded-full transition-all duration-500 group-hover:translate-x-0.5 ${

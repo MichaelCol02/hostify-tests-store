@@ -1,10 +1,23 @@
 'use client'
 
-import { CREDIT_PACKS, formatUsd, pricePerTest, type PackId } from '@/lib/pricing'
+import { CREDIT_PACKS, formatUsd, pricePerTest, type CreditPack, type PackId } from '@/lib/pricing'
 import { useCheckout } from '@/lib/hooks'
 import { useAuth } from './AuthProvider'
 
-export default function PricingCards({ returnTo, compact = false }: { returnTo?: string; compact?: boolean }) {
+export default function PricingCards({
+  returnTo,
+  compact = false,
+  packs = CREDIT_PACKS,
+  highlightId,
+}: {
+  returnTo?: string
+  compact?: boolean
+  packs?: CreditPack[]
+  /** Defaults to the best-value pack, or to the first one when the caller
+   *  supplies a list sized for a particular test. */
+  highlightId?: PackId
+}) {
+  const destacado = highlightId ?? (packs === CREDIT_PACKS ? 'team' : packs[0]?.id)
   const { user, openAuth } = useAuth()
   const { checkout, pending, error } = useCheckout()
 
@@ -18,10 +31,16 @@ export default function PricingCards({ returnTo, compact = false }: { returnTo?:
 
   return (
     <div>
-      <div className={`grid gap-4 ${compact ? 'md:grid-cols-3' : 'gap-5 lg:grid-cols-3'}`}>
-        {CREDIT_PACKS.map((pack) => {
-          const highlight = pack.id === 'team'
+      {/* Tres columnas desde tablet: los paquetes solo venden si se comparan de un vistazo. */}
+      <div
+        className={`grid gap-4 ${
+          packs.length > 3 ? 'sm:grid-cols-2 lg:grid-cols-4' : compact ? 'md:grid-cols-3' : 'gap-5 md:grid-cols-3'
+        }`}
+      >
+        {packs.map((pack) => {
+          const highlight = pack.id === destacado
           const saving = Math.round((1 - pricePerTest(pack) / CREDIT_PACKS[0].priceUsd) * 100)
+          const unidad = pack.credits === 1 ? 'test completo' : 'tests completos'
           return (
             <div
               key={pack.id}
@@ -29,7 +48,7 @@ export default function PricingCards({ returnTo, compact = false }: { returnTo?:
                 compact ? 'p-6' : 'p-8 sm:p-9'
               } ${
                 highlight
-                  ? 'bg-ink-900 text-white shadow-lift lg:-my-3'
+                  ? 'bg-ink-900 text-white shadow-lift md:-my-3'
                   : 'bg-white shadow-soft ring-1 ring-black/[0.05]'
               }`}
             >
@@ -62,7 +81,8 @@ export default function PricingCards({ returnTo, compact = false }: { returnTo?:
                 <li className="flex items-center gap-2.5">
                   <Check highlight={highlight} />
                   <span>
-                    <strong className="font-semibold">{pack.credits}</strong> {pack.credits === 1 ? 'test completo' : 'tests completos'}
+                    <strong className="font-semibold">{pack.credits}</strong>{' '}
+                    {pack.id === 'pareja' ? 'personas, una lectura conjunta' : unidad}
                   </span>
                 </li>
                 <li className="flex items-center gap-2.5">

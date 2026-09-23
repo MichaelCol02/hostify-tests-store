@@ -34,6 +34,20 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M10 20v-6h4v6" />
     </>
   ),
+  // El trazo del eneagrama: la circunferencia, el triángulo 3-6-9 y la hexada.
+  enneagram: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 3l7.8 13.5H4.2z" />
+      <path d="M4.2 7.5l15.6 9M4.2 16.5l15.6-9" />
+    </>
+  ),
+  couple: (
+    <>
+      <circle cx="9" cy="12" r="6" />
+      <circle cx="15" cy="12" r="6" />
+    </>
+  ),
 }
 
 export default function TestIcon({ name, className = 'h-6 w-6' }: { name: IconName; className?: string }) {

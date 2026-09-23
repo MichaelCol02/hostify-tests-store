@@ -1,4 +1,4 @@
-export type PackId = 'single' | 'trio' | 'team'
+export type PackId = 'single' | 'trio' | 'team' | 'pareja'
 
 export interface CreditPack {
   id: PackId
@@ -7,6 +7,10 @@ export interface CreditPack {
   name: string
   tagline: string
   badge?: string
+  /** Contextual packs are sized for one specific test and are not offered in the
+   *  general pricing grid, where they would sit next to a cheaper-per-credit pack
+   *  and read as a worse deal than they are. */
+  contextual?: boolean
 }
 
 export const CREDIT_PACKS: CreditPack[] = [
@@ -15,8 +19,23 @@ export const CREDIT_PACKS: CreditPack[] = [
   { id: 'team', credits: 10, priceUsd: 15, name: 'Equipo', tagline: 'Evalúa a todo tu equipo.', badge: 'Mejor valor' },
 ]
 
+export const CONTEXTUAL_PACKS: CreditPack[] = [
+  {
+    id: 'pareja',
+    credits: 2,
+    priceUsd: 7,
+    name: 'Pareja',
+    tagline: 'Los dos perfiles y la lectura conjunta.',
+    badge: 'Para dos',
+    contextual: true,
+  },
+]
+
+export const ALL_PACKS: CreditPack[] = [...CREDIT_PACKS, ...CONTEXTUAL_PACKS]
+
+/** Checkout validates against every sellable pack, not just the ones on display. */
 export function getPack(id: unknown): CreditPack | undefined {
-  return CREDIT_PACKS.find((p) => p.id === id)
+  return ALL_PACKS.find((p) => p.id === id)
 }
 
 export function pricePerTest(pack: CreditPack) {
