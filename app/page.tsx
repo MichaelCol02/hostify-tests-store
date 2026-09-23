@@ -47,11 +47,11 @@ export default function Home() {
             </Link>
 
             <h1 className="delay-1 mx-auto mt-8 max-w-4xl animate-fade-up text-5xl font-semibold leading-[1.02] tracking-tightest text-white sm:text-7xl lg:text-[5.5rem]">
-              Deja de contratar <span className="text-gradient">a ciegas.</span>
+              Deja de adivinar. <span className="text-gradient">Conoce a tu gente.</span>
             </h1>
             <p className="delay-2 mx-auto mt-7 max-w-2xl animate-fade-up text-lg leading-relaxed text-white/60 sm:text-xl">
-              Descubre en 20 minutos quién nació para servir. {Cuantos} evaluaciones de talento, liderazgo y perfil
-              conductual, con resultado al instante.
+              Contrata con criterio, lidera con acierto y potencia a los que ya están contigo. {Cuantos} evaluaciones de
+              talento, liderazgo y perfil conductual, con resultado en 20 minutos.
             </p>
             <div className="delay-3 mt-10 flex animate-fade-up flex-col items-center justify-center gap-3 sm:flex-row">
               <Link href="/tests" className="btn-primary px-7 py-3.5 text-base">
@@ -147,13 +147,13 @@ export default function Home() {
               <div aria-hidden="true" className="pointer-events-none absolute -right-20 -top-28 h-80 w-80 rounded-full bg-brand/30 blur-3xl" />
               <div className="relative grid items-center gap-10 lg:grid-cols-[1.2fr,1fr]">
                 <div>
-                  <p className="eyebrow">Para hoteles</p>
+                  <p className="eyebrow">Para hoteles y equipos</p>
                   <h2 className="mt-4 text-4xl font-semibold leading-[1.05] text-white sm:text-5xl">
-                    Evalúa a todo tu equipo.
+                    Conoce al equipo que ya tienes.
                   </h2>
                   <p className="mt-5 max-w-xl text-lg text-white/60">
-                    Un paquete de créditos alcanza para todo tu personal: cada persona responde desde su celular y tú
-                    decides a quién evaluar primero.
+                    Saber cómo decide, se relaciona y lidera cada persona cambia la forma de dirigirlas: a quién delegar,
+                    a quién acompañar y quién está listo para crecer.
                   </p>
                   <ul className="mt-8 grid gap-3 sm:grid-cols-2">
                     {[
