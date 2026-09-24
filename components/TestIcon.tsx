@@ -48,6 +48,30 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <circle cx="15" cy="12" r="6" />
     </>
   ),
+  // Las doce áreas se leen como un árbol: raíz, tronco, ramas y fruto.
+  tree: (
+    <>
+      <path d="M12 21v-7" />
+      <path d="M12 14 7.5 9.5M12 14l4.5-4.5" />
+      <circle cx="12" cy="6" r="3.2" />
+      <circle cx="6" cy="11" r="2.4" />
+      <circle cx="18" cy="11" r="2.4" />
+    </>
+  ),
+  money: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7v10" />
+      <path d="M14.5 9.5c0-1.1-1.1-1.8-2.5-1.8s-2.5.7-2.5 1.8c0 2.6 5 1.6 5 4.2 0 1.1-1.1 1.8-2.5 1.8s-2.5-.7-2.5-1.8" />
+    </>
+  ),
+  shield: (
+    <>
+      <path d="M12 3 5 6v6c0 4 3 7.5 7 9 4-1.5 7-5 7-9V6l-7-3Z" />
+      <path d="M12 9.5v3.5" />
+      <path d="M12 16h.01" />
+    </>
+  ),
 }
 
 export default function TestIcon({ name, className = 'h-6 w-6' }: { name: IconName; className?: string }) {

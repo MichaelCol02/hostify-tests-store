@@ -1,7 +1,7 @@
 // Public catalog. Test URLs are deliberately absent: they live only in store_tests.url
 // and are returned by store_redeem_credit after a credit is spent.
 
-export type TestIcon = 'levels' | 'disc' | 'voice' | 'hospitality' | 'houses' | 'enneagram' | 'couple'
+export type TestIcon = 'levels' | 'disc' | 'voice' | 'hospitality' | 'houses' | 'enneagram' | 'couple' | 'tree' | 'money' | 'shield'
 
 export interface CatalogTest {
   id: string
@@ -38,6 +38,57 @@ export const AUDIENCES: { id: Audience; label: string; blurb: string }[] = [
 ]
 
 export const CATALOG: CatalogTest[] = [
+  {
+    id: 'areas-vida',
+    name: 'Las 12 áreas de tu vida',
+    kicker: 'Equilibrio',
+    description:
+      'Doce áreas agrupadas como un árbol: lo que te sostiene por dentro, cómo te cuidas, con quién caminas y qué produces.',
+    duration: '12–15 min',
+    questions: 24,
+    modules: ['Raíz', 'Tronco', 'Ramas', 'Fruto'],
+    icon: 'tree',
+    measures: 'El estado real de doce áreas de tu vida y cuáles están sosteniendo a las demás.',
+    idealFor: 'Quien siente que algo no cuadra pero no sabe dónde mirar.',
+    deliver: 'Tu mapa por área, las que están en riesgo y una ruta de trabajo personal.',
+    audience: ['colaborador', 'lider', 'gerente'],
+    credits: 1,
+    people: 1,
+  },
+  {
+    id: 'finanzas',
+    name: 'Mi relación con el dinero',
+    kicker: 'Finanzas personales',
+    description:
+      'Tres dimensiones que sí miden salud financiera: cómo piensas el dinero, cómo estás hoy y qué necesitas.',
+    duration: '3–5 min',
+    questions: 3,
+    modules: ['Mentalidad', 'Realidad', 'Necesidad'],
+    icon: 'money',
+    measures: 'Tu relación con el dinero: la emocional, la real y la que te hace falta.',
+    idealFor: 'Quien quiere una lectura honesta y rápida de su situación financiera.',
+    deliver: 'Tu termómetro financiero y el paso siguiente según dónde estés.',
+    audience: ['colaborador', 'lider', 'gerente'],
+    credits: 1,
+    people: 1,
+  },
+  {
+    id: '5-heridas',
+    name: 'Las 5 heridas',
+    kicker: 'Inventario de armaduras',
+    description:
+      'Veinte afirmaciones que revelan qué armadura construiste para protegerte y qué te está costando hoy.',
+    duration: '5–8 min',
+    questions: 20,
+    modules: ['Rechazo', 'Abandono', 'Humillación', 'Traición', 'Injusticia'],
+    icon: 'shield',
+    measures: 'Cuál de las cinco heridas pesa más en ti y la armadura que levantaste para cubrirla.',
+    idealFor: 'Trabajo personal, terapia y procesos de acompañamiento.',
+    deliver: 'Tu herida principal, el costo que te cobra y un movimiento concreto para esta semana.',
+    audience: ['colaborador', 'lider'],
+    credits: 1,
+    people: 1,
+  },
   {
     id: 'hii',
     name: 'Hospitality Intelligence Index',
