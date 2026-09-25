@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import type { CatalogTest } from '@/lib/catalog'
-import { CREDIT_PACKS } from '@/lib/pricing'
+import { ALL_PACKS } from '@/lib/pricing'
 
 /** Barra fija en móvil: en pantallas pequeñas el botón de compra queda muy abajo
  *  y mucha gente se va antes de llegar. Se esconde cuando el panel ya está a la vista. */
@@ -20,7 +20,9 @@ export default function StickyBuyBar({ test }: { test: CatalogTest }) {
     return () => io.disconnect()
   }, [])
 
-  const desde = CREDIT_PACKS[0].priceUsd * test.credits
+  // El paquete más barato que alcanza para este test, no el de un crédito multiplicado:
+  // el de pareja cubre los 2 créditos por $7, no por $10.
+  const desde = Math.min(...ALL_PACKS.filter((p) => p.credits >= test.credits).map((p) => p.priceUsd))
 
   return (
     <div
@@ -36,7 +38,7 @@ export default function StickyBuyBar({ test }: { test: CatalogTest }) {
           </p>
         </div>
         <a href="#empezar" className="btn-primary shrink-0 px-5 py-3 text-sm">
-          Empezar
+          Hacer un test
         </a>
       </div>
     </div>
