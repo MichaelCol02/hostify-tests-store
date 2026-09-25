@@ -106,7 +106,11 @@ export default function PricingCards({
                 disabled={pending !== null}
                 className={`relative mt-8 w-full py-3.5 ${highlight ? 'btn-primary' : 'btn-dark'}`}
               >
-                {pending === pack.id ? 'Abriendo pago seguro…' : `Comprar ${pack.credits} ${pack.credits === 1 ? 'crédito' : 'créditos'}`}
+                {pending === pack.id
+                  ? 'Abriendo pago seguro…'
+                  : pack.id === 'pareja'
+                    ? 'Comprar para dos'
+                    : `Comprar ${pack.credits} ${pack.credits === 1 ? 'test' : 'tests'}`}
               </button>
             </div>
           )

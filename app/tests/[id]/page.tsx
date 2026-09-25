@@ -96,11 +96,16 @@ export default function TestPage({ params }: { params: { id: string } }) {
                 {[
                   { k: 'Duración', v: test.duration },
                   { k: test.people > 1 ? 'Preguntas c/u' : 'Preguntas', v: String(test.questions) },
-                  { k: 'Costo', v: `${test.credits} ${test.credits === 1 ? 'crédito' : 'créditos'}` },
+                  {
+                    k: 'Costo',
+                    v: `${test.credits} ${test.credits === 1 ? 'crédito' : 'créditos'}`,
+                    nota: test.people > 1 ? 'para los dos' : undefined,
+                  },
                 ].map((s) => (
                   <div key={s.k} className="rounded-3xl bg-white p-5 shadow-soft ring-1 ring-black/[0.05]">
                     <dt className="text-xs text-ink-400">{s.k}</dt>
                     <dd className="mt-1.5 font-display text-lg font-semibold tracking-tighter">{s.v}</dd>
+                    {s.nota && <dd className="mt-0.5 text-xs text-brand-deep">{s.nota}</dd>}
                   </div>
                 ))}
               </dl>

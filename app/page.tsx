@@ -42,7 +42,7 @@ export default function Home() {
               className="inline-flex animate-fade-up items-center gap-2 rounded-full bg-white/[0.07] py-1.5 pl-1.5 pr-4 text-sm text-white/80 ring-1 ring-white/10 backdrop-blur transition hover:bg-white/10"
             >
               <span className="rounded-full bg-gradient-to-b from-brand to-brand-deep px-2.5 py-0.5 text-xs font-semibold text-white">Nuevo</span>
-              Tests desde $1.50 con créditos
+              Tests desde $5 · Equipos desde $1.50 por persona
               <span aria-hidden="true" className="text-white/40">→</span>
             </Link>
 
@@ -51,11 +51,11 @@ export default function Home() {
             </h1>
             <p className="delay-2 mx-auto mt-7 max-w-2xl animate-fade-up text-lg leading-relaxed text-white/60 sm:text-xl">
               Contrata con criterio, lidera con acierto y potencia a los que ya están contigo. {Cuantos} evaluaciones de
-              talento, liderazgo y perfil conductual, con resultado en 20 minutos.
+              talento, liderazgo y perfil conductual, con resultado al terminar. La mayoría toma menos de 25 minutos.
             </p>
             <div className="delay-3 mt-10 flex animate-fade-up flex-col items-center justify-center gap-3 sm:flex-row">
               <Link href="/tests" className="btn-primary px-7 py-3.5 text-base">
-                Haz tu primer test
+                Hacer un test
               </Link>
               <Link href="#hoteles" className="btn-ghost-dark px-7 py-3.5 text-base">
                 Evaluar a mi equipo
@@ -81,7 +81,7 @@ export default function Home() {
           <div className="container-x grid grid-cols-2 gap-y-8 py-12 text-center lg:grid-cols-4">
             {[
               { k: String(CATALOG.length), v: 'evaluaciones especializadas' },
-              { k: '<30 min', v: 'por test completo' },
+              { k: '< 25 min', v: 'la mayoría de los tests' },
               { k: '24 h', v: 'para terminar a tu ritmo' },
               { k: '$1.50', v: 'por test en paquete Equipo' },
             ].map((s) => (
@@ -247,7 +247,7 @@ export default function Home() {
             </h2>
             <p className="relative mx-auto mt-5 max-w-xl text-lg text-white/60">Ahora conoce exactamente cómo lo logra.</p>
             <Link href="/tests" className="btn-primary relative mt-10 px-8 py-4 text-base">
-              Comenzar ahora
+              Hacer un test
             </Link>
           </div>
         </section>

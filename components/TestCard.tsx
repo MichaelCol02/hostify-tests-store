@@ -41,6 +41,7 @@ export default function TestCard({ test, featured = false }: { test: CatalogTest
       <div className="relative mt-auto flex items-center justify-between pt-8">
         <span className={`text-sm ${featured ? 'text-white/50' : 'text-ink-400'}`}>
           {test.questions} preguntas · {test.credits} {test.credits === 1 ? 'crédito' : 'créditos'}
+          {test.people > 1 && ' · para los dos'}
           {test.people > 1 && ` · ${test.people} personas`}
         </span>
         <span

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 }
 
 const INCLUDED = [
-  'Acceso a los cinco tests',
+  'Acceso a los diez tests',
   'Cada test abierto 24 horas',
   'Resultados al terminar',
   'Repite tests o evalúa a tu equipo',

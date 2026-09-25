@@ -130,7 +130,7 @@ export default function Header({ tone = 'light' }: { tone?: 'light' | 'dark' }) 
                 Ingresar
               </button>
               <button type="button" onClick={() => openAuth('signup')} className="btn-primary ml-1 px-4 py-2 text-sm">
-                Empezar
+                Hacer un test
               </button>
             </>
           )}
