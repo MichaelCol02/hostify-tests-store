@@ -4,6 +4,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import TestCard from '@/components/TestCard'
 import { CATALOG } from '@/lib/catalog'
+import { formatUsd, getCheapestPerTest, getTestPrice } from '@/lib/pricing'
 
 export const metadata: Metadata = {
   title: 'Tests — Hostify',
@@ -22,9 +23,9 @@ export default function TestsPage() {
               Todos los tests.
             </h1>
             <p className="delay-2 mt-6 max-w-xl animate-fade-up text-lg text-ink-500">
-              Cada test completo usa 1 crédito.{' '}
+              Cada test cuesta {formatUsd(getTestPrice(1))}, pago único.{' '}
               <Link href="/precios" className="font-semibold text-brand-deep hover:underline">
-                Desde $1.50 por test →
+                Desde {formatUsd(getCheapestPerTest())} por test en paquete →
               </Link>
             </p>
           </div>

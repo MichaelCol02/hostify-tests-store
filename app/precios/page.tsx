@@ -29,7 +29,7 @@ export default function PreciosPage() {
               Paga por tests. <span className="text-gradient">No por meses.</span>
             </h1>
             <p className="delay-2 mx-auto mt-6 max-w-xl animate-fade-up text-lg text-ink-500">
-              Compra créditos una vez y úsalos en cualquier test, cuando lo necesites.
+              Un test = un crédito. Compras los créditos una vez y los usas en cualquier test, cuando lo necesites.
             </p>
           </div>
         </section>
@@ -43,7 +43,7 @@ export default function PreciosPage() {
         <section className="pb-28">
           <div className="container-x">
             <div className="rounded-4xl bg-white p-8 shadow-soft ring-1 ring-black/[0.05] sm:p-12">
-              <h2 className="text-2xl font-semibold sm:text-3xl">Todo incluido en cada crédito.</h2>
+              <h2 className="text-2xl font-semibold sm:text-3xl">Todo incluido en cada test.</h2>
               <ul className="mt-8 grid gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
                 {INCLUDED.map((item) => (
                   <li key={item} className="flex items-center gap-3 text-[15px] text-ink-700">

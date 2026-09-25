@@ -6,7 +6,7 @@ import Footer from '@/components/Footer'
 import TestIcon from '@/components/TestIcon'
 import TestAccess from '@/components/TestAccess'
 import { CATALOG, getCatalogTest } from '@/lib/catalog'
-import { CREDIT_PACKS } from '@/lib/pricing'
+import { formatUsd, getCheapestPerTest, getTestPrice } from '@/lib/pricing'
 import StickyBuyBar from '@/components/StickyBuyBar'
 
 export function generateStaticParams() {
@@ -37,9 +37,12 @@ export default function TestPage({ params }: { params: { id: string } }) {
   const test = getCatalogTest(params.id)
   if (!test) notFound()
 
-  const precio = CREDIT_PACKS[0].priceUsd * test.credits
+  const precio = getTestPrice(test.credits)
   const faq = [
-    { q: '¿Cuánto cuesta este test?', a: `${test.credits} ${test.credits === 1 ? 'crédito' : 'créditos'}. El paquete más pequeño cuesta $${CREDIT_PACKS[0].priceUsd} USD y el precio por test baja a $1.50 en el paquete de 10.` },
+    {
+      q: '¿Cuánto cuesta este test?',
+      a: `${formatUsd(precio)} USD${test.people > 1 ? ', e incluye a las dos personas' : ''}. Si compras varios de una vez, el precio por test baja hasta ${formatUsd(getCheapestPerTest())}.`,
+    },
     { q: '¿Cuánto tiempo tengo para responderlo?', a: 'Al comenzar, el test queda abierto 24 horas. Puedes cerrar la ventana y volver sin gastar otro crédito.' },
     { q: '¿Qué recibo al terminar?', a: test.deliver },
     { q: '¿Para quién es este test?', a: test.idealFor },
@@ -97,9 +100,9 @@ export default function TestPage({ params }: { params: { id: string } }) {
                   { k: 'Duración', v: test.duration },
                   { k: test.people > 1 ? 'Preguntas c/u' : 'Preguntas', v: String(test.questions) },
                   {
-                    k: 'Costo',
-                    v: `${test.credits} ${test.credits === 1 ? 'crédito' : 'créditos'}`,
-                    nota: test.people > 1 ? 'para los dos' : undefined,
+                    k: 'Precio',
+                    v: `${formatUsd(precio)} USD`,
+                    nota: test.people > 1 ? 'incluye a los dos' : `o ${formatUsd(getCheapestPerTest())} por test en el paquete Equipo`,
                   },
                 ].map((s) => (
                   <div key={s.k} className="rounded-3xl bg-white p-5 shadow-soft ring-1 ring-black/[0.05]">
@@ -123,6 +126,14 @@ export default function TestPage({ params }: { params: { id: string } }) {
 
         <section id="empezar" className="scroll-mt-20 pb-28">
           <div className="container-x delay-3 animate-fade-up">
+            <ul className="mb-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-ink-400">
+              {['Pago único', 'Sin suscripción', 'Resultado al terminar'].map((t) => (
+                <li key={t} className="flex items-center gap-2">
+                  <span aria-hidden="true" className="h-1 w-1 rounded-full bg-brand" />
+                  {t}
+                </li>
+              ))}
+            </ul>
             <TestAccess test={test} />
           </div>
         </section>

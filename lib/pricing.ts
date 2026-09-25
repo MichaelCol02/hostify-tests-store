@@ -42,6 +42,17 @@ export function pricePerTest(pack: CreditPack) {
   return pack.priceUsd / pack.credits
 }
 
+/** Lo que cuesta abrir un test: el paquete más barato que alcanza para sus créditos.
+ *  El de pareja son 2 créditos, y el paquete Pareja los cubre por $7, no por $10. */
+export function getTestPrice(credits: number) {
+  return Math.min(...ALL_PACKS.filter((p) => p.credits >= credits).map((p) => p.priceUsd))
+}
+
+/** El precio por test más bajo del catálogo de paquetes, para el "desde". */
+export function getCheapestPerTest() {
+  return Math.min(...CREDIT_PACKS.map(pricePerTest))
+}
+
 export function formatUsd(value: number) {
   return `$${Number.isInteger(value) ? value : value.toFixed(2)}`
 }

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { CATALOG } from '@/lib/catalog'
+import { formatUsd, getTestPrice } from '@/lib/pricing'
 import TestIcon from './TestIcon'
 
 export default function TestComparison() {
@@ -31,8 +32,9 @@ export default function TestComparison() {
               <td className="px-6 py-5 text-sm text-ink-500">{t.deliver}</td>
               <td className="whitespace-nowrap px-6 py-5 text-right text-sm text-ink-500">
                 {t.duration}
-                <span className="mt-1 block text-xs text-ink-400">
-                  {t.credits} {t.credits === 1 ? 'crédito' : 'créditos'}
+                <span className="mt-1 block font-display text-base font-semibold tracking-tighter text-ink">
+                  {formatUsd(getTestPrice(t.credits))}
+                  {t.people > 1 && <span className="ml-1 text-xs font-normal text-ink-400">para los dos</span>}
                 </span>
               </td>
             </tr>
