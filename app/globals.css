@@ -64,6 +64,24 @@
     @apply bg-gradient-to-r from-[#FF8A55] via-brand to-brand-deep bg-clip-text text-transparent;
   }
 
+  /* Páginas legales: texto largo, sin librerías extra. */
+  .prose-hostify h2 {
+    @apply mt-12 text-2xl font-semibold;
+  }
+
+  .prose-hostify p,
+  .prose-hostify ul {
+    @apply mt-4 text-[17px] leading-relaxed text-ink-700;
+  }
+
+  .prose-hostify ul {
+    @apply list-disc space-y-2 pl-5;
+  }
+
+  .prose-hostify a {
+    @apply font-medium text-brand-deep underline underline-offset-2;
+  }
+
   .field {
     @apply w-full rounded-2xl border-0 bg-ink-100 px-4 py-3.5 text-[15px] text-ink placeholder:text-ink-400 ring-1 ring-transparent transition focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand;
   }

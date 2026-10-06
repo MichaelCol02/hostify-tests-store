@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from './AuthProvider'
 import PricingCards from './PricingCards'
+import CouponForm from './CouponForm'
 import { CREDIT_PACKS, CONTEXTUAL_PACKS } from '@/lib/pricing'
 import type { CatalogTest } from '@/lib/catalog'
 
@@ -107,6 +108,7 @@ export default function TestAccess({ test }: { test: CatalogTest }) {
         <div className="mt-10">
           <PricingCards compact returnTo={`/tests/${testId}`} packs={packs} />
         </div>
+        <CouponForm onCanjeado={loadAttempt} />
         <p className="mt-6 text-center text-sm text-ink-500">
           ¿Ya compraste antes?{' '}
           <button type="button" onClick={() => openAuth('login')} className="font-semibold text-brand-deep hover:underline">
@@ -152,6 +154,7 @@ export default function TestAccess({ test }: { test: CatalogTest }) {
       <div className="mt-10">
         <PricingCards compact returnTo={`/tests/${testId}`} packs={packs} />
       </div>
+      <CouponForm onCanjeado={loadAttempt} />
     </div>
   )
 }

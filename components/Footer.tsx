@@ -17,8 +17,8 @@ function ContactLink() {
 export default function Footer() {
   return (
     <footer className="mt-auto border-t border-black/[0.06] bg-ink-50">
-      <div className="container-x grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="sm:col-span-2 lg:col-span-2">
+      <div className="container-x grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="sm:col-span-2">
           <Logo />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink-500">
             Impulsamos la hospitalidad. Evaluaciones creadas para los equipos que hacen sentir a otros como en casa.
@@ -43,6 +43,14 @@ export default function Footer() {
             <li><Link href="/dashboard" className="text-ink-500 transition hover:text-ink">Mi panel</Link></li>
             <ContactLink />
             <li><a href="mailto:michael2colmenares@gmail.com" className="text-ink-500 transition hover:text-ink">Correo</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-400">Legal</h4>
+          <ul className="mt-4 space-y-2.5 text-sm">
+            <li><Link href="/legal/terminos" className="text-ink-500 transition hover:text-ink">Términos y condiciones</Link></li>
+            <li><Link href="/legal/privacidad" className="text-ink-500 transition hover:text-ink">Tratamiento de datos</Link></li>
+            <li><Link href="/legal/reembolsos" className="text-ink-500 transition hover:text-ink">Reembolsos</Link></li>
           </ul>
         </div>
       </div>
