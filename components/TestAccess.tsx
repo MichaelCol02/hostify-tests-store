@@ -92,22 +92,28 @@ export default function TestAccess({ test }: { test: CatalogTest }) {
     )
   }
 
+  // Sin cuenta se compra igual: Stripe pide el correo y con él se crea la cuenta al volver.
+  // Pedir registro antes de pagar era el paso donde más gente se caía.
   if (!user) {
     return (
-      <Panel>
-        <h2 className="text-3xl font-semibold sm:text-4xl">Ingresa para comenzar.</h2>
-        <p className="mx-auto mt-3 max-w-md text-[15px] text-ink-500">
-          Tu cuenta guarda tus créditos y te permite volver a tu test en curso desde cualquier dispositivo.
-        </p>
-        <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <button type="button" onClick={() => openAuth('signup')} className="btn-primary px-7 py-3.5">
-            Crear cuenta
-          </button>
-          <button type="button" onClick={() => openAuth('login')} className="btn-ghost px-7 py-3.5">
-            Ya tengo cuenta
-          </button>
+      <div className="rounded-4xl bg-ink-100 p-6 sm:p-10">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="eyebrow">Comenzar</p>
+          <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">Paga y empieza de una.</h2>
+          <p className="mt-3 text-[15px] text-ink-500">
+            No necesitas registrarte: pagas, y con el correo de tu pago te creamos la cuenta y se abre el test.
+          </p>
         </div>
-      </Panel>
+        <div className="mt-10">
+          <PricingCards compact returnTo={`/tests/${testId}`} packs={packs} />
+        </div>
+        <p className="mt-6 text-center text-sm text-ink-500">
+          ¿Ya compraste antes?{' '}
+          <button type="button" onClick={() => openAuth('login')} className="font-semibold text-brand-deep hover:underline">
+            Ingresa con tu correo
+          </button>
+        </p>
+      </div>
     )
   }
 

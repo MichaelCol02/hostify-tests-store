@@ -17,6 +17,31 @@ function SuccessContent() {
   const [added, setAdded] = useState<number | null>(null)
   const [timedOut, setTimedOut] = useState(false)
 
+  // Quien compró sin cuenta vuelve de Stripe sin sesión: el enlace de regreso sirve una
+  // sola vez para abrirla, y a partir de ahí entra como cualquier otra persona.
+  useEffect(() => {
+    if (loading || user || !sessionId) return
+    let cancelado = false
+    const entrar = async () => {
+      try {
+        const res = await fetch('/api/claim', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ session_id: sessionId }),
+        })
+        const json = await res.json().catch(() => ({}))
+        if (cancelado || !res.ok || !json.token_hash) return
+        await supabase.auth.verifyOtp({ token_hash: json.token_hash, type: 'email' })
+      } catch {
+        // Si falla, la persona ve el aviso de abajo y puede entrar con su correo.
+      }
+    }
+    entrar()
+    return () => {
+      cancelado = true
+    }
+  }, [loading, user, sessionId])
+
   // The webhook usually lands within a few seconds; poll for this session's credit grant.
   useEffect(() => {
     if (loading || !user || !sessionId) return
@@ -74,6 +99,8 @@ function SuccessContent() {
               : 'Esto toma solo unos segundos.'}
         </p>
 
+        {confirmed && user && <DefinirClave email={user.email ?? ''} />}
+
         <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
           <Link href={next} className="btn-primary px-7 py-3.5">
             {next.startsWith('/tests/') ? 'Comenzar mi test' : 'Elegir un test'}
@@ -84,6 +111,53 @@ function SuccessContent() {
         </div>
       </div>
     </div>
+  )
+}
+
+/** Sin contraseña, la cuenta solo vive en este navegador. Definirla aquí es lo que
+ *  permite volver a entrar desde otro dispositivo, y no depende de ningún correo. */
+function DefinirClave({ email }: { email: string }) {
+  const [clave, setClave] = useState('')
+  const [estado, setEstado] = useState<'inicial' | 'guardando' | 'lista' | 'error'>('inicial')
+
+  const guardar = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setEstado('guardando')
+    const { error } = await supabase.auth.updateUser({ password: clave })
+    setEstado(error ? 'error' : 'lista')
+  }
+
+  if (estado === 'lista') {
+    return (
+      <p className="mx-auto mt-6 max-w-md rounded-2xl bg-brand-soft px-4 py-3 text-sm text-brand-deep">
+        Listo. Ya puedes entrar desde cualquier dispositivo con {email} y tu contraseña.
+      </p>
+    )
+  }
+
+  return (
+    <form onSubmit={guardar} className="mx-auto mt-8 max-w-sm text-left">
+      <p className="text-sm text-ink-500">
+        Tu cuenta quedó creada con <span className="font-medium text-ink">{email}</span>. Ponle una contraseña para
+        entrar desde otro dispositivo.
+      </p>
+      <div className="mt-3 flex gap-2">
+        <input
+          type="password"
+          value={clave}
+          onChange={(e) => setClave(e.target.value)}
+          className="field flex-1"
+          placeholder="Nueva contraseña"
+          autoComplete="new-password"
+          minLength={6}
+          required
+        />
+        <button type="submit" disabled={estado === 'guardando'} className="btn-dark shrink-0 px-5 py-3 text-sm">
+          {estado === 'guardando' ? 'Guardando…' : 'Guardar'}
+        </button>
+      </div>
+      {estado === 'error' && <p className="mt-2 text-sm text-red-600">No pudimos guardarla. Intenta de nuevo.</p>}
+    </form>
   )
 }
 

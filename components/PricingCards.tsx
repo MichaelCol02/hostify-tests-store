@@ -18,16 +18,10 @@ export default function PricingCards({
   highlightId?: PackId
 }) {
   const destacado = highlightId ?? (packs === CREDIT_PACKS ? 'team' : packs[0]?.id)
-  const { user, openAuth } = useAuth()
   const { checkout, pending, error } = useCheckout()
 
-  const buy = (packId: PackId) => {
-    if (!user) {
-      openAuth('signup')
-      return
-    }
-    checkout(packId, returnTo)
-  }
+  // Se compra con o sin cuenta: quien no la tiene, la recibe creada con el correo del pago.
+  const buy = (packId: PackId) => checkout(packId, returnTo)
 
   return (
     <div>

@@ -12,15 +12,15 @@ export function useCheckout() {
     setPending(packId)
     setError('')
     try {
+      // Sin sesión también se compra: Stripe pide el correo y la cuenta se crea al volver.
       const { data } = await supabase.auth.getSession()
       const token = data.session?.access_token
-      if (!token) {
-        setError('Inicia sesión para comprar créditos.')
-        return false
-      }
       const res = await fetch('/api/stripe/checkout', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         body: JSON.stringify({ packId, returnTo }),
       })
       const json = await res.json().catch(() => ({}))

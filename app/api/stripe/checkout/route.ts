@@ -4,23 +4,22 @@ import { stripe } from '@/lib/stripe'
 import { getPack } from '@/lib/pricing'
 
 export async function POST(req: NextRequest) {
+  // La compra no exige cuenta: si llega sin sesión, Stripe pide el correo y con él
+  // se crea la cuenta al volver del pago. Si llega con sesión, se le asigna a esa cuenta.
   const token = req.headers.get('authorization')?.replace(/^Bearer\s+/i, '')
-  if (!token) {
-    return NextResponse.json({ error: 'not_authenticated' }, { status: 401 })
-  }
+  let user = null
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-  )
-  const { data: userData, error: userError } = await supabase.auth.getUser(token)
-  const user = userData?.user
-  if (userError || !user) {
-    return NextResponse.json({ error: 'not_authenticated' }, { status: 401 })
+  if (token) {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+    )
+    const { data } = await supabase.auth.getUser(token)
+    user = data?.user ?? null
   }
 
   const body = await req.json().catch(() => ({}))
-  // Price and credits come from the server-side pack table, never from the client.
+  // El precio y los créditos salen de la tabla del servidor, nunca del navegador.
   const pack = getPack(body.packId)
   if (!pack) {
     return NextResponse.json({ error: 'invalid_pack' }, { status: 400 })
@@ -40,7 +39,7 @@ export async function POST(req: NextRequest) {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: `Hostify Tests · ${pack.credits} ${pack.credits === 1 ? 'crédito' : 'créditos'}`,
+              name: `Hostify Tests · ${pack.credits} ${pack.credits === 1 ? 'test' : 'tests'}`,
               description: `Paquete ${pack.name}: ${pack.credits} ${pack.credits === 1 ? 'test completo' : 'tests completos'}.`,
             },
             unit_amount: Math.round(pack.priceUsd * 100),
@@ -48,9 +47,9 @@ export async function POST(req: NextRequest) {
           quantity: 1,
         },
       ],
-      customer_email: user.email,
+      ...(user?.email ? { customer_email: user.email } : {}),
       metadata: {
-        userId: user.id,
+        ...(user ? { userId: user.id } : {}),
         packId: pack.id,
         credits: String(pack.credits),
       },
