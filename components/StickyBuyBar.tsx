@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import type { CatalogTest } from '@/lib/catalog'
-import { formatUsd, getTestPrice } from '@/lib/pricing'
+import { formatPrecio, getTestPrice, MONEDA } from '@/lib/pricing'
 
 /** Barra fija en móvil: en pantallas pequeñas el botón de compra queda muy abajo
  *  y mucha gente se va antes de llegar. Se esconde cuando el panel ya está a la vista. */
@@ -32,7 +32,7 @@ export default function StickyBuyBar({ test }: { test: CatalogTest }) {
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-semibold">{test.name}</p>
           <p className="text-xs text-ink-500">
-            {formatUsd(precio)} USD{test.people > 1 && ' · para los dos'}
+            {formatPrecio(precio)} {MONEDA}{test.people > 1 && ' · para los dos'}
           </p>
         </div>
         <a href="#empezar" className="btn-primary shrink-0 px-5 py-3 text-sm">

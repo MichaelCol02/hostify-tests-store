@@ -1,6 +1,6 @@
 'use client'
 
-import { CREDIT_PACKS, formatUsd, pricePerTest, type CreditPack, type PackId } from '@/lib/pricing'
+import { CREDIT_PACKS, formatPrecio, precioPack, pricePerTest, type CreditPack, type PackId } from '@/lib/pricing'
 import { useCheckout } from '@/lib/hooks'
 import { useAuth } from './AuthProvider'
 
@@ -66,7 +66,7 @@ export default function PricingCards({
 
               <div className="relative mt-8 flex items-end gap-2">
                 <span className={`font-display font-semibold leading-none tracking-tightest ${compact ? 'text-5xl' : 'text-6xl'}`}>
-                  {formatUsd(pack.priceUsd)}
+                  {formatPrecio(precioPack(pack))}
                 </span>
                 <span className={`pb-1 text-sm ${highlight ? 'text-white/50' : 'text-ink-400'}`}>USD</span>
               </div>
@@ -82,7 +82,7 @@ export default function PricingCards({
                 <li className="flex items-center gap-2.5">
                   <Check highlight={highlight} />
                   <span>
-                    {formatUsd(pricePerTest(pack))} por test
+                    {formatPrecio(pricePerTest(pack))} por test
                     {saving > 0 && <span className="ml-1.5 font-semibold text-brand">−{saving}%</span>}
                   </span>
                 </li>

@@ -8,7 +8,7 @@ import LandingBuy from '@/components/LandingBuy'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import { getCatalogTest } from '@/lib/catalog'
 import { LANDINGS, getLanding } from '@/lib/landings'
-import { formatUsd, getTestPrice } from '@/lib/pricing'
+import { formatPrecio, getTestPrice } from '@/lib/pricing'
 
 export function generateStaticParams() {
   return LANDINGS.map((l) => ({ id: l.testId }))
@@ -167,7 +167,7 @@ export default function LandingPage({ params }: { params: { id: string } }) {
           <div className="relative mx-auto max-w-5xl overflow-hidden rounded-[2.5rem] bg-ink-900 px-8 py-16 text-center text-white sm:py-20">
             <div aria-hidden="true" className="pointer-events-none absolute -bottom-32 left-1/2 h-72 w-[80%] -translate-x-1/2 rounded-full bg-brand/40 blur-[110px]" />
             <h2 className="relative mx-auto max-w-2xl text-4xl font-semibold leading-[1.06] text-white sm:text-5xl">
-              {formatUsd(precio)} una vez. El informe es tuyo para siempre.
+              {formatPrecio(precio)} una vez. El informe es tuyo para siempre.
             </h2>
             <div className="relative mt-9 flex justify-center">
               <LandingBuy test={test} />

@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react'
 import { supabase } from './supabase'
-import type { PackId } from './pricing'
+import { COBRO_EN_PESOS, type PackId } from './pricing'
 
 export function useCheckout() {
   const [pending, setPending] = useState<PackId | null>(null)
@@ -15,7 +15,9 @@ export function useCheckout() {
       // Sin sesión también se compra: Stripe pide el correo y la cuenta se crea al volver.
       const { data } = await supabase.auth.getSession()
       const token = data.session?.access_token
-      const res = await fetch('/api/stripe/checkout', {
+      // Wompi cuando hay llaves (cobra en pesos a una cuenta colombiana); Stripe mientras tanto.
+      const endpoint = COBRO_EN_PESOS ? '/api/wompi/checkout' : '/api/stripe/checkout'
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

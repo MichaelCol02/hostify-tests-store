@@ -1,7 +1,7 @@
 'use client'
 
 import { useCheckout } from '@/lib/hooks'
-import { formatUsd, getTestPrice, type PackId } from '@/lib/pricing'
+import { formatPrecio, getTestPrice, type PackId } from '@/lib/pricing'
 import type { CatalogTest } from '@/lib/catalog'
 
 /** Un solo botón, que lleva directo al pago. En una landing de campaña cualquier
@@ -19,7 +19,7 @@ export default function LandingBuy({ test }: { test: CatalogTest }) {
         disabled={pending !== null}
         className="btn-primary px-9 py-4 text-base"
       >
-        {pending ? 'Abriendo pago seguro…' : `Hacer el test · ${formatUsd(precio)}`}
+        {pending ? 'Abriendo pago seguro…' : `Hacer el test · ${formatPrecio(precio)}`}
       </button>
       {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
     </div>
