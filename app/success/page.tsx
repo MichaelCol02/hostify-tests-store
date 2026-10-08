@@ -11,6 +11,7 @@ import { supabase } from '@/lib/supabase'
 function SuccessContent() {
   const params = useSearchParams()
   const sessionId = params.get('session_id')
+  const referencia = params.get('ref')   // compras con Wompi
   const nextParam = params.get('next') || '/tests'
   const next = nextParam.startsWith('/') && !nextParam.startsWith('//') ? nextParam : '/tests'
   const { user, loading, credits, refreshCredits } = useAuth()
@@ -20,14 +21,14 @@ function SuccessContent() {
   // Quien compró sin cuenta vuelve de Stripe sin sesión: el enlace de regreso sirve una
   // sola vez para abrirla, y a partir de ahí entra como cualquier otra persona.
   useEffect(() => {
-    if (loading || user || !sessionId) return
+    if (loading || user || (!sessionId && !referencia)) return
     let cancelado = false
     const entrar = async () => {
       try {
         const res = await fetch('/api/claim', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ session_id: sessionId }),
+          body: JSON.stringify(referencia ? { reference: referencia } : { session_id: sessionId }),
         })
         const json = await res.json().catch(() => ({}))
         if (cancelado || !res.ok || !json.token_hash) return
@@ -40,18 +41,18 @@ function SuccessContent() {
     return () => {
       cancelado = true
     }
-  }, [loading, user, sessionId])
+  }, [loading, user, sessionId, referencia])
 
   // The webhook usually lands within a few seconds; poll for this session's credit grant.
   useEffect(() => {
-    if (loading || !user || !sessionId) return
+    if (loading || !user || (!sessionId && !referencia)) return
     let cancelled = false
     let tries = 0
     const poll = async () => {
       const { data } = await supabase
         .from('credit_transactions')
         .select('delta')
-        .eq('stripe_session_id', sessionId)
+        .eq(referencia ? 'wompi_reference' : 'stripe_session_id', referencia || sessionId)
         .maybeSingle()
       if (cancelled) return
       if (data) {
@@ -70,7 +71,7 @@ function SuccessContent() {
     return () => {
       cancelled = true
     }
-  }, [loading, user, sessionId, refreshCredits])
+  }, [loading, user, sessionId, referencia, refreshCredits])
 
   const confirmed = added !== null
 

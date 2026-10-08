@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { CatalogTest } from '@/lib/catalog'
-import { formatUsd, getTestPrice } from '@/lib/pricing'
+import { formatPrecio, getTestPrice } from '@/lib/pricing'
 import TestIcon from './TestIcon'
 
 export default function TestCard({ test, featured = false }: { test: CatalogTest; featured?: boolean }) {
@@ -41,7 +41,7 @@ export default function TestCard({ test, featured = false }: { test: CatalogTest
 
       <div className="relative mt-auto flex items-center justify-between pt-8">
         <span className={`text-sm ${featured ? 'text-white/50' : 'text-ink-400'}`}>
-          {test.questions} preguntas · {formatUsd(getTestPrice(test.credits))}
+          {test.questions} preguntas · {formatPrecio(getTestPrice(test.credits))}
           {test.people > 1 && ' · para los dos'}
         </span>
         <span

@@ -1,6 +1,7 @@
 'use client'
 
-import { CREDIT_PACKS, formatUsd, pricePerTest, type CreditPack, type PackId } from '@/lib/pricing'
+import { CREDIT_PACKS, MONEDA, formatPrecio, precioPack, pricePerTest, type CreditPack, type PackId } from '@/lib/pricing'
+import { NOMBRE_EN_EL_COBRO } from '@/lib/legal'
 import { useCheckout } from '@/lib/hooks'
 import { useAuth } from './AuthProvider'
 
@@ -33,7 +34,8 @@ export default function PricingCards({
       >
         {packs.map((pack) => {
           const highlight = pack.id === destacado
-          const saving = Math.round((1 - pricePerTest(pack) / CREDIT_PACKS[0].priceUsd) * 100)
+          // El ahorro se mide contra el test suelto, en la moneda que esté activa.
+          const saving = Math.round((1 - pricePerTest(pack) / precioPack(CREDIT_PACKS[0])) * 100)
           const unidad = pack.credits === 1 ? 'test completo' : 'tests completos'
           return (
             <div
@@ -66,9 +68,9 @@ export default function PricingCards({
 
               <div className="relative mt-8 flex items-end gap-2">
                 <span className={`font-display font-semibold leading-none tracking-tightest ${compact ? 'text-5xl' : 'text-6xl'}`}>
-                  {formatUsd(pack.priceUsd)}
+                  {formatPrecio(precioPack(pack))}
                 </span>
-                <span className={`pb-1 text-sm ${highlight ? 'text-white/50' : 'text-ink-400'}`}>USD</span>
+                <span className={`pb-1 text-sm ${highlight ? 'text-white/50' : 'text-ink-400'}`}>{MONEDA}</span>
               </div>
 
               <ul className={`relative mt-6 space-y-2.5 text-[15px] ${highlight ? 'text-white/80' : 'text-ink-700'}`}>
@@ -82,7 +84,7 @@ export default function PricingCards({
                 <li className="flex items-center gap-2.5">
                   <Check highlight={highlight} />
                   <span>
-                    {formatUsd(pricePerTest(pack))} por test
+                    {formatPrecio(pricePerTest(pack))} por test
                     {saving > 0 && <span className="ml-1.5 font-semibold text-brand">−{saving}%</span>}
                   </span>
                 </li>
@@ -110,7 +112,11 @@ export default function PricingCards({
           )
         })}
       </div>
-      {error && <p className="mt-5 text-center text-sm text-red-600">{error}</p>}
+      {/* Decir el nombre del cobro antes de pagar evita el reclamo de "no reconozco este cargo". */}
+      <p className="mt-5 text-center text-xs text-ink-400">
+        Pago seguro. El cobro aparece en tu extracto como <span className="font-medium text-ink-500">{NOMBRE_EN_EL_COBRO}</span>.
+      </p>
+      {error && <p className="mt-3 text-center text-sm text-red-600">{error}</p>}
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { EMPRESA, DIAS_REEMBOLSO } from '@/lib/legal'
+import { EMPRESA, DIAS_REEMBOLSO, NOMBRE_EN_EL_COBRO } from '@/lib/legal'
 
 export const metadata: Metadata = {
   title: 'Política de reembolsos — Hostify Tests',
@@ -45,10 +45,14 @@ export default function ReembolsosPage() {
         Escríbenos a {EMPRESA.correo} o por WhatsApp al {EMPRESA.whatsapp} dentro de los 30 días siguientes al cobro,
         indicando el correo con el que compraste y la fecha. Respondemos en un máximo de cinco (5) días hábiles.
       </p>
+      <p>
+        En tu extracto bancario el cobro aparece como <strong>{NOMBRE_EN_EL_COBRO}</strong>. Es el nombre comercial con
+        el que facturamos: si no reconoces la compra, escríbenos antes de reclamar al banco y lo revisamos contigo.
+      </p>
 
       <h2>5. Cómo se devuelve</h2>
       <p>
-        La devolución se hace por el mismo medio de pago, a través de Stripe. El tiempo en que el dinero aparece en tu
+        La devolución se hace por el mismo medio de pago, a través de la pasarela con la que compraste. El tiempo en que el dinero aparece en tu
         extracto depende de tu banco, normalmente entre 5 y 10 días hábiles.
       </p>
 

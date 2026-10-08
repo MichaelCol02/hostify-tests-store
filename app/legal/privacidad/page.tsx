@@ -15,14 +15,15 @@ export default function PrivacidadPage() {
 
       <h2>1. Responsable</h2>
       <p>
-        {EMPRESA.razonSocial}, NIT {EMPRESA.nit}, domiciliada en {EMPRESA.ciudad}, {EMPRESA.pais}. Correo de contacto
-        para asuntos de datos personales: {EMPRESA.correo}. WhatsApp: {EMPRESA.whatsapp}.
+        {EMPRESA.razonSocial}, persona natural identificada con NIT {EMPRESA.nit}, que opera bajo el nombre comercial{' '}
+        {EMPRESA.nombreComercial}, con domicilio en {EMPRESA.ciudad}, {EMPRESA.pais}. Correo de contacto para asuntos de
+        datos personales: {EMPRESA.correo}. WhatsApp: {EMPRESA.whatsapp}.
       </p>
 
       <h2>2. Qué datos recogemos</h2>
       <ul>
         <li><strong>De tu cuenta:</strong> nombre y correo electrónico.</li>
-        <li><strong>De tus compras:</strong> fecha, paquete adquirido, monto e identificador de la transacción. Los datos de tu tarjeta los recibe Stripe, no nosotros.</li>
+        <li><strong>De tus compras:</strong> fecha, paquete adquirido, monto e identificador de la transacción. Los datos de tu tarjeta los recibe la pasarela de pagos, no nosotros.</li>
         <li><strong>De tu actividad:</strong> qué tests abriste y cuándo.</li>
         <li><strong>De tus respuestas:</strong> las respuestas de cada test se almacenan en el sistema propio de ese test para generar tu informe.</li>
       </ul>
@@ -38,7 +39,7 @@ export default function PrivacidadPage() {
 
       <h2>4. Con quién los compartimos</h2>
       <ul>
-        <li><strong>Stripe:</strong> procesa los pagos.</li>
+        <li><strong>Wompi y Stripe:</strong> procesan los pagos.</li>
         <li><strong>Supabase:</strong> almacena las cuentas y los créditos.</li>
         <li><strong>Netlify:</strong> aloja el sitio.</li>
         <li><strong>Google:</strong> almacena las respuestas de los tests.</li>

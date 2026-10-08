@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import { EMPRESA, DIAS_REEMBOLSO } from '@/lib/legal'
+import { EMPRESA, DIAS_REEMBOLSO, NOMBRE_EN_EL_COBRO } from '@/lib/legal'
+import { COBRO_EN_PESOS } from '@/lib/pricing'
 
 export const metadata: Metadata = {
   title: 'Términos y condiciones — Hostify Tests',
@@ -15,8 +16,9 @@ export default function TerminosPage() {
 
       <h2>1. Quién presta el servicio</h2>
       <p>
-        {EMPRESA.razonSocial}, identificada con NIT {EMPRESA.nit}, domiciliada en {EMPRESA.ciudad}, {EMPRESA.pais},
-        opera la plataforma {EMPRESA.sitio} (en adelante, “Hostify Tests”). Contacto: {EMPRESA.correo} · WhatsApp{' '}
+        {EMPRESA.razonSocial}, persona natural identificada con NIT {EMPRESA.nit}, que opera bajo el nombre comercial{' '}
+        {EMPRESA.nombreComercial}, con domicilio en {EMPRESA.ciudad}, {EMPRESA.pais}, presta el servicio a través de la
+        plataforma {EMPRESA.sitio} (en adelante, “Hostify Tests”). Contacto: {EMPRESA.correo} · WhatsApp{' '}
         {EMPRESA.whatsapp}.
       </p>
 
@@ -28,8 +30,8 @@ export default function TerminosPage() {
       </p>
       <p>
         Los créditos no vencen, no son transferibles a otra cuenta y no son canjeables por dinero. Los precios están
-        expresados en dólares de los Estados Unidos (USD) y pueden cambiar sin aviso; el precio aplicable es el que se
-        muestra al momento de la compra.
+        expresados en {COBRO_EN_PESOS ? 'pesos colombianos (COP)' : 'dólares de los Estados Unidos (USD)'} y pueden
+        cambiar sin aviso; el precio aplicable es el que se muestra al momento de la compra.
       </p>
 
       <h2>3. Tu cuenta</h2>
@@ -49,8 +51,12 @@ export default function TerminosPage() {
 
       <h2>5. Pagos</h2>
       <p>
-        Los pagos se procesan a través de Stripe. Hostify Tests no recibe, almacena ni procesa los datos de tu tarjeta:
-        esa información la maneja directamente la pasarela de pagos.
+        Los pagos se procesan a través de una pasarela externa. Hostify Tests no recibe, almacena ni procesa los datos
+        de tu tarjeta: esa información la maneja directamente la pasarela.
+      </p>
+      <p>
+        <strong>En tu extracto bancario el cobro aparece como {NOMBRE_EN_EL_COBRO}</strong>, que es el nombre comercial
+        con el que facturamos. Si ves ese nombre y no reconoces la compra, escríbenos antes de reclamar al banco.
       </p>
 
       <h2>6. Devoluciones</h2>
@@ -69,7 +75,7 @@ export default function TerminosPage() {
 
       <h2>8. Propiedad intelectual</h2>
       <p>
-        Los tests, sus preguntas, sus informes y la marca Hostify son propiedad de {EMPRESA.razonSocial}. Puedes usar tu
+        Los tests, sus preguntas, sus informes y la marca Hostify pertenecen a {EMPRESA.razonSocial}. Puedes usar tu
         resultado personal libremente; no puedes reproducir los instrumentos con fines comerciales sin autorización
         escrita.
       </p>

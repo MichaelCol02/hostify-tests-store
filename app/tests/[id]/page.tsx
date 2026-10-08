@@ -6,7 +6,7 @@ import Footer from '@/components/Footer'
 import TestIcon from '@/components/TestIcon'
 import TestAccess from '@/components/TestAccess'
 import { CATALOG, getCatalogTest } from '@/lib/catalog'
-import { formatUsd, getCheapestPerTest, getTestPrice } from '@/lib/pricing'
+import { formatPrecio, getCheapestPerTest, getTestPrice, MONEDA } from '@/lib/pricing'
 import StickyBuyBar from '@/components/StickyBuyBar'
 
 export function generateStaticParams() {
@@ -41,7 +41,7 @@ export default function TestPage({ params }: { params: { id: string } }) {
   const faq = [
     {
       q: '¿Cuánto cuesta este test?',
-      a: `${formatUsd(precio)} USD${test.people > 1 ? ', e incluye a las dos personas' : ''}. Si compras varios de una vez, el precio por test baja hasta ${formatUsd(getCheapestPerTest())}.`,
+      a: `${formatPrecio(precio)} ${MONEDA}${test.people > 1 ? ', e incluye a las dos personas' : ''}. Si compras varios de una vez, el precio por test baja hasta ${formatPrecio(getCheapestPerTest())}.`,
     },
     { q: '¿Cuánto tiempo tengo para responderlo?', a: 'Al comenzar, el test queda abierto 24 horas. Puedes cerrar la ventana y volver sin gastar otro crédito.' },
     { q: '¿Qué recibo al terminar?', a: test.deliver },
@@ -59,7 +59,7 @@ export default function TestPage({ params }: { params: { id: string } }) {
         offers: {
           '@type': 'Offer',
           price: precio.toFixed(2),
-          priceCurrency: 'USD',
+          priceCurrency: MONEDA,
           availability: 'https://schema.org/InStock',
         },
       },
@@ -101,8 +101,8 @@ export default function TestPage({ params }: { params: { id: string } }) {
                   { k: test.people > 1 ? 'Preguntas c/u' : 'Preguntas', v: String(test.questions) },
                   {
                     k: 'Precio',
-                    v: `${formatUsd(precio)} USD`,
-                    nota: test.people > 1 ? 'incluye a los dos' : `o ${formatUsd(getCheapestPerTest())} por test en el paquete Equipo`,
+                    v: `${formatPrecio(precio)} ${MONEDA}`,
+                    nota: test.people > 1 ? 'incluye a los dos' : `o ${formatPrecio(getCheapestPerTest())} por test en el paquete Equipo`,
                   },
                 ].map((s) => (
                   <div key={s.k} className="rounded-3xl bg-white p-5 shadow-soft ring-1 ring-black/[0.05]">
