@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 
 /** Revisa que cada llave de Wompi esté en su variable, sin revelar ninguna.
  *  Wompi marca cada secreto con un prefijo propio, así que el prefijo basta
@@ -31,10 +32,35 @@ function revisar(valor: string | undefined, deberiaSer: string) {
   }
 }
 
+/** Tapa el correo: basta para reconocer el pedido sin publicarlo. */
+function taparCorreo(correo: string | null) {
+  if (!correo) return null
+  const [nombre, dominio] = correo.split('@')
+  return `${nombre.slice(0, 2)}***@${dominio ?? ''}`
+}
+
 export async function GET() {
+  const { data: pedidos } = await supabaseAdmin
+    .from('wompi_orders')
+    .select('reference, pack_id, credits, amount_cop, status, email, credited_at, claimed_at, created_at')
+    .order('created_at', { ascending: false })
+    .limit(5)
+
   return NextResponse.json({
-    NEXT_PUBLIC_WOMPI_PUBLIC_KEY: revisar(process.env.NEXT_PUBLIC_WOMPI_PUBLIC_KEY, 'llave PÚBLICA (producción)'),
-    WOMPI_INTEGRITY_SECRET: revisar(process.env.WOMPI_INTEGRITY_SECRET, 'secreto de INTEGRIDAD (producción)'),
-    WOMPI_EVENTS_SECRET: revisar(process.env.WOMPI_EVENTS_SECRET, 'secreto de EVENTOS (producción)'),
+    llaves: {
+      NEXT_PUBLIC_WOMPI_PUBLIC_KEY: revisar(process.env.NEXT_PUBLIC_WOMPI_PUBLIC_KEY, 'llave PÚBLICA (producción)'),
+      WOMPI_INTEGRITY_SECRET: revisar(process.env.WOMPI_INTEGRITY_SECRET, 'secreto de INTEGRIDAD (producción)'),
+      WOMPI_EVENTS_SECRET: revisar(process.env.WOMPI_EVENTS_SECRET, 'secreto de EVENTOS (producción)'),
+    },
+    ultimosPedidos: (pedidos ?? []).map((p) => ({
+      referencia: p.reference,
+      paquete: p.pack_id,
+      creditos: p.credits,
+      monto: p.amount_cop,
+      estado: p.status,
+      correo: taparCorreo(p.email),
+      creditosEntregados: Boolean(p.credited_at),
+      cuandó: p.created_at,
+    })),
   })
 }
