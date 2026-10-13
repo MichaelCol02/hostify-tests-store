@@ -17,7 +17,9 @@ const PREFIJOS: Array<[string, string]> = [
 ]
 
 function revisar(valor: string | undefined, deberiaSer: string) {
-  if (!valor) return { estado: 'FALTA', deberiaSer }
+  // Vacía y ausente se arreglan distinto: una se edita, la otra se crea.
+  if (valor === undefined) return { estado: 'NO EXISTE: hay que crearla', deberiaSer }
+  if (valor.trim() === '') return { estado: 'EXISTE PERO ESTA VACIA: hay que pegarle el valor', deberiaSer }
   const limpio = valor.trim()
   const encontrado = PREFIJOS.find(([p]) => limpio.startsWith(p))
   return {

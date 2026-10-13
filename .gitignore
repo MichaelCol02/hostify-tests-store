@@ -19,3 +19,6 @@ out/
 
 # Local Netlify folder
 .netlify
+
+# Artefacto de tsc --noEmit
+tsconfig.tsbuildinfo
