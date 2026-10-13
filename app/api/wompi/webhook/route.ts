@@ -1,8 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
-import { getPack } from '@/lib/pricing'
-import { findOrCreateUser } from '@/lib/account'
 import { eventoLegitimo } from '@/lib/wompi'
+import { abonarCompra } from '@/lib/wompi-abono'
 
 export async function POST(req: NextRequest) {
   const cuerpo = await req.json().catch(() => null)
@@ -16,70 +15,30 @@ export async function POST(req: NextRequest) {
   }
 
   const trx = cuerpo.data?.transaction
-  const referencia: string | undefined = trx?.reference
-  if (!referencia) {
+  if (!trx?.reference) {
     return NextResponse.json({ received: true, skipped: 'sin referencia' })
   }
 
   if (trx.status !== 'APPROVED') {
-    await supabaseAdmin.from('wompi_orders').update({ status: trx.status }).eq('reference', referencia)
+    await supabaseAdmin.from('wompi_orders').update({ status: trx.status }).eq('reference', trx.reference)
     return NextResponse.json({ received: true, skipped: `estado ${trx.status}` })
   }
 
-  const { data: pedido } = await supabaseAdmin
-    .from('wompi_orders')
-    .select('reference, pack_id, credits, amount_cop, email, user_id, credited_at')
-    .eq('reference', referencia)
-    .maybeSingle()
-
-  if (!pedido) {
-    console.warn(`Wompi avisó de la referencia ${referencia}, que no existe en wompi_orders`)
-    return NextResponse.json({ received: true, skipped: 'pedido desconocido' })
-  }
-
-  if (pedido.credited_at) {
-    return NextResponse.json({ received: true, skipped: 'ya abonado' })
-  }
-
-  const pack = getPack(pedido.pack_id)
-  if (!pack || trx.amount_in_cents !== pedido.amount_cop * 100) {
-    console.error(`Referencia ${referencia}: el monto cobrado no corresponde al pedido`)
-    return NextResponse.json({ received: true, skipped: 'monto distinto' })
-  }
-
-  const correo = pedido.email || trx.customer_email
-  if (!pedido.user_id && !correo) {
-    console.error(`Referencia ${referencia}: no hay a quién abonarle los créditos`)
-    return NextResponse.json({ received: true, skipped: 'sin destinatario' })
-  }
-
   try {
-    const destinatario = pedido.user_id || (await findOrCreateUser(correo!))
-
-    const { error: errorCredito } = await supabaseAdmin.from('credit_transactions').upsert(
-      {
-        user_id: destinatario,
-        delta: pack.credits,
-        reason: 'purchase',
-        pack_id: pack.id,
-        amount: pedido.amount_cop,
-        currency: 'COP',
-        provider: 'wompi',
-        wompi_reference: referencia,
-      },
-      { onConflict: 'wompi_reference', ignoreDuplicates: true }
-    )
-    if (errorCredito) throw new Error(errorCredito.message)
-
-    await supabaseAdmin
-      .from('wompi_orders')
-      .update({ status: 'APPROVED', transaction_id: trx.id, user_id: destinatario, email: correo, credited_at: new Date().toISOString() })
-      .eq('reference', referencia)
+    const resultado = await abonarCompra({
+      id: String(trx.id),
+      reference: String(trx.reference),
+      status: trx.status,
+      amount_in_cents: Number(trx.amount_in_cents),
+      customer_email: trx.customer_email ?? null,
+    })
+    if (!resultado.abonado) {
+      console.warn(`Referencia ${trx.reference} no abonada: ${resultado.motivo}`)
+    }
+    return NextResponse.json({ received: true, ...resultado })
   } catch (error: any) {
     // 500 para que Wompi reintente: alguien pagó y todavía no recibió sus créditos.
-    console.error(`Referencia ${referencia}: ${error.message}`)
+    console.error(`Referencia ${trx.reference}: ${error.message}`)
     return NextResponse.json({ error: 'no_abonado' }, { status: 500 })
   }
-
-  return NextResponse.json({ received: true })
 }

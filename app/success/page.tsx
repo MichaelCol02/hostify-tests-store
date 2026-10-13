@@ -12,16 +12,40 @@ function SuccessContent() {
   const params = useSearchParams()
   const sessionId = params.get('session_id')
   const referencia = params.get('ref')   // compras con Wompi
+  const idTransaccion = params.get('id') // lo agrega Wompi al devolver a la persona
   const nextParam = params.get('next') || '/tests'
   const next = nextParam.startsWith('/') && !nextParam.startsWith('//') ? nextParam : '/tests'
   const { user, loading, credits, refreshCredits } = useAuth()
   const [added, setAdded] = useState<number | null>(null)
   const [timedOut, setTimedOut] = useState(false)
+  // Con Stripe no hay nada que confirmar, así que arranca lista.
+  const [confirmada, setConfirmada] = useState(!idTransaccion)
+
+  // No esperamos a que Wompi avise: al regresar del pago le preguntamos por la
+  // transacción. Si ya avisó, esto no hace nada; si su aviso falló, rescata la compra.
+  useEffect(() => {
+    if (!idTransaccion) return
+    let cancelado = false
+    fetch('/api/wompi/confirmar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: idTransaccion }),
+    })
+      .catch(() => {
+        // El sondeo y el aviso de Wompi siguen siendo caminos válidos.
+      })
+      .finally(() => {
+        if (!cancelado) setConfirmada(true)
+      })
+    return () => {
+      cancelado = true
+    }
+  }, [idTransaccion])
 
   // Quien compró sin cuenta vuelve de Stripe sin sesión: el enlace de regreso sirve una
   // sola vez para abrirla, y a partir de ahí entra como cualquier otra persona.
   useEffect(() => {
-    if (loading || user || (!sessionId && !referencia)) return
+    if (!confirmada || loading || user || (!sessionId && !referencia)) return
     let cancelado = false
     const entrar = async () => {
       try {
@@ -41,7 +65,7 @@ function SuccessContent() {
     return () => {
       cancelado = true
     }
-  }, [loading, user, sessionId, referencia])
+  }, [confirmada, loading, user, sessionId, referencia])
 
   // The webhook usually lands within a few seconds; poll for this session's credit grant.
   useEffect(() => {

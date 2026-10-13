@@ -8,6 +8,28 @@ const EVENTS_SECRET = process.env.WOMPI_EVENTS_SECRET || ''
 
 export const WOMPI_ACTIVO = Boolean(WOMPI_PUBLIC_KEY)
 export const CHECKOUT_URL = 'https://checkout.wompi.co/p/'
+const API_URL = 'https://production.wompi.co/v1'
+
+/** Pregunta a Wompi cómo quedó una transacción. Con esto la tienda no depende
+ *  únicamente del aviso automático: si ese aviso falla, el regreso del pago
+ *  alcanza para confirmar la compra. La llave pública basta para consultar. */
+export async function consultarTransaccion(id: string) {
+  const res = await fetch(`${API_URL}/transactions/${encodeURIComponent(id)}`, {
+    headers: { Authorization: `Bearer ${WOMPI_PUBLIC_KEY}` },
+    cache: 'no-store',
+  })
+  if (!res.ok) return null
+  const json = await res.json().catch(() => null)
+  const t = json?.data
+  if (!t?.id || !t?.reference) return null
+  return {
+    id: String(t.id),
+    reference: String(t.reference),
+    status: String(t.status),
+    amount_in_cents: Number(t.amount_in_cents),
+    customer_email: t.customer_email ?? null,
+  }
+}
 
 const sha256 = (texto: string) => createHash('sha256').update(texto, 'utf8').digest('hex')
 
