@@ -11,7 +11,6 @@ import type { CatalogTest } from '@/lib/catalog'
 interface Attempt {
   attempt_id: string
   expires_at: string
-  test_url: string
 }
 
 export default function TestAccess({ test }: { test: CatalogTest }) {
@@ -22,16 +21,31 @@ export default function TestAccess({ test }: { test: CatalogTest }) {
   const [redeeming, setRedeeming] = useState(false)
   const [error, setError] = useState('')
 
+  /** Pide el permiso para ver el test en este navegador. La dirección real del
+   *  test no viaja hasta aquí: el servidor la guarda y sirve el test él mismo. */
+  const pedirPermiso = useCallback(async (attemptId: string) => {
+    const { data } = await supabase.auth.getSession()
+    const token = data.session?.access_token
+    if (!token) return
+    await fetch('/api/abrir', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ attemptId }),
+    }).catch(() => null)
+  }, [])
+
   const loadAttempt = useCallback(async () => {
     setChecking(true)
     const { data, error: err } = await supabase.rpc('store_active_attempt', { p_test_id: testId })
     if (err) {
       setError('No pudimos verificar tu acceso. Recarga la página.')
     } else {
-      setAttempt((data as Attempt[])?.[0] ?? null)
+      const activo = (data as Attempt[])?.[0] ?? null
+      if (activo) await pedirPermiso(activo.attempt_id)
+      setAttempt(activo)
     }
     setChecking(false)
-  }, [testId])
+  }, [testId, pedirPermiso])
 
   useEffect(() => {
     if (authLoading) return
@@ -55,7 +69,9 @@ export default function TestAccess({ test }: { test: CatalogTest }) {
       )
       await refreshCredits()
     } else {
-      setAttempt((data as Attempt[])?.[0] ?? null)
+      const abierto = (data as Attempt[])?.[0] ?? null
+      if (abierto) await pedirPermiso(abierto.attempt_id)
+      setAttempt(abierto)
       await refreshCredits()
     }
     setRedeeming(false)
@@ -84,11 +100,11 @@ export default function TestAccess({ test }: { test: CatalogTest }) {
             <p className="text-sm font-semibold">Test en curso</p>
             <p className="text-sm text-ink-400">Disponible hasta {until}</p>
           </div>
-          <a href={attempt.test_url} target="_blank" rel="noopener noreferrer" className="btn-ghost px-4 py-2 text-sm">
+          <a href={`/t/${attempt.attempt_id}`} target="_blank" rel="noopener noreferrer" className="btn-ghost px-4 py-2 text-sm">
             Abrir en pantalla completa ↗
           </a>
         </div>
-        <iframe src={attempt.test_url} title={testName} className="block h-[80vh] min-h-[640px] w-full bg-ink-100" allow="microphone; camera; fullscreen" />
+        <iframe src={`/t/${attempt.attempt_id}`} title={testName} className="block h-[80vh] min-h-[640px] w-full bg-ink-100" allow="microphone; camera; fullscreen" />
       </div>
     )
   }
