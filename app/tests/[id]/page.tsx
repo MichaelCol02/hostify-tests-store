@@ -9,6 +9,10 @@ import { CATALOG, getCatalogTest } from '@/lib/catalog'
 import { formatPrecio, getCheapestPerTest, getTestPrice, MONEDA } from '@/lib/pricing'
 import StickyBuyBar from '@/components/StickyBuyBar'
 
+
+/** La oferta entra y sale por fecha, asi que la pagina se rehace sola cada 10
+ *  minutos. Sin esto habria que publicar a mano el dia que empieza y el que termina. */
+export const revalidate = 600
 export function generateStaticParams() {
   return CATALOG.map((t) => ({ id: t.id }))
 }

@@ -10,6 +10,10 @@ import { getCatalogTest } from '@/lib/catalog'
 import { LANDINGS, getLanding } from '@/lib/landings'
 import { formatPrecio, getTestPrice } from '@/lib/pricing'
 
+
+/** La oferta entra y sale por fecha, asi que la pagina se rehace sola cada 10
+ *  minutos. Sin esto habria que publicar a mano el dia que empieza y el que termina. */
+export const revalidate = 600
 export function generateStaticParams() {
   return LANDINGS.map((l) => ({ id: l.testId }))
 }

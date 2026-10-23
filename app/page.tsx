@@ -9,6 +9,10 @@ import TestComparison from '@/components/TestComparison'
 import TeamContactButton from '@/components/TeamContactButton'
 import { CATALOG } from '@/lib/catalog'
 
+
+/** La oferta entra y sale por fecha, asi que la pagina se rehace sola cada 10
+ *  minutos. Sin esto habria que publicar a mano el dia que empieza y el que termina. */
+export const revalidate = 600
 const PALABRAS = ['cero','una','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez']
 const cuantos = PALABRAS[CATALOG.length] ?? String(CATALOG.length)
 const Cuantos = cuantos.charAt(0).toUpperCase() + cuantos.slice(1)

@@ -31,6 +31,9 @@ export async function abonarCompra(trx: TransaccionWompi): Promise<ResultadoAbon
 
   const pack = getPack(pedido.pack_id)
   if (!pack) return { abonado: false, motivo: 'el paquete del pedido ya no existe' }
+  // Los créditos son los que se prometieron al comprar, no los de hoy: si la
+  // oferta se acaba entre el pago y el aviso, nadie recibe menos de lo pagado.
+  const creditos = pedido.credits || pack.credits
   if (trx.amount_in_cents !== pedido.amount_cop * 100) {
     return { abonado: false, motivo: 'el monto cobrado no corresponde al pedido' }
   }
@@ -43,7 +46,7 @@ export async function abonarCompra(trx: TransaccionWompi): Promise<ResultadoAbon
   const { error } = await supabaseAdmin.from('credit_transactions').upsert(
     {
       user_id: destinatario,
-      delta: pack.credits,
+      delta: creditos,
       reason: 'purchase',
       pack_id: pack.id,
       amount: pedido.amount_cop,
@@ -66,5 +69,5 @@ export async function abonarCompra(trx: TransaccionWompi): Promise<ResultadoAbon
     })
     .eq('reference', trx.reference)
 
-  return { abonado: true, creditos: pack.credits }
+  return { abonado: true, creditos }
 }

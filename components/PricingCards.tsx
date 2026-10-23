@@ -1,6 +1,16 @@
 'use client'
 
-import { CREDIT_PACKS, MONEDA, formatPrecio, precioPack, pricePerTest, type CreditPack, type PackId } from '@/lib/pricing'
+import {
+  CREDIT_PACKS,
+  MONEDA,
+  formatPrecio,
+  packsVigentes,
+  precioAntes,
+  precioPack,
+  pricePerTest,
+  type CreditPack,
+  type PackId,
+} from '@/lib/pricing'
 import { NOMBRE_EN_EL_COBRO } from '@/lib/legal'
 import { useCheckout } from '@/lib/hooks'
 import { useAuth } from './AuthProvider'
@@ -8,7 +18,7 @@ import { useAuth } from './AuthProvider'
 export default function PricingCards({
   returnTo,
   compact = false,
-  packs = CREDIT_PACKS,
+  packs: packsPedidos = CREDIT_PACKS,
   highlightId,
 }: {
   returnTo?: string
@@ -18,7 +28,9 @@ export default function PricingCards({
    *  supplies a list sized for a particular test. */
   highlightId?: PackId
 }) {
-  const destacado = highlightId ?? (packs === CREDIT_PACKS ? 'team' : packs[0]?.id)
+  // La oferta vigente se aplica aquí una sola vez: lo que se ve es lo que se cobra.
+  const packs = packsVigentes(packsPedidos)
+  const destacado = highlightId ?? (packsPedidos === CREDIT_PACKS ? 'team' : packs[0]?.id)
   const { checkout, pending, error } = useCheckout()
 
   // Se compra con o sin cuenta: quien no la tiene, la recibe creada con el correo del pago.
@@ -52,6 +64,12 @@ export default function PricingCards({
                 <div aria-hidden="true" className="pointer-events-none absolute -bottom-32 left-1/2 h-64 w-[140%] -translate-x-1/2 rounded-full bg-brand/35 blur-3xl" />
               )}
 
+              {pack.regalo ? (
+                <div className="relative -mt-2 mb-3 inline-flex self-start rounded-full bg-gradient-to-b from-brand to-brand-deep px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
+                  {pack.regalo === pack.credits / 2 ? '2×1 · llevas dos' : `+${pack.regalo} de regalo`}
+                </div>
+              ) : null}
+
               <div className="relative flex items-center justify-between">
                 <h3 className={`text-lg font-semibold ${highlight ? 'text-white' : ''}`}>{pack.name}</h3>
                 {pack.badge && (
@@ -71,6 +89,11 @@ export default function PricingCards({
                   {formatPrecio(precioPack(pack))}
                 </span>
                 <span className={`pb-1 text-sm ${highlight ? 'text-white/50' : 'text-ink-400'}`}>{MONEDA}</span>
+                {precioAntes(pack) !== undefined && (
+                  <span className={`pb-1 text-sm line-through ${highlight ? 'text-white/40' : 'text-ink-400'}`}>
+                    {formatPrecio(precioAntes(pack)!)}
+                  </span>
+                )}
               </div>
 
               <ul className={`relative mt-6 space-y-2.5 text-[15px] ${highlight ? 'text-white/80' : 'text-ink-700'}`}>
@@ -104,9 +127,11 @@ export default function PricingCards({
               >
                 {pending === pack.id
                   ? 'Abriendo pago seguro…'
-                  : pack.id === 'pareja'
-                    ? 'Comprar para dos'
-                    : `Comprar ${pack.credits} ${pack.credits === 1 ? 'test' : 'tests'}`}
+                  : pack.regalo
+                    ? `Llévate ${pack.credits} por ${pack.credits - pack.regalo}`
+                    : pack.id === 'pareja'
+                      ? 'Comprar para dos'
+                      : `Comprar ${pack.credits} ${pack.credits === 1 ? 'test' : 'tests'}`}
               </button>
             </div>
           )

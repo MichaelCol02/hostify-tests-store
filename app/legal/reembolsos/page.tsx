@@ -1,6 +1,10 @@
 import type { Metadata } from 'next'
 import { EMPRESA, DIAS_REEMBOLSO, NOMBRE_EN_EL_COBRO } from '@/lib/legal'
 
+
+/** La oferta entra y sale por fecha, asi que la pagina se rehace sola cada 10
+ *  minutos. Sin esto habria que publicar a mano el dia que empieza y el que termina. */
+export const revalidate = 600
 export const metadata: Metadata = {
   title: 'Política de reembolsos — Hostify Tests',
   description: 'Cuándo procede una devolución y cómo solicitarla.',

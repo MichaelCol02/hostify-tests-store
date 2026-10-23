@@ -2,6 +2,10 @@ import type { Metadata } from 'next'
 import { EMPRESA, DIAS_REEMBOLSO, NOMBRE_EN_EL_COBRO } from '@/lib/legal'
 import { COBRO_EN_PESOS } from '@/lib/pricing'
 
+
+/** La oferta entra y sale por fecha, asi que la pagina se rehace sola cada 10
+ *  minutos. Sin esto habria que publicar a mano el dia que empieza y el que termina. */
+export const revalidate = 600
 export const metadata: Metadata = {
   title: 'Términos y condiciones — Hostify Tests',
   description: 'Condiciones de uso de la plataforma de tests de Hostify.',

@@ -3,6 +3,10 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import PricingCards from '@/components/PricingCards'
 
+
+/** La oferta entra y sale por fecha, asi que la pagina se rehace sola cada 10
+ *  minutos. Sin esto habria que publicar a mano el dia que empieza y el que termina. */
+export const revalidate = 600
 export const metadata: Metadata = {
   title: 'Precios — Hostify Tests',
   description: '1 test por $5, 3 tests por $9, 10 tests por $15. Pago único, créditos sin vencimiento.',

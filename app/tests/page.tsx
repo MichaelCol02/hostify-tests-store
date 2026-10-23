@@ -6,6 +6,10 @@ import TestCard from '@/components/TestCard'
 import { CATALOG } from '@/lib/catalog'
 import { formatPrecio, getCheapestPerTest, getTestPrice } from '@/lib/pricing'
 
+
+/** La oferta entra y sale por fecha, asi que la pagina se rehace sola cada 10
+ *  minutos. Sin esto habria que publicar a mano el dia que empieza y el que termina. */
+export const revalidate = 600
 export const metadata: Metadata = {
   title: 'Tests — Hostify',
   description: 'Cinco evaluaciones para líderes y equipos de hospitalidad.',
