@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { firmaValida, nombreCookie } from '@/lib/intento'
 
+/** Veces que un mismo crédito puede abrir su test. Alcanza de sobra para una
+ *  recarga, una pantalla completa y un regreso al día siguiente; no alcanza
+ *  para pasar el teléfono por toda la familia. */
+const APERTURAS_MAXIMAS = 8
+
 /** Sirve el test desde la tienda. El navegador nunca ve dónde vive de verdad:
  *  el servidor lo trae y lo entrega. Los tests son un solo archivo sin
  *  recursos externos, así que no hay nada más que reescribir. */
@@ -42,6 +47,17 @@ export async function GET(req: NextRequest, { params }: { params: { intento: str
       'Se acabó el tiempo',
       'Cada test queda abierto 24 horas desde que lo empiezas. Abre uno nuevo desde tu panel.',
       410
+    )
+  }
+
+  // Un crédito no es barra libre. Las 24 horas son para que nadie pierda su
+  // compra al cerrar la pestaña, no para responder el test veinte veces.
+  const { data: veces } = await supabaseAdmin.rpc('store_registrar_apertura', { p_attempt: intento })
+  if (typeof veces === 'number' && veces > APERTURAS_MAXIMAS) {
+    return respuesta(
+      'Este test ya se usó',
+      `Un crédito abre el test hasta ${APERTURAS_MAXIMAS} veces, para que puedas recargar o volver si se te cierra. Para responderlo otra vez hay que abrir uno nuevo.`,
+      429
     )
   }
 
