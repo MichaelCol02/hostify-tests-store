@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { firmaValida, nombreCookie } from '@/lib/intento'
+import { esRecurso } from '@/lib/productos'
 
 /** Veces que un mismo crédito puede abrir su test. Alcanza de sobra para una
  *  recarga, una pantalla completa y un regreso al día siguiente; no alcanza
@@ -52,8 +53,9 @@ export async function GET(req: NextRequest, { params }: { params: { intento: str
 
   // Un crédito no es barra libre. Las 24 horas son para que nadie pierda su
   // compra al cerrar la pestaña, no para responder el test veinte veces.
+  // Un recurso comprado es otra cosa: se consulta, y se consulta muchas veces.
   const { data: veces } = await supabaseAdmin.rpc('store_registrar_apertura', { p_attempt: intento })
-  if (typeof veces === 'number' && veces > APERTURAS_MAXIMAS) {
+  if (!esRecurso(fila.test_id) && typeof veces === 'number' && veces > APERTURAS_MAXIMAS) {
     return respuesta(
       'Este test ya se usó',
       `Un crédito abre el test hasta ${APERTURAS_MAXIMAS} veces, para que puedas recargar o volver si se te cierra. Para responderlo otra vez hay que abrir uno nuevo.`,

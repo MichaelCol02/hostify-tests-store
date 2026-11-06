@@ -1,6 +1,7 @@
 import { supabaseAdmin } from './supabase-admin'
 import { getPack } from './pricing'
 import { findOrCreateUser } from './account'
+import { getProducto } from './productos'
 
 export interface TransaccionWompi {
   id: string
@@ -42,6 +43,48 @@ export async function abonarCompra(trx: TransaccionWompi): Promise<ResultadoAbon
   if (!pedido.user_id && !correo) return { abonado: false, motivo: 'no hay a quién abonarle' }
 
   const destinatario = pedido.user_id || (await findOrCreateUser(correo!))
+
+  // Un recurso no entrega créditos: entrega acceso. Se abre un pase largo,
+  // porque es material de consulta y se vuelve a él muchas veces.
+  const producto = getProducto(pedido.pack_id)
+  if (producto) {
+    const hasta = new Date()
+    hasta.setMonth(hasta.getMonth() + producto.meses)
+
+    const { error: errorPase } = await supabaseAdmin
+      .from('test_attempts')
+      .insert({ user_id: destinatario, test_id: producto.recurso, expires_at: hasta.toISOString() })
+    if (errorPase) throw new Error(errorPase.message)
+
+    // Queda en el libro de cuentas sin mover el saldo: es una compra, no un crédito.
+    const { error: errorRegistro } = await supabaseAdmin.from('credit_transactions').upsert(
+      {
+        user_id: destinatario,
+        delta: 0,
+        reason: 'purchase',
+        pack_id: producto.id,
+        amount: pedido.amount_cop,
+        currency: 'COP',
+        provider: 'wompi',
+        wompi_reference: trx.reference,
+      },
+      { onConflict: 'wompi_reference', ignoreDuplicates: true }
+    )
+    if (errorRegistro) throw new Error(errorRegistro.message)
+
+    await supabaseAdmin
+      .from('wompi_orders')
+      .update({
+        status: 'APPROVED',
+        transaction_id: trx.id,
+        user_id: destinatario,
+        email: correo,
+        credited_at: new Date().toISOString(),
+      })
+      .eq('reference', trx.reference)
+
+    return { abonado: true, creditos: 0 }
+  }
 
   const { error } = await supabaseAdmin.from('credit_transactions').upsert(
     {

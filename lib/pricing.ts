@@ -1,4 +1,5 @@
 import { CAMPANA, campanaActiva } from './campana'
+import { getProducto } from './productos'
 
 export type PackId = 'single' | 'trio' | 'team' | 'pareja'
 
@@ -79,7 +80,20 @@ export const MONEDA = COBRO_EN_PESOS ? 'COP' : 'USD'
  *  entrega salen de aquí, nunca de lo que mande el navegador. */
 export function getPack(id: unknown, ahora?: number): CreditPack | undefined {
   const base = BASE_PACKS.find((p) => p.id === id)
-  return base && conCampana(base, ahora)
+  if (base) return conCampana(base, ahora)
+
+  // Los recursos se cobran igual que un paquete, pero no entregan créditos:
+  // lo que entregan es acceso, y eso lo resuelve quien abona la compra.
+  const producto = getProducto(id)
+  if (!producto) return undefined
+  return {
+    id: producto.id as PackId,
+    credits: 0,
+    priceCop: producto.priceCop,
+    priceUsd: producto.priceUsd,
+    name: producto.nombre,
+    tagline: producto.gancho,
+  }
 }
 
 export function precioPack(pack: CreditPack) {
