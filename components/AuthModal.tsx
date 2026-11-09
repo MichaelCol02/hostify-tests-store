@@ -48,6 +48,35 @@ export default function AuthModal({ mode, onModeChange, onClose }: AuthModalProp
   if (!mode) return null
   const isLogin = mode === 'login'
 
+  /** Para quien nunca definió contraseña o la olvidó. El aviso es el mismo exista o no
+   *  la cuenta, y nunca crea una: así este botón no revela quién está registrado. */
+  const enviarEnlace = async () => {
+    setError('')
+    setNotice('')
+    if (!email) {
+      setError('Escribe tu correo y te enviamos el enlace.')
+      return
+    }
+    setLoading(true)
+    try {
+      const { error: err } = await supabase.auth.signInWithOtp({
+        email,
+        options: { shouldCreateUser: false, emailRedirectTo: window.location.href },
+      })
+      // "Esa cuenta no existe" se calla a propósito; un fallo del envío, no.
+      if (err && (esFalloDeConexion(err.message) || (err.status ?? 0) >= 500)) throw err
+      if (err && err.status === 429) {
+        setError('Ya pedimos varios enlaces. Espera unos minutos o escríbenos por WhatsApp.')
+        return
+      }
+      setNotice('Si ese correo tiene cuenta, te enviamos un enlace para entrar. Revisa también el correo no deseado.')
+    } catch {
+      setError('No pudimos enviar el enlace. Intenta en unos minutos o escríbenos por WhatsApp.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
@@ -172,6 +201,17 @@ export default function AuthModal({ mode, onModeChange, onClose }: AuthModalProp
             {loading ? 'Un momento…' : isLogin ? 'Ingresar' : 'Crear cuenta'}
           </button>
         </form>
+
+        {isLogin && (
+          <button
+            type="button"
+            onClick={enviarEnlace}
+            disabled={loading}
+            className="mt-4 w-full text-center text-sm font-medium text-ink-500 transition hover:text-ink"
+          >
+            ¿No tienes o no recuerdas tu contraseña? Envíame un enlace
+          </button>
+        )}
 
         {mode === 'signup' && password.length > 0 && password.length < 6 && (
           <p className="mt-3 text-center text-xs text-ink-400">La contraseña necesita al menos 6 caracteres.</p>

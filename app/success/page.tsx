@@ -15,7 +15,8 @@ function SuccessContent() {
   const idTransaccion = params.get('id') // lo agrega Wompi al devolver a la persona
   const nextParam = params.get('next') || '/tests'
   const next = nextParam.startsWith('/') && !nextParam.startsWith('//') ? nextParam : '/tests'
-  const { user, loading, credits, refreshCredits } = useAuth()
+  const { user, loading, credits, refreshCredits, openAuth } = useAuth()
+  const [requiereIngreso, setRequiereIngreso] = useState(false)
   const [added, setAdded] = useState<number | null>(null)
   const [timedOut, setTimedOut] = useState(false)
   // Con Stripe no hay nada que confirmar, así que arranca lista.
@@ -55,7 +56,12 @@ function SuccessContent() {
           body: JSON.stringify(referencia ? { reference: referencia } : { session_id: sessionId }),
         })
         const json = await res.json().catch(() => ({}))
-        if (cancelado || !res.ok || !json.token_hash) return
+        if (cancelado || !res.ok) return
+        if (json.requiere_ingreso) {
+          setRequiereIngreso(true)
+          return
+        }
+        if (!json.token_hash) return
         await supabase.auth.verifyOtp({ token_hash: json.token_hash, type: 'email' })
       } catch {
         // Si falla, la persona ve el aviso de abajo y puede entrar con su correo.
@@ -98,6 +104,22 @@ function SuccessContent() {
   }, [loading, user, sessionId, referencia, refreshCredits])
 
   const confirmed = added !== null
+
+  // El pago ya quedó abonado a una cuenta que existía: entrar exige su contraseña o su correo.
+  if (requiereIngreso && !user) {
+    return (
+      <div className="relative mx-auto max-w-2xl overflow-hidden rounded-[2.5rem] bg-white px-6 py-16 text-center shadow-lift ring-1 ring-black/[0.05] sm:px-12 sm:py-20">
+        <h1 className="text-4xl font-semibold tracking-tightest sm:text-5xl">Pago recibido.</h1>
+        <p className="mx-auto mt-4 max-w-md text-lg text-ink-500">
+          Ese correo ya tenía cuenta y tu compra quedó en ella. Ingresa para usarla: si no recuerdas tu contraseña, te
+          enviamos un enlace al correo.
+        </p>
+        <button type="button" onClick={() => openAuth('login')} className="btn-primary mt-10 px-7 py-3.5">
+          Ingresar
+        </button>
+      </div>
+    )
+  }
 
   return (
     <div className="relative mx-auto max-w-2xl overflow-hidden rounded-[2.5rem] bg-white px-6 py-16 text-center shadow-lift ring-1 ring-black/[0.05] sm:px-12 sm:py-20">

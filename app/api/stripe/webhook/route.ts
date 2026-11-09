@@ -3,6 +3,7 @@ import type Stripe from 'stripe'
 import { stripe } from '@/lib/stripe'
 import { getPack } from '@/lib/pricing'
 import { findOrCreateUser, grantCredits } from '@/lib/account'
+import { WOMPI_ACTIVO } from '@/lib/wompi'
 
 export async function POST(req: NextRequest) {
   const body = await req.text()
@@ -22,6 +23,11 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     console.error('Webhook signature verification failed:', error.message)
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
+  }
+
+  // Con Wompi activo, un pago de Stripe no entrega créditos. Se responde 200 para que no reintente.
+  if (WOMPI_ACTIVO) {
+    return NextResponse.json({ received: true, skipped: 'stripe apagado' })
   }
 
   if (event.type !== 'checkout.session.completed') {

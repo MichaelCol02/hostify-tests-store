@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { supabaseAdmin } from '@/lib/supabase-admin'
-import { findOrCreateUser } from '@/lib/account'
+import { buscarOCrearCuenta } from '@/lib/account'
 
 const CORREO = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
@@ -32,7 +32,31 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const destinatario = userId || (await findOrCreateUser(correo))
+    // Un código inválido termina aquí: no crea cuentas ni revela cuáles existen.
+    const { data: cupon } = await supabaseAdmin
+      .from('coupons')
+      .select('max_uses, used_count, expires_at, active')
+      .eq('code', codigo)
+      .maybeSingle()
+    const vigente =
+      cupon?.active &&
+      cupon.used_count < cupon.max_uses &&
+      (!cupon.expires_at || new Date(cupon.expires_at).getTime() > Date.now())
+    if (!vigente) {
+      return NextResponse.json({ error: 'cupon_no_valido' }, { status: 404 })
+    }
+
+    let destinatario = userId
+    let cuentaNueva = false
+    if (!destinatario) {
+      const cuenta = await buscarOCrearCuenta(correo)
+      // Escribir un correo no prueba ser su dueño: quien ya tiene cuenta debe ingresar.
+      if (!cuenta.creada) {
+        return NextResponse.json({ error: 'cuenta_existente' }, { status: 409 })
+      }
+      destinatario = cuenta.id
+      cuentaNueva = true
+    }
 
     const { data: creditos, error } = await supabaseAdmin.rpc('store_use_coupon', {
       p_code: codigo,
@@ -44,9 +68,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'cupon_no_valido' }, { status: 404 })
     }
 
-    // Quien llegó sin cuenta entra de inmediato, igual que después de pagar.
+    // La cuenta que acaba de nacer entra de inmediato. Nunca una que ya existía.
     let tokenHash: string | undefined
-    if (!userId) {
+    if (cuentaNueva) {
       const { data: enlace } = await supabaseAdmin.auth.admin.generateLink({ type: 'magiclink', email: correo })
       tokenHash = enlace?.properties?.hashed_token
     }

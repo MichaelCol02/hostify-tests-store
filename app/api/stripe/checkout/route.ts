@@ -2,8 +2,15 @@ import { NextResponse, NextRequest } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { stripe } from '@/lib/stripe'
 import { getPack } from '@/lib/pricing'
+import { WOMPI_ACTIVO } from '@/lib/wompi'
 
 export async function POST(req: NextRequest) {
+  // La tienda cobra con Wompi. Dejar Stripe abierto permitiría comprar en su modo de
+  // prueba con tarjetas públicas y recibir créditos de verdad.
+  if (WOMPI_ACTIVO) {
+    return NextResponse.json({ error: 'stripe_apagado' }, { status: 503 })
+  }
+
   // La compra no exige cuenta: si llega sin sesión, Stripe pide el correo y con él
   // se crea la cuenta al volver del pago. Si llega con sesión, se le asigna a esa cuenta.
   const token = req.headers.get('authorization')?.replace(/^Bearer\s+/i, '')

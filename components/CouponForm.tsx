@@ -8,19 +8,22 @@ const MENSAJES: Record<string, string> = {
   cupon_no_valido: 'Ese código no existe, ya se usó o venció.',
   correo_invalido: 'Escribe un correo válido para enviarte el acceso.',
   codigo_invalido: 'Escribe el código del cupón.',
+  cuenta_existente: 'Ese correo ya tiene cuenta. Ingresa y canjea el cupón desde ahí; tu código sigue sin usarse.',
 }
 
 export default function CouponForm({ onCanjeado }: { onCanjeado?: () => void }) {
-  const { user, refreshCredits } = useAuth()
+  const { user, refreshCredits, openAuth } = useAuth()
   const [abierto, setAbierto] = useState(false)
   const [codigo, setCodigo] = useState('')
   const [correo, setCorreo] = useState('')
   const [estado, setEstado] = useState<'inicial' | 'enviando' | 'listo'>('inicial')
   const [error, setError] = useState('')
+  const [debeIngresar, setDebeIngresar] = useState(false)
 
   const canjear = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+    setDebeIngresar(false)
     setEstado('enviando')
     try {
       const { data } = await supabase.auth.getSession()
@@ -34,6 +37,7 @@ export default function CouponForm({ onCanjeado }: { onCanjeado?: () => void }) 
 
       if (!res.ok) {
         setError(MENSAJES[json.error] || 'No pudimos canjear el cupón. Intenta de nuevo.')
+        setDebeIngresar(json.error === 'cuenta_existente')
         setEstado('inicial')
         return
       }
@@ -77,7 +81,7 @@ export default function CouponForm({ onCanjeado }: { onCanjeado?: () => void }) 
           value={codigo}
           onChange={(e) => setCodigo(e.target.value.toUpperCase())}
           className="field flex-1 uppercase"
-          placeholder="HOSTIFY-XXXXXX"
+          placeholder="Tu código"
           autoCapitalize="characters"
           required
         />
@@ -98,6 +102,11 @@ export default function CouponForm({ onCanjeado }: { onCanjeado?: () => void }) 
       </div>
       {!user && <p className="mt-2 text-xs text-ink-400">Usamos tu correo para guardar el test; no tienes que crear contraseña.</p>}
       {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+      {debeIngresar && !user && (
+        <button type="button" onClick={() => openAuth('login')} className="mt-2 text-sm font-semibold text-brand-deep hover:underline">
+          Ingresar a mi cuenta
+        </button>
+      )}
     </form>
   )
 }

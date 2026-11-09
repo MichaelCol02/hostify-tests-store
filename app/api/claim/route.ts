@@ -2,7 +2,8 @@ import { NextResponse, NextRequest } from 'next/server'
 import { stripe } from '@/lib/stripe'
 import { getPack } from '@/lib/pricing'
 import { supabaseAdmin } from '@/lib/supabase-admin'
-import { findOrCreateUser, grantCredits } from '@/lib/account'
+import { findOrCreateUser, grantCredits, nacioConLaCompra } from '@/lib/account'
+import { WOMPI_ACTIVO } from '@/lib/wompi'
 
 /** Minutos que vale el enlace de regreso de Stripe como prueba de identidad.
  *  Pasado ese plazo hay que entrar con contraseña o pedir un enlace al correo. */
@@ -16,6 +17,11 @@ export async function POST(req: NextRequest) {
   // Compra con Wompi: la prueba es el pedido ya abonado, no una sesión de Stripe.
   if (typeof referencia === 'string' && referencia.startsWith('HT-')) {
     return entrarConWompi(referencia)
+  }
+
+  // Con Wompi activo, Stripe no entrega nada: sus sesiones pueden ser de prueba.
+  if (WOMPI_ACTIVO) {
+    return NextResponse.json({ error: 'invalid_session' }, { status: 400 })
   }
 
   if (typeof sessionId !== 'string' || !sessionId.startsWith('cs_')) {
@@ -61,6 +67,10 @@ export async function POST(req: NextRequest) {
     if (errorMarca) throw new Error(errorMarca.message)
     if (!marcada) {
       return NextResponse.json({ error: 'already_claimed' }, { status: 409 })
+    }
+
+    if (session.metadata?.userId || !(await nacioConLaCompra(userId, session.created * 1000))) {
+      return NextResponse.json({ requiere_ingreso: true })
     }
 
     const { data: enlace, error: errorEnlace } = await supabaseAdmin.auth.admin.generateLink({
@@ -118,6 +128,13 @@ async function entrarConWompi(referencia: string) {
 
     if (!marcado) {
       return NextResponse.json({ error: 'already_claimed' }, { status: 409 })
+    }
+
+    if (
+      !pedido.user_id ||
+      !(await nacioConLaCompra(pedido.user_id, new Date(pedido.created_at).getTime()))
+    ) {
+      return NextResponse.json({ requiere_ingreso: true })
     }
 
     const { data: enlace, error } = await supabaseAdmin.auth.admin.generateLink({ type: 'magiclink', email })
