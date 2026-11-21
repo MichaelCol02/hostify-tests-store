@@ -14,7 +14,10 @@ Todos llevan lectura amplia, guías prácticas, plan de acción y recursos (libr
 1. Su HTML se guarda en `tests-internos/` y se registra en `lib/tests-internos.ts`.
 2. Su ficha va en `lib/catalog.ts` con `lanzamiento: 'AAAA-MM-DD'`.
 3. Se corre su SQL en Supabase, que lo agrega a `store_tests` con url `interno:<id>`.
-4. Desde que se publica, la tienda lo muestra como «Llega el …». El día del lanzamiento lo pone a la venta sola, lo destaca primero y le pone la etiqueta «Nuevo» durante 30 días.
+4. El día del lanzamiento se crean **3 códigos de regalo** del test. Basta con una línea en el SQL Editor:
+   `SELECT * FROM store_codigos_lanzamiento('<id>', '<PREFIJO>');`
+   Cada código da 1 crédito, sirve una vez y vence a los 30 días. Se crean en la base de datos y nunca quedan en git.
+5. Desde que se publica, la tienda lo muestra como «Llega el …». El día del lanzamiento lo pone a la venta sola, lo destaca primero y le pone la etiqueta «Nuevo» durante 30 días.
 
 Conviene tener cada test listo **al menos una semana antes** de su fecha, para que se vea como «Próximamente» y genere expectativa.
 
