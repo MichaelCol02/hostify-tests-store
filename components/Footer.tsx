@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Logo from './Logo'
-import { CATALOG } from '@/lib/catalog'
+import { publicados } from '@/lib/catalog'
 import { WHATSAPP_NUMBER, whatsappLink } from '@/lib/contact'
 import { MONEDA, PASARELA } from '@/lib/pricing'
 
@@ -28,7 +28,7 @@ export default function Footer() {
         <div>
           <h4 className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-400">Tests</h4>
           <ul className="mt-4 space-y-2.5 text-sm">
-            {CATALOG.map((t) => (
+            {publicados().map((t) => (
               <li key={t.id}>
                 <Link href={`/tests/${t.id}`} className="text-ink-500 transition hover:text-ink">
                   {t.name}

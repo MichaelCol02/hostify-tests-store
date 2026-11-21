@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import TestCard from '@/components/TestCard'
-import { CATALOG } from '@/lib/catalog'
+import { proximos, publicados } from '@/lib/catalog'
 import { formatPrecio, getCheapestPerTest, getTestPrice } from '@/lib/pricing'
 
 
@@ -37,11 +37,25 @@ export default function TestsPage() {
 
         <section className="pb-28">
           <div className="container-x grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {CATALOG.map((test) => (
+            {publicados().map((test) => (
               <TestCard key={test.id} test={test} />
             ))}
           </div>
         </section>
+
+        {proximos().length > 0 && (
+          <section className="pb-28">
+            <div className="container-x">
+              <p className="eyebrow">Próximos lanzamientos</p>
+              <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">Cada mes, tests nuevos.</h2>
+              <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                {proximos().map((test) => (
+                  <TestCard key={test.id} test={test} />
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
       </main>
       <Footer />
     </>

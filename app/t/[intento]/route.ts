@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { firmaValida, nombreCookie } from '@/lib/intento'
 import { esRecurso } from '@/lib/productos'
+import { PREFIJO_INTERNO, testInterno } from '@/lib/tests-internos'
 
 /** Veces que un mismo crédito puede abrir su test. Alcanza de sobra para una
  *  recarga, una pantalla completa y un regreso al día siguiente; no alcanza
@@ -63,12 +64,19 @@ export async function GET(req: NextRequest, { params }: { params: { intento: str
     )
   }
 
-  const origen = await fetch(url, { cache: 'no-store' }).catch(() => null)
-  if (!origen?.ok) {
-    return respuesta('El test no respondió', 'Inténtalo de nuevo en un momento.', 502)
+  let html = testInterno(url)
+  if (html === null) {
+    if (url.startsWith(PREFIJO_INTERNO)) {
+      return respuesta('No encontramos este test', 'Vuelve a tu panel y ábrelo desde ahí.', 404)
+    }
+    const origen = await fetch(url, { cache: 'no-store' }).catch(() => null)
+    if (!origen?.ok) {
+      return respuesta('El test no respondió', 'Inténtalo de nuevo en un momento.', 502)
+    }
+    html = await origen.text()
   }
 
-  return new NextResponse(await origen.text(), {
+  return new NextResponse(html, {
     status: 200,
     headers: {
       'Content-Type': 'text/html; charset=utf-8',

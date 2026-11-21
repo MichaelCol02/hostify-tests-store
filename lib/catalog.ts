@@ -1,7 +1,7 @@
 // Public catalog. Test URLs are deliberately absent: they live only in store_tests.url
 // and are returned by store_redeem_credit after a credit is spent.
 
-export type TestIcon = 'levels' | 'disc' | 'voice' | 'hospitality' | 'houses' | 'enneagram' | 'couple' | 'tree' | 'money' | 'shield'
+export type TestIcon = 'levels' | 'disc' | 'voice' | 'hospitality' | 'houses' | 'enneagram' | 'couple' | 'tree' | 'money' | 'shield' | 'family'
 
 export interface CatalogTest {
   id: string
@@ -27,6 +27,10 @@ export interface CatalogTest {
   deliver: string
   /** Perfiles a los que el selector de la home le recomienda este test. */
   audience: Audience[]
+  /** Día en que sale a la venta (AAAA-MM-DD, hora de Colombia). Antes de esa
+   *  fecha la ficha muestra «Próximamente» y no deja comprar; el día llega y
+   *  la tienda lo lanza sola, sin publicar nada. Sin fecha: ya está a la venta. */
+  lanzamiento?: string
 }
 
 export type Audience = 'colaborador' | 'lider' | 'gerente'
@@ -38,6 +42,24 @@ export const AUDIENCES: { id: Audience; label: string; blurb: string }[] = [
 ]
 
 export const CATALOG: CatalogTest[] = [
+  {
+    id: 'estilo-crianza',
+    name: 'Tu estilo de crianza',
+    kicker: 'Familia y paternidad',
+    description:
+      'Qué tipo de papá o mamá eres de verdad: lo que haces en el día a día y lo que haces cuando la situación aprieta. Con guía práctica y plan de 21 días.',
+    duration: '15–20 min',
+    questions: 48,
+    modules: ['Calidez', 'Estructura', 'Autonomía', 'Escucha', 'Autorregulación', 'Coherencia', 'Presencia', 'Reparación'],
+    icon: 'family',
+    measures: 'Tu estilo de crianza en calma y bajo presión, y ocho áreas que deciden cómo crecen tus hijos.',
+    idealFor: 'Mamás, papás y cuidadores que quieren criar con más intención.',
+    deliver: 'Tu estilo, tu perfil en 8 áreas, guías para las dos más bajas, consejos según la edad de tus hijos y un plan de 21 días.',
+    audience: ['colaborador', 'lider', 'gerente'],
+    credits: 1,
+    people: 1,
+    lanzamiento: '2026-12-01',
+  },
   {
     id: 'areas-vida',
     name: 'Las 12 áreas de tu vida',
@@ -205,6 +227,40 @@ export const CATALOG: CatalogTest[] = [
     suggestedPack: 'pareja',
   },
 ]
+
+/** Medianoche de Colombia (UTC-5) del día de lanzamiento. */
+export function fechaLanzamiento(t: CatalogTest): Date | null {
+  return t.lanzamiento ? new Date(`${t.lanzamiento}T00:00:00-05:00`) : null
+}
+
+export function estaPublicado(t: CatalogTest, ahora = new Date()) {
+  const f = fechaLanzamiento(t)
+  return !f || f.getTime() <= ahora.getTime()
+}
+
+/** Lanzado hace menos de 30 días: lleva la etiqueta «Nuevo». */
+export function esNuevo(t: CatalogTest, ahora = new Date()) {
+  const f = fechaLanzamiento(t)
+  return !!f && f.getTime() <= ahora.getTime() && ahora.getTime() - f.getTime() < 30 * 86400000
+}
+
+/** Lo que ya se puede comprar, con los recién lanzados primero. */
+export function publicados(ahora = new Date()) {
+  const lista = CATALOG.filter((t) => estaPublicado(t, ahora))
+  return [...lista.filter((t) => esNuevo(t, ahora)), ...lista.filter((t) => !esNuevo(t, ahora))]
+}
+
+/** Lo que ya tiene ficha pero todavía no sale, del más cercano al más lejano. */
+export function proximos(ahora = new Date()) {
+  return CATALOG.filter((t) => !estaPublicado(t, ahora)).sort(
+    (a, b) => fechaLanzamiento(a)!.getTime() - fechaLanzamiento(b)!.getTime()
+  )
+}
+
+export function fechaLarga(t: CatalogTest) {
+  const f = fechaLanzamiento(t)
+  return f ? f.toLocaleDateString('es-CO', { day: 'numeric', month: 'long', timeZone: 'America/Bogota' }) : ''
+}
 
 export function getCatalogTest(id: string) {
   return CATALOG.find((t) => t.id === id)

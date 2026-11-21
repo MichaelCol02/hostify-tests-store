@@ -5,7 +5,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import TestIcon from '@/components/TestIcon'
 import TestAccess from '@/components/TestAccess'
-import { CATALOG, getCatalogTest } from '@/lib/catalog'
+import { CATALOG, estaPublicado, fechaLarga, getCatalogTest } from '@/lib/catalog'
 import { formatPrecio, getCheapestPerTest, getTestPrice, MONEDA } from '@/lib/pricing'
 import StickyBuyBar from '@/components/StickyBuyBar'
 
@@ -42,6 +42,7 @@ export default function TestPage({ params }: { params: { id: string } }) {
   if (!test) notFound()
 
   const precio = getTestPrice(test.credits)
+  const aLaVenta = estaPublicado(test)
   const faq = [
     {
       q: '¿Cuánto cuesta este test?',
@@ -64,7 +65,7 @@ export default function TestPage({ params }: { params: { id: string } }) {
           '@type': 'Offer',
           price: precio.toFixed(2),
           priceCurrency: MONEDA,
-          availability: 'https://schema.org/InStock',
+          availability: aLaVenta ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder',
         },
       },
       {
@@ -130,6 +131,20 @@ export default function TestPage({ params }: { params: { id: string } }) {
 
         <section id="empezar" className="scroll-mt-20 pb-28">
           <div className="container-x delay-3 animate-fade-up">
+            {!aLaVenta ? (
+              <div className="rounded-4xl bg-ink-900 p-8 text-white shadow-lift sm:p-10">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand">Próximo lanzamiento</p>
+                <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">Llega el {fechaLarga(test)}.</h2>
+                <p className="mt-4 max-w-xl text-white/65">{test.deliver}</p>
+                <p className="mt-4 max-w-xl text-white/65">
+                  Ese día se abre aquí mismo. Si ya tienes créditos, te sirven para este test.
+                </p>
+                <Link href="/precios" className="mt-7 inline-flex rounded-full bg-brand px-6 py-3 font-semibold text-white">
+                  Ver paquetes de créditos
+                </Link>
+              </div>
+            ) : (
+            <>
             <ul className="mb-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-ink-400">
               {['Pago único', 'Sin suscripción', 'Resultado al terminar'].map((t) => (
                 <li key={t} className="flex items-center gap-2">
@@ -139,10 +154,12 @@ export default function TestPage({ params }: { params: { id: string } }) {
               ))}
             </ul>
             <TestAccess test={test} />
+            </>
+            )}
           </div>
         </section>
       </main>
-      <StickyBuyBar test={test} />
+      {aLaVenta && <StickyBuyBar test={test} />}
       <Footer />
     </>
   )

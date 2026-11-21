@@ -7,16 +7,14 @@ import ReportPreview from '@/components/ReportPreview'
 import AudiencePicker from '@/components/AudiencePicker'
 import TestComparison from '@/components/TestComparison'
 import TeamContactButton from '@/components/TeamContactButton'
-import { CATALOG } from '@/lib/catalog'
+import { fechaLarga, proximos, publicados } from '@/lib/catalog'
 import { PASARELA, textosPrecio } from '@/lib/pricing'
 
 
 /** La oferta entra y sale por fecha, asi que la pagina se rehace sola cada 10
  *  minutos. Sin esto habria que publicar a mano el dia que empieza y el que termina. */
 export const revalidate = 600
-const PALABRAS = ['cero','una','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez']
-const cuantos = PALABRAS[CATALOG.length] ?? String(CATALOG.length)
-const Cuantos = cuantos.charAt(0).toUpperCase() + cuantos.slice(1)
+const PALABRAS = ['cero','una','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez','once','doce','trece','catorce','quince']
 
 // Los precios se leen en cada render (no al cargar el módulo) para que la oferta entre y salga sola.
 const steps = (lista: string) => [
@@ -33,6 +31,11 @@ const FAQ = [
 ]
 
 export default function Home() {
+  // Se calcula en cada render: el día del lanzamiento el test nuevo aparece solo.
+  const CATALOGO = publicados()
+  const siguiente = proximos()[0]
+  const cuantos = PALABRAS[CATALOGO.length] ?? String(CATALOGO.length)
+  const Cuantos = cuantos.charAt(0).toUpperCase() + cuantos.slice(1)
   const precio = textosPrecio()
   const STEPS = steps(precio.lista)
   return (
@@ -88,7 +91,7 @@ export default function Home() {
         <section className="border-b border-black/[0.06] bg-white">
           <div className="container-x grid grid-cols-2 gap-y-8 py-12 text-center lg:grid-cols-4">
             {[
-              { k: String(CATALOG.length), v: 'evaluaciones especializadas' },
+              { k: String(CATALOGO.length), v: 'evaluaciones especializadas' },
               { k: '< 25 min', v: 'la mayoría de los tests' },
               { k: '24 h', v: 'para terminar a tu ritmo' },
               { k: precio.porPersonaEquipo, v: 'por test en paquete Equipo' },
@@ -113,12 +116,25 @@ export default function Home() {
               </h2>
             </div>
             <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {CATALOG.map((test, i) => (
+              {CATALOGO.map((test, i) => (
                 <div key={test.id} className={i === 0 ? 'md:col-span-2 lg:col-span-2' : ''}>
                   <TestCard test={test} featured={i === 0} />
                 </div>
               ))}
             </div>
+            {siguiente && (
+              <Link
+                href={`/tests/${siguiente.id}`}
+                className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-4xl bg-brand-soft px-7 py-5 transition hover:bg-brand/15"
+              >
+                <span className="text-[15px] text-ink-700">
+                  <span className="font-semibold text-brand-deep">Próximo lanzamiento · {fechaLarga(siguiente)}</span>
+                  <span className="mx-2 text-ink-300">|</span>
+                  {siguiente.name}
+                </span>
+                <span className="text-sm font-semibold text-brand-deep">Ver de qué se trata →</span>
+              </Link>
+            )}
           </div>
         </section>
 

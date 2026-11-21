@@ -2,12 +2,12 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { AUDIENCES, CATALOG, type Audience } from '@/lib/catalog'
+import { AUDIENCES, publicados, type Audience } from '@/lib/catalog'
 import TestIcon from './TestIcon'
 
 export default function AudiencePicker() {
   const [selected, setSelected] = useState<Audience>('colaborador')
-  const recomendados = CATALOG.filter((t) => t.audience.includes(selected)).slice(0, 3)
+  const recomendados = publicados().filter((t) => t.audience.includes(selected)).slice(0, 3)
   const actual = AUDIENCES.find((a) => a.id === selected)!
 
   return (

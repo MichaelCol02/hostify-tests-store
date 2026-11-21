@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Tu estilo de crianza · Hostify Tests</title>
+<style>
+:root{--tinta:#111;--suave:#6e6e73;--tenue:#86868b;--marca:#ff6b2c;--marca2:#d94d1a;--marcasuave:#fff1ea;
+ --fondo:#f5f5f7;--linea:#e8e8ed;--blanco:#fff;--verde:#2f9e6b;--verdesuave:#eaf6f0;--ambar:#c98512;--ambarsuave:#fcf4e4;
+ --rojo:#d6402b;--rojosuave:#fdece8;--azul:#3a6ea5;--azulsuave:#eaf1f9;}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--fondo);color:var(--tinta);font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;line-height:1.6;-webkit-text-size-adjust:100%}
+button{font:inherit;cursor:pointer}
+.hero{background:linear-gradient(135deg,#0d0d0d 0%,#1d1410 55%,#3b2216 100%);color:#fff}
+.hero .in{max-width:820px;margin:0 auto;padding:2.2rem 1.2rem 2rem}
+.marca{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#c9c9ce;font-weight:600;display:flex;align-items:center;gap:.5rem;margin-bottom:1rem}
+.marca i{width:9px;height:9px;background:var(--marca);border-radius:2px;display:inline-block}
+.hero h1{font-size:clamp(1.9rem,6vw,2.8rem);line-height:1.1;font-weight:800;letter-spacing:-.02em;margin-bottom:.7rem}
+.hero h1 em{font-style:normal;color:var(--marca)}
+.hero p{color:#c9c9ce;max-width:580px}
+.stats{display:flex;flex-wrap:wrap;gap:1rem 2.2rem;margin-top:1.4rem}
+.stats b{display:block;font-size:1.3rem;line-height:1.1}
+.stats span{font-size:.8rem;color:#a1a1a6}
+.wrap{max-width:820px;margin:0 auto;padding:1.4rem 1rem 4rem}
+.card{background:var(--blanco);border:1px solid var(--linea);border-radius:22px;padding:1.5rem 1.4rem;margin-bottom:1rem}
+.ceja{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--marca2);font-weight:700;margin-bottom:.4rem}
+h2{font-size:1.35rem;line-height:1.25;margin-bottom:.6rem;letter-spacing:-.01em}
+h3{font-size:1.08rem;margin:1.1rem 0 .4rem}
+p+p{margin-top:.7rem}
+.suave{color:var(--suave)}
+.lab{display:block;font-weight:600;font-size:.92rem;margin-bottom:.4rem}
+input[type=text]{width:100%;padding:.8rem 1rem;border:1px solid var(--linea);border-radius:14px;font:inherit;background:#fbfbfd}
+input[type=text]:focus{outline:2px solid var(--marca);border-color:transparent}
+.campo{margin-bottom:1.1rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{border:1px solid var(--linea);background:#fbfbfd;border-radius:999px;padding:.5rem 1rem;font-size:.92rem}
+.chip.on{background:var(--tinta);color:#fff;border-color:var(--tinta)}
+.btns{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+.btn{background:var(--marca);color:#fff;border:0;border-radius:999px;padding:.85rem 1.5rem;font-weight:700}
+.btn:disabled{opacity:.35;cursor:default}
+.btn.sec{background:#fff;color:var(--tinta);border:1px solid var(--linea)}
+.btn.osc{background:var(--tinta)}
+.aviso{color:var(--rojo);font-size:.88rem;margin-top:.5rem;min-height:1.2em}
+.barra{height:6px;background:var(--linea);border-radius:99px;overflow:hidden;margin-bottom:.6rem}
+.barra span{display:block;height:100%;background:var(--marca);width:0;transition:width .3s}
+.paso{font-size:.82rem;color:var(--tenue);margin-bottom:.7rem;display:flex;justify-content:space-between;gap:1rem}
+.preg{font-size:1.16rem;font-weight:600;line-height:1.4;margin:.2rem 0 1.2rem}
+.escala{display:grid;grid-template-columns:repeat(5,1fr);gap:.45rem}
+.escala button{border:1px solid var(--linea);background:#fbfbfd;border-radius:14px;padding:.75rem .2rem;font-size:.8rem;line-height:1.25;color:var(--suave)}
+.escala button b{display:block;font-size:1.15rem;color:var(--tinta)}
+.escala button.on{background:var(--marca);border-color:var(--marca);color:#fff}
+.escala button.on b{color:#fff}
+.opciones button{display:block;width:100%;text-align:left;border:1px solid var(--linea);background:#fbfbfd;border-radius:16px;padding:.9rem 1rem;margin-bottom:.55rem;font-size:.97rem;line-height:1.45}
+.opciones button.on{background:var(--marcasuave);border-color:var(--marca);box-shadow:inset 0 0 0 1px var(--marca)}
+.nav{display:flex;justify-content:space-between;gap:.6rem;margin-top:.4rem}
+.guardado{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--tinta);color:#fff;font-size:.8rem;padding:.4rem .9rem;border-radius:99px;opacity:0;transition:opacity .3s;pointer-events:none}
+.guardado.ver{opacity:.85}
+/* resultado */
+.res-hero{background:var(--tinta);color:#fff;border-radius:26px;padding:1.8rem 1.5rem;margin-bottom:1rem;position:relative;overflow:hidden}
+.res-hero:after{content:"";position:absolute;right:-90px;top:-90px;width:260px;height:260px;border-radius:50%;background:var(--marca);opacity:.35;filter:blur(50px)}
+.res-hero .ceja{color:var(--marca)}
+.res-hero h2{font-size:clamp(1.8rem,6vw,2.4rem);margin-bottom:.3rem}
+.res-hero .lema{color:#d2d2d7;font-size:1.05rem;max-width:560px;position:relative;z-index:1}
+.cita{border-left:3px solid var(--marca);padding:.4rem 0 .4rem 1rem;margin:1rem 0;font-style:italic;color:var(--suave)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.lista{padding-left:1.1rem}
+.lista li{margin-bottom:.4rem}
+.dim{margin-bottom:1rem}
+.dim .cab{display:flex;justify-content:space-between;gap:.6rem;font-size:.95rem;margin-bottom:.3rem}
+.dim .cab b{font-weight:600}
+.riel{height:10px;background:var(--linea);border-radius:99px;overflow:hidden}
+.riel span{display:block;height:100%;border-radius:99px}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;padding:.15rem .55rem;border-radius:99px;margin-left:.3rem;vertical-align:middle}
+.t-f{background:var(--verdesuave);color:var(--verde)}
+.t-d{background:var(--ambarsuave);color:var(--ambar)}
+.t-p{background:var(--rojosuave);color:var(--rojo)}
+.patron{background:var(--marcasuave);border-radius:16px;padding:1rem 1.1rem;margin-bottom:.7rem}
+.patron b{display:block;margin-bottom:.2rem}
+.guia{border:1px solid var(--linea);border-radius:18px;padding:1.2rem 1.1rem;margin-top:1rem}
+.guia h3{margin-top:0}
+.frase{background:var(--fondo);border-radius:12px;padding:.6rem .9rem;margin:.35rem 0;font-size:.95rem}
+.libro{display:flex;gap:.8rem;align-items:flex-start;background:var(--azulsuave);border-radius:14px;padding:.8rem 1rem;margin-top:.8rem}
+.libro i{font-style:normal;font-size:1.3rem;line-height:1.2}
+.semana{border-top:1px solid var(--linea);padding-top:1rem;margin-top:1rem}
+.semana:first-of-type{border-top:0;margin-top:0;padding-top:0}
+.dia{display:flex;gap:.7rem;padding:.45rem 0;border-bottom:1px dashed var(--linea);font-size:.95rem}
+.dia:last-child{border-bottom:0}
+.dia b{flex:0 0 3.6rem;color:var(--marca2);font-size:.85rem;padding-top:.1rem}
+.edad{background:var(--fondo);border-radius:16px;padding:1rem 1.1rem;margin-top:.8rem}
+.contraste{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:1rem 0}
+.contraste div{background:var(--fondo);border-radius:16px;padding:1rem}
+.contraste small{display:block;color:var(--tenue);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em}
+.contraste strong{font-size:1.15rem}
+.pie{text-align:center;color:var(--tenue);font-size:.8rem;margin-top:2rem}
+svg text{font-family:inherit}
+@media(max-width:600px){.grid2,.contraste{grid-template-columns:1fr}.escala button{font-size:.68rem;padding:.6rem .1rem}.card{padding:1.25rem 1.05rem}}
+@media print{.hero,.no-imprimir,.guardado{display:none!important}body,html{background:#fff}.card,.guia{break-inside:avoid}.res-hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="in">
+    <div class="marca"><i></i>Hostify Tests · Familia y paternidad</div>
+    <h1>Tu estilo de <em>crianza</em></h1>
+    <p>Descubre cómo estás criando de verdad: lo que crees que haces, lo que haces cuando la situación aprieta y qué necesitan tus hijos de ti en la etapa que están viviendo.</p>
+    <div class="stats">
+      <div><b>48</b><span>preguntas</span></div>
+      <div><b>15–20 min</b><span>de respuesta</span></div>
+      <div><b>8</b><span>áreas medidas</span></div>
+      <div><b>21 días</b><span>de plan personal</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div id="intro">
+  <div class="card">
+    <div class="ceja">Antes de empezar</div>
+    <h2>No hay papás perfectos. Hay papás que se conocen.</h2>
+    <p>Este test tiene dos partes. Primero, <b>40 afirmaciones</b> sobre tu día a día con tus hijos. Después, <b>8 situaciones reales</b> en las que eliges lo que de verdad harías, no lo que deberías hacer.</p>
+    <p>Responde pensando en las <b>últimas semanas</b>, no en tu mejor día ni en el peor. Si tienes varios hijos, piensa en cómo eres con ellos en general.</p>
+    <p class="suave">Está basado en la investigación sobre estilos parentales de Diana Baumrind y Maccoby y Martin, que cruza dos fuerzas: la calidez y la estructura. Le sumamos seis áreas que la investigación posterior encontró decisivas: autonomía, escucha, autorregulación, coherencia, presencia y reparación.</p>
+  </div>
+  <div class="card">
+    <div class="campo">
+      <label class="lab" for="nombre">Tu nombre</label>
+      <input type="text" id="nombre" placeholder="Cómo quieres que te llamemos" autocomplete="given-name">
+    </div>
+    <div class="campo">
+      <span class="lab">Respondes como</span>
+      <div class="chips" id="roles"></div>
+    </div>
+    <div class="campo">
+      <span class="lab">Edad de tus hijos <span class="suave" style="font-weight:400">(marca todas las que apliquen)</span></span>
+      <div class="chips" id="edades"></div>
+    </div>
+    <p class="suave" style="font-size:.86rem">Tus respuestas se quedan en este dispositivo. Nadie más las ve.</p>
+    <div class="aviso" id="avisoIntro"></div>
+    <div class="btns" style="justify-content:flex-end"><button class="btn" onclick="empezar()">Empezar el test →</button></div>
+  </div>
+</div>
+
+<div id="test" style="display:none">
+  <div class="barra"><span id="barra"></span></div>
+  <div class="paso"><span id="parte"></span><span id="paso"></span></div>
+  <div class="card" id="pregunta"></div>
+  <div class="nav">
+    <button class="btn sec" id="atras" onclick="mover(-1)">← Atrás</button>
+    <button class="btn" id="sig" onclick="mover(1)" disabled>Siguiente →</button>
+  </div>
+</div>
+
+<div id="resultado" style="display:none"></div>
+
+<p class="pie">Hostify Tests · Este test es una herramienta de autoconocimiento, no un diagnóstico clínico.</p>
+</main>
+<div class="guardado" id="guardado">Progreso guardado</div>
+
+<script>
+/* =====================================================================
+   TU ESTILO DE CRIANZA · Hostify Tests
+   Dos fuentes que se contrastan:
+   1) 40 afirmaciones en 8 dimensiones (5 cada una, escala 1–5).
+      Calidez y Estructura son los dos ejes clásicos (Baumrind; Maccoby y
+      Martin) y definen el estilo. Las otras seis dan el perfil fino.
+   2) 8 escenarios: cada opción corresponde a un estilo. Muestran qué haces
+      cuando la situación aprieta.
+   Todo el contenido está en este archivo; no hay servidor ni dependencias.
+   ===================================================================== */
+
+var ESCALA = [null,'Nunca','Rara vez','A veces','Casi siempre','Siempre'];
+
+var ROLES = [{id:'mama',n:'Mamá'},{id:'papa',n:'Papá'},{id:'otro',n:'Otro cuidador'}];
+var EDADES = [{id:'e0',n:'0 a 5 años'},{id:'e6',n:'6 a 11 años'},{id:'e12',n:'12 a 17 años'},{id:'e18',n:'18 o más'}];
+
+/* ---------- dimensiones ---------- */
+var DIM = {
+ calidez:{n:'Calidez',c:'#ff6b2c',
+  mide:'El amor que tus hijos reciben, no el que sientes: palabras, contacto, consuelo y celebración.',
+  importa:'Es el factor que más se repite en la investigación sobre niños seguros y con buena autoestima. Un hijo que se siente querido acepta mejor los límites, porque sabe que vienen de alguien que está de su lado.',
+  practicas:['Dile «te quiero» a cada hijo, mirándolo, una vez al día y sin pedirle nada a cambio.','Antes de corregir, conecta: nombra lo que siente («estás frustrado») y después pon el límite.','Celebra el esfuerzo con detalle: «te vi practicar tres veces hasta que salió», no solo «¡bien!».'],
+  frases:['«Puedo estar molesto con lo que hiciste y seguir queriéndote igual.»','«Me encanta pasar tiempo contigo.»'],
+  evita:'Usar el cariño como premio o retirarlo como castigo. El amor no se negocia.',
+  libro:{t:'Los 5 lenguajes del amor de los niños',a:'Gary Chapman y Ross Campbell',d:'Cada hijo entiende el amor de una forma distinta: palabras, tiempo, regalos, servicio o contacto. Te ayuda a descubrir el de cada uno.'},
+  retos:['Escribe una nota corta de cariño y déjala donde tu hijo la encuentre.','Abrazo de 20 segundos al despedirte o al llegar.','Dile a tu hijo una cualidad que admiras de él y por qué.','Antes de dormir, pregúntale: «¿cuál fue tu mejor momento de hoy?».','Cuéntale delante de otro adulto algo bueno que hizo.','Haz algo que solo él disfruta, aunque a ti no te encante.','Repite el reto que mejor recibió esta semana.']},
+ estructura:{n:'Estructura',c:'#3a6ea5',
+  mide:'Normas claras, rutinas y consecuencias que se cumplen con calma.',
+  importa:'Los límites le dicen al niño que el mundo es predecible y que alguien lo cuida. Sin estructura, el niño tiene que adivinar y la ansiedad aumenta; con estructura rígida y sin cariño, obedece por miedo.',
+  practicas:['Escojan entre todos las 3 a 5 normas más importantes de la casa y pónganlas a la vista.','Acuerda las consecuencias antes, no en medio del enojo, y que tengan relación con la falta.','Cuando digas «no», dilo una vez, con calma, y sostenlo aunque haya llanto.'],
+  frases:['«Entiendo que quieras seguir. La respuesta sigue siendo no.»','«Las normas de esta casa son para cuidarnos, no para fastidiarte.»'],
+  evita:'Amenazar con consecuencias que no vas a cumplir. Cada amenaza vacía enseña que tus palabras no cuentan.',
+  libro:{t:'Disciplina positiva',a:'Jane Nelsen',d:'Cómo ser firme y amable a la vez: límites claros sin castigos humillantes, con herramientas para cada edad.'},
+  retos:['Escribe las 3 normas que más te importan en tu casa.','Reúnete con tus hijos y explícales el porqué de cada norma.','Define con ellos una rutina fija para la noche.','Hoy cumple con calma una consecuencia que ya estaba acordada.','Avisa 5 minutos antes de cada cambio de actividad.','Di «no» a algo una sola vez y sostenlo sin explicar diez veces.','Revisen juntos cómo les fue con las normas esta semana.']},
+ autonomia:{n:'Autonomía',c:'#2f9e6b',
+  mide:'Cuánto dejas crecer a tus hijos: decisiones a su medida, responsabilidades reales y permiso para equivocarse.',
+  importa:'Un niño al que siempre le resuelven todo aprende que no es capaz. La sobreprotección, aunque nace del amor, se asocia con más ansiedad y menos tolerancia a la frustración en la adolescencia.',
+  practicas:['Haz una lista de 3 cosas que hoy haces por tu hijo y que él ya podría hacer solo. Entrégale una esta semana.','Ante un problema suyo, pregunta primero: «¿qué crees que podrías hacer?».','Deja que viva una consecuencia natural pequeña (olvidó la lonchera, tiene hambre un rato) sin rescatarlo.'],
+  frases:['«Confío en que lo puedes resolver. Si me necesitas, aquí estoy.»','«Equivocarte es parte de aprender.»'],
+  evita:'Terminar las tareas por ellos o hablar por ellos con profesores y amigos cuando pueden hacerlo solos.',
+  libro:{t:'How to Raise an Adult (Cómo criar a un adulto)',a:'Julie Lythcott-Haims',d:'Por qué la sobreprotección deja a los hijos sin herramientas y cómo soltar poco a poco sin descuidarlos.'},
+  retos:['Elige una tarea de la casa que desde hoy será responsabilidad de tu hijo.','Déjalo escoger algo que normalmente decides tú (ropa, menú, plan).','Cuando te pida ayuda, pregúntale primero qué ha intentado.','No le recuerdes algo que ya sabe que debe hacer. Observa qué pasa.','Déjalo hablar a él con un adulto (mesero, profesor, vecino).','Reconoce en voz alta algo que resolvió solo.','Conversen: ¿qué más le gustaría poder hacer solo?']},
+ escucha:{n:'Escucha',c:'#8a5cc2',
+  mide:'Si tus hijos te cuentan lo que les pasa y si los escuchas antes de opinar.',
+  importa:'Los hijos le cuentan sus problemas grandes a quien escuchó los pequeños. Un adolescente que sí habla con sus papás está mucho más protegido frente a riesgos que uno que calla.',
+  practicas:['Cuando te hable, suelta el celular y míralo. Diez minutos de atención total valen más que una hora a medias.','Antes de dar tu opinión, haz dos preguntas: «¿y qué pasó después?» y «¿cómo te sentiste?».','Resiste el sermón. Resume lo que entendiste: «entonces te molestó que…».'],
+  frases:['«Cuéntame más.»','«Gracias por contármelo. No debió ser fácil.»'],
+  evita:'Minimizar («eso no es nada»), corregir mientras te cuenta o usar lo que te confió en su contra después.',
+  libro:{t:'Cómo hablar para que sus hijos le escuchen y cómo escuchar para que sus hijos le hablen',a:'Adele Faber y Elaine Mazlish',d:'El clásico práctico de la comunicación con hijos, con frases concretas y viñetas de situaciones reales.'},
+  retos:['Pregunta «¿qué fue lo más difícil de tu día?» y solo escucha.','Una conversación entera sin dar consejos.','Aprovecha un trayecto en carro o caminando para hablar sin mirarse de frente.','Repite con tus palabras lo que te contó antes de responder.','Pregúntale su opinión sobre una decisión familiar.','Comparte tú algo de tu día, incluido un error.','Pregúntale: «¿sientes que te escucho?». Recibe la respuesta sin defenderte.']},
+ autorregulacion:{n:'Autorregulación',c:'#d6402b',
+  mide:'Cómo manejas tu propio enojo y cansancio cuando estás con tus hijos.',
+  importa:'Los niños aprenden a calmarse viendo cómo te calmas tú. Los gritos y las amenazas consiguen obediencia rápida, pero enseñan miedo y le enseñan al niño a gritar cuando pierde el control.',
+  practicas:['Identifica tus 3 detonantes (cansancio, hambre, prisa, desorden) y anótalos.','Crea tu pausa: cuando sientas que vas a explotar, di «necesito un minuto» y sal, respira y vuelve.','Corrige solo cuando ya estés en calma. Lo urgente es la seguridad; lo demás puede esperar diez minutos.'],
+  frases:['«Estoy muy enojado. Voy a calmarme y después hablamos.»','«Puedo estar furioso y aun así no gritarte.»'],
+  evita:'Corregir con insultos, comparaciones, castigo físico o frases como «me tienes harto». Hieren más de lo que enseñan.',
+  libro:{t:'Disciplina sin lágrimas',a:'Daniel J. Siegel y Tina Payne Bryson',d:'Qué pasa en el cerebro de tu hijo (y en el tuyo) durante una crisis, y cómo conectar primero y corregir después.'},
+  retos:['Anota tus 3 detonantes principales.','Elige tu señal de pausa y cuéntasela a tu familia.','Practica 3 respiraciones lentas antes de responder a una provocación.','Hoy baja el volumen: si algo te molesta, acércate y habla más bajo.','Duerme 30 minutos más o descansa antes de llegar a casa.','Si gritaste, repara (ver Reparación) en menos de una hora.','Revisa: ¿cuántas veces usaste tu pausa esta semana?']},
+ coherencia:{n:'Coherencia',c:'#c98512',
+  mide:'Si vives lo que pides, cumples lo que prometes y las reglas no cambian según tu ánimo.',
+  importa:'Los hijos imitan lo que ven, no lo que oyen. Cuando las normas dependen del humor del adulto, el niño aprende a leer tu cara en lugar de aprender el valor.',
+  practicas:['Elige una cosa que les exiges y que tú no cumples (celular en la mesa, tono, orden) y empieza tú.','Ponte de acuerdo con el otro cuidador en 3 normas y en no contradecirse frente a los hijos.','Cumple una promesa pequeña esta semana, aunque cueste.'],
+  frases:['«Tienes razón, yo tampoco lo estoy cumpliendo. Vamos a hacerlo los dos.»','«Lo que dije ayer sigue valiendo hoy.»'],
+  evita:'Desautorizar al otro cuidador delante de los hijos o prometer cosas para salir del paso.',
+  libro:{t:'Los 7 hábitos de las familias altamente efectivas',a:'Stephen R. Covey',d:'Cómo construir una cultura familiar basada en principios, con una misión familiar que todos conocen y viven.'},
+  retos:['Escoge una norma que tú también vas a cumplir y anúncialo.','Habla con el otro cuidador sobre las 3 normas no negociables.','Cumple hoy una promesa pendiente.','Revisa: ¿hubo algo que permitiste hoy y prohibiste ayer?','Escriban juntos 3 valores de su familia.','Cuéntale a tu hijo un momento en que fuiste incoherente y qué aprendiste.','Revisen juntos si los valores se vieron esta semana.']},
+ presencia:{n:'Presencia',c:'#1f9aa8',
+  mide:'Tiempo y atención reales: estar sin pantallas, conocer su mundo y compartir momentos uno a uno.',
+  importa:'No es la cantidad de horas en la misma casa, es la atención. Los niños miden el amor por la atención que reciben, y las pantallas de los adultos son hoy uno de los mayores ladrones de esa atención.',
+  practicas:['Agenda 20 minutos semanales a solas con cada hijo, haciendo algo que él elija.','Zona sin celular: la mesa y la primera media hora al llegar a casa.','Aprende algo de su mundo: el nombre de su mejor amigo, su canción favorita, lo que le preocupa.'],
+  frases:['«Este rato es solo tuyo.»','«Cuéntame de eso que te gusta, quiero entenderlo.»'],
+  evita:'Estar en el mismo cuarto mirando el celular y creer que eso es tiempo juntos.',
+  libro:{t:'La generación ansiosa',a:'Jonathan Haidt',d:'Cómo las pantallas cambiaron la infancia y qué pueden hacer los papás, empezando por su propio uso del celular.'},
+  retos:['Deja el celular en otro cuarto durante la comida.','Agenda tu primera cita a solas con cada hijo.','Pregúntale por su mejor amigo y qué le gusta de él.','Juega o haz lo que tu hijo elija durante 20 minutos.','Comida familiar sin pantallas y con una pregunta divertida.','Mide tu tiempo de pantalla de hoy y redúcelo en una hora.','Pregúntale qué momento juntos disfrutó más esta semana.']},
+ reparacion:{n:'Reparación',c:'#5a6b7d',
+  mide:'Lo que haces después de equivocarte: pedir perdón, reconectar y separar la conducta de la persona.',
+  importa:'Ningún papá acierta siempre. Lo que más protege el vínculo no es no fallar, sino reparar. Un hijo que ve a su papá pedir perdón aprende que los errores se arreglan y que el amor sobrevive al conflicto.',
+  practicas:['Cuando te equivoques, pide perdón con tres partes: qué hiciste, cómo crees que lo hizo sentir y qué harás distinto.','Después de cada conflicto, busca un gesto de reconexión antes de dormir.','Corrige la conducta sin etiquetar: «lo que hiciste estuvo mal», nunca «eres malo».'],
+  frases:['«Te grité y no estuvo bien. Debió darte miedo. La próxima vez voy a tomar una pausa.»','«Nada de lo que hagas va a hacer que deje de quererte.»'],
+  evita:'Pedir perdón con un «pero» («perdón, pero es que tú…») o hacer como si nada hubiera pasado.',
+  libro:{t:'Ser padres conscientes',a:'Daniel J. Siegel y Mary Hartzell',d:'Cómo tu propia historia de infancia influye en tu forma de criar y cómo reparar las rupturas con tus hijos.'},
+  retos:['Piensa en el último conflicto sin cerrar con tu hijo.','Pide perdón por él usando las tres partes.','Hoy, después de corregir, busca un gesto de cariño.','Cambia una etiqueta («eres desordenado») por una descripción de la conducta.','Cuéntale algo que tus papás hacían y que tú decidiste cambiar.','Pregúntale si hay algo que le dolió y no te ha dicho.','Escribe qué aprendiste de ti como papá o mamá esta semana.']}
+};
+var ORDEN_DIM = ['calidez','estructura','autonomia','escucha','autorregulacion','coherencia','presencia','reparacion'];
+
+/* ---------- las 40 afirmaciones (r = se puntúa al revés) ---------- */
+var ITEMS = [
+ {d:'calidez',t:'Le digo a mis hijos que los quiero con palabras; no lo doy por hecho.'},
+ {d:'calidez',t:'Abrazo o tengo gestos físicos de cariño con mis hijos casi todos los días.'},
+ {d:'calidez',t:'Cuando mi hijo está triste o asustado, primero lo consuelo y después corrijo o explico.'},
+ {d:'calidez',r:1,t:'Me cuesta mostrar ternura; siento que si soy muy cariñoso pierdo autoridad.'},
+ {d:'calidez',t:'Celebro los esfuerzos de mis hijos, no solo los resultados.'},
+ {d:'estructura',t:'En mi casa hay normas claras que mis hijos conocen y entienden.'},
+ {d:'estructura',t:'Cuando digo que habrá una consecuencia, la cumplo con calma.'},
+ {d:'estructura',r:1,t:'Termino cediendo cuando mi hijo insiste, llora o hace berrinche lo suficiente.'},
+ {d:'estructura',t:'Mis hijos tienen rutinas que se respetan la mayoría de los días (sueño, comidas, tareas, pantallas).'},
+ {d:'estructura',r:1,t:'Me cuesta decir «no» porque no quiero que mis hijos se frustren o se enojen conmigo.'},
+ {d:'autonomia',t:'Dejo que mis hijos tomen decisiones acordes a su edad, aunque yo lo haría distinto.'},
+ {d:'autonomia',r:1,t:'Hago por mis hijos cosas que ya podrían hacer solos, para que salga más rápido o mejor.'},
+ {d:'autonomia',t:'Permito que mis hijos se equivoquen y vivan las consecuencias cuando no hay un peligro real.'},
+ {d:'autonomia',r:1,t:'Resuelvo los problemas de mis hijos con profesores, amigos u otros adultos antes de que ellos lo intenten.'},
+ {d:'autonomia',t:'Cada uno de mis hijos tiene responsabilidades reales en casa según su edad.'},
+ {d:'escucha',t:'Cuando mi hijo me habla, dejo lo que estoy haciendo y lo miro.'},
+ {d:'escucha',t:'Pregunto a mis hijos qué piensan y sienten antes de darles mi opinión.'},
+ {d:'escucha',r:1,t:'Interrumpo a mis hijos para corregirlos o darles un sermón antes de que terminen de explicarse.'},
+ {d:'escucha',t:'Mis hijos me cuentan sus problemas sin que tenga que sacárselos a la fuerza.'},
+ {d:'escucha',t:'Puedo escuchar algo de mis hijos que me molesta sin reaccionar de inmediato.'},
+ {d:'autorregulacion',r:1,t:'Cuando estoy cansado o estresado, les grito a mis hijos por cosas pequeñas.'},
+ {d:'autorregulacion',t:'Me doy cuenta de cuándo estoy a punto de explotar y tomo una pausa antes de corregir.'},
+ {d:'autorregulacion',r:1,t:'En un momento de enojo les he dicho a mis hijos frases hirientes que después lamenté.'},
+ {d:'autorregulacion',r:1,t:'Uso la amenaza, el miedo o el castigo físico para conseguir obediencia rápida.'},
+ {d:'autorregulacion',t:'Mantengo un tono firme pero calmado incluso cuando mis hijos me desafían.'},
+ {d:'coherencia',t:'Hago yo mismo lo que les pido a mis hijos: orden, respeto, uso del celular, forma de hablar.'},
+ {d:'coherencia',r:1,t:'Mis reglas cambian según mi estado de ánimo del día.'},
+ {d:'coherencia',t:'El otro cuidador y yo estamos de acuerdo en las normas importantes y no nos desautorizamos delante de los hijos.'},
+ {d:'coherencia',t:'Cumplo lo que les prometo a mis hijos, también lo bueno: salidas, tiempo, premios.'},
+ {d:'coherencia',t:'Mis hijos saben qué valores son importantes en nuestra familia porque nos ven vivirlos, no solo decirlos.'},
+ {d:'presencia',t:'Paso tiempo a solas con cada hijo, haciendo algo que le gusta, al menos una vez por semana.'},
+ {d:'presencia',r:1,t:'Cuando estoy con mis hijos, sigo pendiente del celular, el trabajo o la televisión.'},
+ {d:'presencia',t:'Conozco a los mejores amigos de mis hijos y sé qué les preocupa en este momento.'},
+ {d:'presencia',t:'Comemos juntos en familia varias veces por semana, sin pantallas.'},
+ {d:'presencia',r:1,t:'Siento que vivo con mis hijos, pero sé poco de lo que pasa en su mundo interior.'},
+ {d:'reparacion',t:'Cuando me equivoco con mis hijos, les pido perdón de forma clara.'},
+ {d:'reparacion',t:'Después de un conflicto, busco reconectar con mi hijo ese mismo día.'},
+ {d:'reparacion',r:1,t:'Me cuesta reconocer delante de mis hijos que me equivoqué; siento que pierdo autoridad.'},
+ {d:'reparacion',t:'Les explico a mis hijos el porqué de mis decisiones cuando ya se calmó la situación.'},
+ {d:'reparacion',t:'Corrijo lo que mi hijo hizo sin atacar lo que mi hijo es.'}
+];
+/* Orden de presentación intercalado: nunca dos seguidas de la misma dimensión. */
+var ORDEN_ITEMS = [0,5,10,15,20,25,30,35, 1,6,11,16,21,26,31,36, 2,7,12,17,22,27,32,37, 3,8,13,18,23,28,33,38, 4,9,14,19,24,29,34,39];
+
+/* ---------- los 8 escenarios (G guía, C capitán, A cómplice, E espectador) ---------- */
+var ESCENARIOS = [
+ {t:'Tu hijo hace un berrinche en el supermercado porque quiere un dulce. La gente mira.',o:[
+  {s:'G',t:'Me agacho a su altura, le digo que entiendo que está frustrado y mantengo el «no» con calma, aunque siga llorando.'},
+  {s:'C',t:'Le digo con voz seria que se calle ya o habrá castigo en la casa.'},
+  {s:'A',t:'Se lo compro para que se calme; no vale la pena el escándalo.'},
+  {s:'E',t:'Sigo comprando como si nada y espero a que se le pase solo.'}]},
+ {t:'Llega a casa con una nota muy baja en el colegio.',o:[
+  {s:'C',t:'Le quito el celular y las salidas hasta que suba la nota, sin mucha discusión.'},
+  {s:'E',t:'Firmo la nota; ya sabe lo que tiene que hacer.'},
+  {s:'G',t:'Me siento con él a entender qué pasó, armamos juntos un plan de estudio y reviso cada semana cómo va.'},
+  {s:'A',t:'Le digo que no se preocupe, que seguro el profesor fue injusto, y hablo yo con él.'}]},
+ {t:'Es la hora acordada para apagar las pantallas y tu hijo se niega.',o:[
+  {s:'A',t:'Le doy otro rato; me da pesar quitárselo cuando lo está disfrutando.'},
+  {s:'G',t:'Le aviso cinco minutos antes, cumplo la hora y, si no lo apaga, lo apago yo, sin gritar.'},
+  {s:'E',t:'En realidad no hay hora fija; cada quien maneja su pantalla.'},
+  {s:'C',t:'Le quito el dispositivo de un tirón y le digo que mañana no hay.'}]},
+ {t:'Te cuenta que un compañero lo trató mal y se burló de él.',o:[
+  {s:'E',t:'Le digo «ya se le pasará» y sigo con lo que estaba haciendo.'},
+  {s:'A',t:'Llamo de inmediato a los papás del otro niño o al colegio para resolverlo yo.'},
+  {s:'C',t:'Le digo que no sea débil, que se defienda y ya.'},
+  {s:'G',t:'Escucho toda la historia, le pregunto cómo se sintió y lo ayudo a pensar qué podría hacer; si es grave, intervengo con él.'}]},
+ {t:'Tus hijos pelean fuerte entre ellos.',o:[
+  {s:'G',t:'Los separo, espero a que cada uno se calme y después los ayudo a escucharse y a reparar.'},
+  {s:'E',t:'Dejo que lo resuelvan solos, aunque se pongan bruscos.'},
+  {s:'A',t:'Le doy la razón al que llora más o al menor para que se acabe la pelea.'},
+  {s:'C',t:'Castigo a los dos sin averiguar quién empezó.'}]},
+ {t:'Tu hijo te responde con una grosería.',o:[
+  {s:'C',t:'Le respondo igual de fuerte para que sepa quién manda.'},
+  {s:'G',t:'Le digo con calma que así no me habla, tomo distancia un momento y, ya tranquilos, hablamos y hay una consecuencia proporcional.'},
+  {s:'E',t:'Me retiro y no vuelvo a tocar el tema.'},
+  {s:'A',t:'Lo dejo pasar; está en una edad difícil.'}]},
+ {t:'Tu hijo quiere ir a un plan con amigos que te genera dudas.',o:[
+  {s:'A',t:'Le digo que sí; no quiero que piense que soy anticuado ni que se aísle de sus amigos.'},
+  {s:'C',t:'No, y punto. En esta casa se hace lo que yo digo.'},
+  {s:'G',t:'Pregunto los detalles, negociamos condiciones claras (hora, contacto, transporte) y decido según la confianza que se ha ganado.'},
+  {s:'E',t:'Que haga lo que quiera; ya le dije que se cuide.'}]},
+ {t:'Llegas agotado y tu hijo quiere jugar o contarte algo largo.',o:[
+  {s:'E',t:'Asiento mientras miro el celular.'},
+  {s:'G',t:'Le digo la verdad («estoy muy cansado») y le doy diez minutos de atención completa, o acordamos un momento concreto para más tarde.'},
+  {s:'C',t:'Le pido que no moleste ahora, que necesito descansar.'},
+  {s:'A',t:'Le dejo hacer lo que quiera (pantallas, dulces, acostarse tarde) para compensar que no le puedo dedicar tiempo.'}]}
+];
+
+/* ---------- los cuatro estilos ---------- */
+var ESTILOS = {
+ G:{n:'El Guía',clasico:'Estilo democrático o autoritativo',lema:'Firme y cálido a la vez: tus hijos saben que los amas y saben dónde está el límite.',
+  desc:['Eres el estilo que la investigación asocia con mejores resultados a largo plazo: hijos con mejor autoestima, más autocontrol, mejores relaciones y menos conductas de riesgo. No porque seas perfecto, sino porque sostienes dos cosas a la vez que a la mayoría le cuesta juntar: el cariño y la exigencia.','Tus normas tienen un porqué y lo explicas. Escuchas, pero no siempre cedes. Corriges la conducta sin humillar a la persona. Tus hijos crecen con la seguridad de que en casa hay alguien que los quiere y alguien que los guía, y que son la misma persona.','Tu reto no es cambiar de estilo, es sostenerlo cuando estás cansado, cuando tus hijos cambian de etapa y cuando la presión de afuera (otros papás, las pantallas, el colegio) empuja hacia los extremos.'],
+  sienten:'«Me quieren y me toman en serio. Sé lo que se espera de mí y sé que puedo equivocarme sin perder su cariño.»',
+  fortalezas:['Tus hijos aprenden a regularse porque ven a alguien regulado.','Los límites se viven como cuidado, no como castigo.','Hay confianza para contar las cosas difíciles.','Preparas hijos capaces de decidir por sí mismos.'],
+  riesgos:['El agotamiento: este estilo exige energía y en los días malos puedes caer en gritar o en ceder.','Explicar demasiado: no toda norma necesita un debate.','Exigirte ser perfecto y culparte por cada error.','Asumir que lo que funcionó con un hijo funcionará con el otro.'],
+  siembra:'Adultos seguros, responsables y con buen criterio, que probablemente criarán como tú.',
+  pasos:['Cuida tu energía: el Guía cansado se convierte en Capitán o en Cómplice.','Revisa las áreas más bajas de tu perfil: ahí está tu siguiente nivel.','Ajusta tu estilo a la edad de cada hijo: más estructura con los pequeños, más negociación con los adolescentes.']},
+ C:{n:'El Capitán',clasico:'Estilo autoritario',lema:'Hay orden y reglas claras; lo que falta es que tus hijos sientan el cariño detrás de ellas.',
+  desc:['Para ti, criar es formar. Valoras el respeto, la disciplina y el esfuerzo, y probablemente lo haces porque quieres que tus hijos estén preparados para un mundo duro. Muchas veces este estilo se hereda: es como nos criaron y, en parte, funcionó.','Tus hijos saben qué se espera de ellos. Lo que puede faltar es la otra mitad: que sientan que pueden equivocarse sin perder tu aprobación, que pueden contarte algo difícil sin recibir un sermón y que tus normas tienen un porqué.','La investigación muestra que los hijos de estilos muy autoritarios suelen ser obedientes mientras el adulto está presente, pero con más ansiedad, menos autoestima y más tendencia a esconder sus errores o a rebelarse en la adolescencia. La buena noticia: no tienes que bajar la exigencia, solo sumarle calidez.'],
+  sienten:'«Sé lo que tengo que hacer, pero a veces me da miedo equivocarme. No siempre siento que pueda contarle las cosas.»',
+  fortalezas:['Das estructura, orden y rutinas que dan seguridad.','Tus hijos aprenden el valor del esfuerzo y la responsabilidad.','Eres predecible: tus hijos saben qué esperar.','Tienes autoridad y la ejerces.'],
+  riesgos:['Obediencia por miedo en lugar de convicción.','Hijos que esconden sus errores para evitar el castigo.','Distancia emocional que crece con los años, sobre todo en la adolescencia.','Que aprendan que quien tiene el poder tiene la razón.'],
+  siembra:'Adultos responsables, pero con riesgo de ser muy duros consigo mismos, de buscar aprobación constante o de repetir la dureza con sus propios hijos.',
+  pasos:['Suma calidez sin quitar exigencia: un gesto de cariño diario, sin condiciones.','Explica el porqué de tus normas cuando la situación ya se calmó.','Practica pedir perdón cuando te equivoques: no pierdes autoridad, ganas confianza.']},
+ A:{n:'El Cómplice',clasico:'Estilo permisivo o indulgente',lema:'Tus hijos se sienten muy queridos; lo que les falta son bordes claros que los sostengan.',
+  desc:['Tu fuerza es el vínculo. Eres cercano, cariñoso y quieres que tus hijos sean felices. Muchas veces este estilo nace de querer darles lo que tú no tuviste, o del miedo a que se enojen contigo, se frustren o se alejen.','El problema es que un niño sin límites no se siente libre, se siente solo a cargo de algo que le queda grande. Los límites no son lo contrario del amor: son una de sus formas. Cuando cedes ante el berrinche, tu hijo aprende que la insistencia funciona y que tus palabras se pueden negociar.','La investigación asocia este estilo con hijos alegres y seguros del cariño, pero con más dificultad para tolerar la frustración, para cumplir normas fuera de casa y para regular sus impulsos. La buena noticia: el vínculo, que es lo más difícil de construir, ya lo tienes.'],
+  sienten:'«Mis papás me quieren muchísimo. Si insisto lo suficiente, al final consigo lo que quiero.»',
+  fortalezas:['Vínculo afectivo fuerte y cercanía real.','Tus hijos se sienten aceptados tal como son.','Hay confianza y buen humor en casa.','Escuchas sus deseos y sus emociones.'],
+  riesgos:['Baja tolerancia a la frustración: el primer «no» de la vida llega tarde y duele más.','Dificultad para cumplir normas en el colegio y luego en el trabajo.','Que tú termines agotado y resentido de tanto ceder.','Que confundan ser queridos con obtener todo lo que piden.'],
+  siembra:'Adultos afectuosos y creativos, pero con riesgo de impulsividad, dificultad con la autoridad y poca tolerancia al esfuerzo.',
+  pasos:['Escoge 3 normas no negociables y sostenlas con calma, aunque haya llanto.','Recuerda: tolerar la frustración de tu hijo también es amarlo.','Cumple las consecuencias que anuncias. Si no la vas a cumplir, no la digas.']},
+ E:{n:'El Espectador',clasico:'Estilo desconectado o negligente',lema:'Hoy hay poca cercanía y poca estructura. No es falta de amor: casi siempre es agotamiento.',
+  desc:['Si este es tu resultado, respira. Casi nadie llega aquí por no querer a sus hijos. Llegamos por cansancio, por exceso de trabajo, por problemas de pareja o de salud, por duelos, o porque nadie nos enseñó a criar de otra forma. Reconocerlo ya es un acto de amor.','Hoy tus hijos probablemente pasan mucho tiempo resolviendo solos: qué hacer, qué está bien, a quién contarle algo. Los niños necesitan dos cosas de los adultos: sentirse vistos y saber dónde están los límites. Cuando faltan las dos, buscan esa guía en otro lado: amigos, pantallas o adultos que no siempre los cuidan.','La buena noticia es que este estilo es el que más rápido mejora con pequeños cambios. No necesitas volverte otra persona. Necesitas volver a aparecer: diez minutos de atención real al día y dos o tres normas claras cambian muchísimo.'],
+  sienten:'«Puedo hacer lo que quiera, pero a veces siento que no le importo a nadie.»',
+  fortalezas:['Tus hijos desarrollan independencia temprana.','No hay sobreprotección.','Hay espacio para que encuentren su propio camino.','Reconocer este resultado es el primer paso para cambiarlo.'],
+  riesgos:['Hijos que se sienten invisibles o poco importantes.','Más exposición a riesgos: pantallas, malas compañías, conductas peligrosas.','Dificultad para confiar en los adultos y pedir ayuda.','Que el cansancio actual se vuelva la forma permanente de la relación.'],
+  siembra:'Adultos autosuficientes, pero con riesgo de sentirse solos, de buscar aprobación fuera de casa y de tener dificultad para crear vínculos estables.',
+  pasos:['Empieza por ti: ¿qué te está quitando la energía? Busca apoyo si lo necesitas.','Diez minutos diarios de atención total con cada hijo, sin pantallas.','Define 2 normas básicas (horario de sueño, pantallas) y sostenlas.']}
+};
+
+/* ---------- lo que necesita cada edad ---------- */
+var EDAD_GUIA = {
+ e0:{n:'Si tienes hijos de 0 a 5 años',clave:'Seguridad y apego',txt:'En esta etapa el cerebro de tu hijo se está construyendo a partir de la relación contigo. Los berrinches no son manipulación: son un cerebro que todavía no sabe frenar. Tu tarea es ser su calma prestada.',
+  tips:['Rutinas muy predecibles: mismas horas, mismos rituales para dormir.','Pocas palabras y mucha acción: en vez de explicar, acompaña y redirige.','El juego es su idioma. Veinte minutos de juego en el piso valen más que un juguete caro.','Pantallas al mínimo, y nunca como chupo emocional.']},
+ e6:{n:'Si tienes hijos de 6 a 11 años',clave:'Competencia y pertenencia',txt:'Tu hijo está descubriendo qué sabe hacer y dónde encaja. Necesita sentirse capaz y necesita reglas que entienda. Es la mejor edad para construir hábitos y conversaciones que van a sostener la adolescencia.',
+  tips:['Dale responsabilidades reales en casa y reconoce el esfuerzo.','Explica el porqué de las normas: ya puede entender razones.','Conoce a sus amigos y a los papás de sus amigos.','Construye ahora el hábito de contarse el día: es la base de la confianza adolescente.']},
+ e12:{n:'Si tienes hijos de 12 a 17 años',clave:'Identidad y autonomía',txt:'Tu hijo necesita separarse de ti para descubrir quién es, y a la vez te necesita más que nunca. Es normal que hable menos y discuta más. Tu rol pasa de director a consejero, sin soltar los límites de seguridad.',
+  tips:['Habla menos y escucha más. Las mejores conversaciones pasan en el carro o tarde en la noche.','Negocia lo negociable (horarios, ropa, planes) y sostén lo no negociable (seguridad, respeto, alcohol, drogas).','Respeta su privacidad, pero mantente presente y atento a cambios bruscos.','No te tomes personal el rechazo: es parte de la etapa.']},
+ e18:{n:'Si tienes hijos de 18 años o más',clave:'De papá a aliado',txt:'La relación se convierte en una relación entre adultos. Tu influencia ya no viene de las normas, sino del vínculo que construiste y del ejemplo que sigues dando.',
+  tips:['Aconseja cuando te pidan consejo; en lo demás, pregunta antes de opinar.','Apoya sin rescatar: dejar que asuman sus decisiones es respetarlos.','Pide perdón por lo que crees que hiciste mal en su infancia; nunca es tarde.','Cuida tu propia vida: los hijos adultos también necesitan ver a papás que siguen creciendo.']}
+};
+
+/* =====================================================================
+   ESTADO
+   ===================================================================== */
+var persona = {nombre:'',rol:'',edades:[]};
+var R = {};       // respuestas: 'i0'..'i39' → 1..5 ; 's0'..'s7' → índice de opción
+var paso = 0;     // 0..47
+var TOTAL = ITEMS.length + ESCENARIOS.length;
+var CLAVE = 'hostify_estilo_crianza_v1';
+
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+function pintarChips(){
+  $('roles').innerHTML = ROLES.map(function(r){return '<button type="button" class="chip'+(persona.rol===r.id?' on':'')+'" onclick="rol(\''+r.id+'\')">'+r.n+'</button>'}).join('');
+  $('edades').innerHTML = EDADES.map(function(e){return '<button type="button" class="chip'+(persona.edades.indexOf(e.id)>=0?' on':'')+'" onclick="edad(\''+e.id+'\')">'+e.n+'</button>'}).join('');
+}
+function rol(id){persona.rol=id;pintarChips()}
+function edad(id){var i=persona.edades.indexOf(id);if(i>=0)persona.edades.splice(i,1);else persona.edades.push(id);pintarChips()}
+
+function guardar(){
+  try{localStorage.setItem(CLAVE,JSON.stringify({persona:persona,R:R,paso:paso}))}catch(e){}
+  var g=$('guardado');g.classList.add('ver');clearTimeout(guardar.t);guardar.t=setTimeout(function(){g.classList.remove('ver')},900);
+}
+function cargar(){
+  try{var g=JSON.parse(localStorage.getItem(CLAVE)||'null');if(g&&g.persona){persona=g.persona;R=g.R||{};paso=g.paso||0;return true}}catch(e){}
+  return false;
+}
+
+function empezar(){
+  persona.nombre=$('nombre').value.trim();
+  if(!persona.rol){$('avisoIntro').textContent='Elige si respondes como mamá, papá u otro cuidador.';return}
+  if(!persona.edades.length){$('avisoIntro').textContent='Marca al menos una edad de tus hijos.';return}
+  $('avisoIntro').textContent='';
+  $('intro').style.display='none';$('test').style.display='block';
+  pintar();guardar();window.scrollTo(0,0);
+}
+
+function claveDe(p){return p<ITEMS.length?'i'+ORDEN_ITEMS[p]:'s'+(p-ITEMS.length)}
+
+function pintar(){
+  var k=claveDe(paso);
+  $('barra').style.width=Math.round(paso/TOTAL*100)+'%';
+  $('paso').textContent=(paso+1)+' de '+TOTAL;
+  $('atras').style.visibility=paso===0?'hidden':'visible';
+  $('sig').disabled=R[k]==null;
+  $('sig').textContent=paso===TOTAL-1?'Ver mi resultado →':'Siguiente →';
+  if(paso<ITEMS.length){
+    $('parte').textContent='Parte 1 · Tu día a día';
+    var it=ITEMS[ORDEN_ITEMS[paso]];
+    var h='<div class="preg">'+esc(it.t)+'</div><div class="escala">';
+    for(var v=1;v<=5;v++){h+='<button type="button" class="'+(R[k]===v?'on':'')+'" onclick="elegir(\''+k+'\','+v+')"><b>'+v+'</b>'+ESCALA[v]+'</button>'}
+    $('pregunta').innerHTML=h+'</div>';
+  }else{
+    var si=paso-ITEMS.length,sc=ESCENARIOS[si];
+    $('parte').textContent='Parte 2 · Situaciones reales';
+    var h2=(si===0?'<p class="suave" style="margin-bottom:.8rem">Ahora elige lo que <b>de verdad</b> harías, no lo que crees que deberías hacer. Nadie te está evaluando.</p>':'')+'<div class="preg">'+esc(sc.t)+'</div><div class="opciones">';
+    sc.o.forEach(function(o,i){h2+='<button type="button" class="'+(R[k]===i?'on':'')+'" onclick="elegir(\''+k+'\','+i+')">'+esc(o.t)+'</button>'});
+    $('pregunta').innerHTML=h2+'</div>';
+  }
+}
+function elegir(k,v){
+  R[k]=v;guardar();pintar();
+  setTimeout(function(){if(claveDe(paso)===k&&paso<TOTAL-1){mover(1)}},260);
+}
+function mover(d){
+  if(d>0&&R[claveDe(paso)]==null)return;
+  if(d>0&&paso===TOTAL-1){terminar();return}
+  paso=Math.max(0,Math.min(TOTAL-1,paso+d));guardar();pintar();
+}
+
+/* =====================================================================
+   CÁLCULO
+   ===================================================================== */
+function calcular(){
+  var suma={};ORDEN_DIM.forEach(function(d){suma[d]=0});
+  ITEMS.forEach(function(it,i){var v=R['i'+i]||3;suma[it.d]+=it.r?6-v:v});
+  var pct={};ORDEN_DIM.forEach(function(d){pct[d]=Math.round((suma[d]-5)/20*100)});
+  var votos={G:0,C:0,A:0,E:0};
+  ESCENARIOS.forEach(function(sc,i){var o=sc.o[R['s'+i]];if(o)votos[o.s]++});
+  var cal=pct.calidez,est=pct.estructura,U=55;
+  var estilo=cal>=U&&est>=U?'G':(cal<U&&est>=U?'C':(cal>=U&&est<U?'A':'E'));
+  var orden=['G','C','A','E'].sort(function(a,b){return votos[b]-votos[a]});
+  var presion=orden[0];
+  var empate=votos[orden[1]]===votos[orden[0]];
+  return {pct:pct,votos:votos,estilo:estilo,presion:presion,segunda:empate?orden[1]:null,frontera:Math.abs(cal-U)<=6||Math.abs(est-U)<=6};
+}
+function banda(p){return p>=70?{k:'f',n:'Fortaleza'}:(p>=45?{k:'d',n:'En desarrollo'}:{k:'p',n:'Por fortalecer'})}
+
+function patrones(p){
+  var out=[];
+  if(p.calidez>=70&&p.estructura<45)out.push(['Amor sin bordes','Das mucho cariño, pero tus hijos no siempre saben dónde está el límite. Sumar estructura no le quita nada a tu ternura: la vuelve segura.']);
+  if(p.estructura>=70&&p.calidez<45)out.push(['Orden sin abrazo','Tus normas son claras, pero el cariño no siempre se nota. Tus hijos obedecen; el reto es que también se sientan queridos mientras obedecen.']);
+  if(p.autorregulacion<45&&p.reparacion>=70)out.push(['Explotas, pero reparas','Pierdes la calma más de lo que quisieras, pero sabes volver y pedir perdón. Eso protege mucho el vínculo. Ahora toca trabajar la pausa para necesitar reparar menos.']);
+  if(p.autorregulacion<45&&p.reparacion<45)out.push(['Heridas sin cerrar','Hay explosiones y después poca reparación. Esta es tu prioridad número uno: los conflictos sin cerrar se acumulan en la memoria de tus hijos.']);
+  if(p.autonomia<45&&p.calidez>=60)out.push(['Amor que sobreprotege','Tu cariño se expresa resolviéndoles la vida. Soltar un poco, con tareas y decisiones a su medida, también es amarlos.']);
+  if(p.presencia<45&&p.estructura>=55)out.push(['Presente en la logística, ausente en la atención','Estás pendiente de que todo funcione, pero queda poco tiempo para simplemente estar con ellos. Tus hijos necesitan los dos.']);
+  if(p.coherencia<45)out.push(['Las reglas cambian con tu ánimo','Tus hijos probablemente aprendieron a leer tu cara antes de pedir algo. La coherencia les da paz: lo que vale hoy, vale mañana.']);
+  if(p.escucha>=70&&p.presencia>=70)out.push(['Un refugio para hablar','Tus hijos tienen en ti a alguien que los escucha y está presente. Es uno de los mayores factores de protección en la adolescencia. Cuídalo.']);
+  if(p.escucha<45&&p.estructura>=60)out.push(['Mucho sermón, poca conversación','Tienes claro lo que tus hijos deben hacer, pero quizá les cuesta contarte lo que les pasa. Escuchar primero hará que tus límites se reciban mejor.']);
+  return out.slice(0,3);
+}
+
+/* =====================================================================
+   RESULTADO
+   ===================================================================== */
+function cuadrante(pct){
+  var x=40+pct.estructura/100*240,y=280-pct.calidez/100*240,u=40+0.55*240,uy=280-0.55*240;
+  return '<svg viewBox="0 0 320 320" width="100%" style="max-width:340px;display:block;margin:0 auto" role="img" aria-label="Tu posición entre calidez y estructura">'+
+   '<rect x="40" y="40" width="240" height="240" rx="14" fill="#fbfbfd" stroke="#e8e8ed"/>'+
+   '<line x1="'+u+'" y1="40" x2="'+u+'" y2="280" stroke="#d2d2d7" stroke-dasharray="4 4"/>'+
+   '<line x1="40" y1="'+uy+'" x2="280" y2="'+uy+'" stroke="#d2d2d7" stroke-dasharray="4 4"/>'+
+   '<text x="'+((40+u)/2)+'" y="62" text-anchor="middle" font-size="11" fill="#86868b">El Cómplice</text>'+
+   '<text x="'+((u+280)/2)+'" y="62" text-anchor="middle" font-size="11" fill="#86868b">El Guía</text>'+
+   '<text x="'+((40+u)/2)+'" y="268" text-anchor="middle" font-size="11" fill="#86868b">El Espectador</text>'+
+   '<text x="'+((u+280)/2)+'" y="268" text-anchor="middle" font-size="11" fill="#86868b">El Capitán</text>'+
+   '<text x="160" y="304" text-anchor="middle" font-size="12" fill="#6e6e73">Estructura →</text>'+
+   '<text x="18" y="160" text-anchor="middle" font-size="12" fill="#6e6e73" transform="rotate(-90 18 160)">Calidez →</text>'+
+   '<circle cx="'+x+'" cy="'+y+'" r="15" fill="#ff6b2c" opacity=".18"/><circle cx="'+x+'" cy="'+y+'" r="7" fill="#ff6b2c"/>'+
+   '</svg>';
+}
+
+function guiaDim(id,n){
+  var d=DIM[id];
+  return '<div class="guia"><div class="ceja">Prioridad '+n+'</div><h3>'+d.n+'</h3>'+
+   '<p>'+esc(d.mide)+'</p><p class="suave">'+esc(d.importa)+'</p>'+
+   '<h3>Qué hacer esta semana</h3><ul class="lista">'+d.practicas.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul>'+
+   '<h3>Frases que ayudan</h3>'+d.frases.map(function(x){return '<div class="frase">'+esc(x)+'</div>'}).join('')+
+   '<h3>Evita</h3><p>'+esc(d.evita)+'</p>'+
+   '<div class="libro"><i>📖</i><div><b>'+esc(d.libro.t)+'</b> · '+esc(d.libro.a)+'<br><span class="suave">'+esc(d.libro.d)+'</span></div></div></div>';
+}
+
+function terminar(){
+  var c=calcular(),e=ESTILOS[c.estilo],pe=ESTILOS[c.presion];
+  var nombre=persona.nombre?esc(persona.nombre):'';
+  var rolN={mama:'mamá',papa:'papá',otro:'cuidador'}[persona.rol]||'';
+  var ordenados=ORDEN_DIM.slice().sort(function(a,b){return c.pct[a]-c.pct[b]});
+  var bajas=ordenados.slice(0,2),alta=ordenados[ordenados.length-1];
+  var h='';
+
+  h+='<div class="res-hero"><div class="ceja">'+(nombre?nombre+', tu':'Tu')+' estilo de crianza</div><h2>'+e.n+'</h2>'+
+     '<p class="lema">'+esc(e.lema)+'</p><p style="color:#a1a1a6;font-size:.85rem;margin-top:.8rem;position:relative;z-index:1">'+esc(e.clasico)+(c.frontera?' · estás cerca del límite con otro estilo':'')+'</p></div>';
+
+  h+='<div class="card"><div class="ceja">Dónde estás</div><h2>Calidez y estructura</h2>'+
+     '<p>Los dos ejes que más predicen cómo crecen los hijos. Tu calidez está en <b>'+c.pct.calidez+'</b> de 100 y tu estructura en <b>'+c.pct.estructura+'</b> de 100.</p>'+cuadrante(c.pct)+'</div>';
+
+  h+='<div class="card"><div class="ceja">Tu lectura</div><h2>'+e.n+'</h2>'+e.desc.map(function(x){return '<p>'+esc(x)+'</p>'}).join('')+
+     '<div class="cita">Lo que probablemente sienten tus hijos: '+esc(e.sienten)+'</div>'+
+     '<div class="grid2"><div><h3>Tus fortalezas</h3><ul class="lista">'+e.fortalezas.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></div>'+
+     '<div><h3>Tus riesgos</h3><ul class="lista">'+e.riesgos.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></div></div>'+
+     '<h3>Lo que estás sembrando</h3><p>'+esc(e.siembra)+'</p>'+
+     '<h3>Tus próximos pasos</h3><ol class="lista">'+e.pasos.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ol></div>';
+
+  // contraste: afirmaciones vs escenarios
+  var mismo=c.presion===c.estilo;
+  h+='<div class="card"><div class="ceja">Dos fuentes</div><h2>'+(mismo?'Lo que crees y lo que haces coinciden':'En calma eres una cosa; bajo presión, otra')+'</h2>'+
+     '<div class="contraste"><div><small>En tu día a día</small><strong>'+e.n+'</strong></div><div><small>Cuando la situación aprieta</small><strong>'+pe.n+(c.segunda?' / '+ESTILOS[c.segunda].n:'')+'</strong></div></div>';
+  if(mismo){h+='<p>En las 8 situaciones respondiste mayormente como '+pe.n+', igual que en tus afirmaciones. Tu estilo es consistente: tus hijos saben qué esperar de ti.</p>'}
+  else{h+='<p>En las afirmaciones apareces como <b>'+e.n+'</b>, pero en las situaciones concretas respondiste más como <b>'+pe.n+'</b>. Es muy común: todos tenemos un estilo ideal y otro que aparece con el cansancio, la prisa o la vergüenza en público.</p><p>Ese segundo estilo es el que tus hijos ven en los momentos difíciles, y por eso pesa mucho en lo que aprenden. '+esc(pe.lema)+'</p>'}
+  h+='<p class="suave" style="font-size:.88rem">Tus respuestas en las situaciones: Guía '+c.votos.G+' · Capitán '+c.votos.C+' · Cómplice '+c.votos.A+' · Espectador '+c.votos.E+' (de 8).</p></div>';
+
+  // perfil de 8 dimensiones
+  h+='<div class="card"><div class="ceja">Tu perfil completo</div><h2>Las 8 áreas de tu crianza</h2><p class="suave" style="margin-bottom:1rem">De 0 a 100. Por encima de 70 es una fortaleza; por debajo de 45, un área para trabajar ya.</p>';
+  ORDEN_DIM.forEach(function(id){var p=c.pct[id],b=banda(p);
+    h+='<div class="dim"><div class="cab"><b>'+DIM[id].n+'<span class="tag t-'+b.k+'">'+b.n+'</span></b><span>'+p+'</span></div><div class="riel"><span style="width:'+Math.max(3,p)+'%;background:'+DIM[id].c+'"></span></div></div>'});
+  h+='<p style="margin-top:1rem">Tu área más fuerte es <b>'+DIM[alta].n+'</b>: '+esc(DIM[alta].mide.charAt(0).toLowerCase()+DIM[alta].mide.slice(1))+' Apóyate en ella para trabajar las demás.</p></div>';
+
+  var pat=patrones(c.pct);
+  if(pat.length){h+='<div class="card"><div class="ceja">Patrones que aparecen</div><h2>Lo que dicen tus combinaciones</h2>'+pat.map(function(x){return '<div class="patron"><b>'+esc(x[0])+'</b>'+esc(x[1])+'</div>'}).join('')+'</div>'}
+
+  h+='<div class="card"><div class="ceja">Guía práctica</div><h2>Tus dos áreas para fortalecer</h2><p>Escogimos las dos áreas más bajas de tu perfil. Trabajar en ellas es lo que más va a cambiar tu casa en las próximas semanas.</p>'+guiaDim(bajas[0],1)+guiaDim(bajas[1],2)+'</div>';
+
+  // plan 21 días
+  var s1=DIM[bajas[0]],s2=DIM[bajas[1]];
+  var dias=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+  function semana(t,sub,retos){return '<div class="semana"><h3>'+t+'</h3><p class="suave">'+sub+'</p>'+retos.map(function(r,i){return '<div class="dia"><b>'+dias[i]+'</b><span>'+esc(r)+'</span></div>'}).join('')+'</div>'}
+  var integra=['Reunión familiar de 20 minutos: cuéntales qué estás trabajando y por qué.','Pregúntale a cada hijo: «¿qué hago que te hace sentir querido?».','Repite el reto de la semana 1 que mejor funcionó.','Repite el reto de la semana 2 que mejor funcionó.','Haz algo divertido en familia, sin propósito educativo.','Escribe una carta corta a cada hijo con lo que ves de bueno en él.','Vuelve a hacer este test o revisa tu perfil: ¿qué cambió?'];
+  h+='<div class="card"><div class="ceja">Tu plan de 21 días</div><h2>Un reto pequeño por día</h2><p>Los cambios grandes en la crianza se hacen con acciones pequeñas y repetidas. Imprime esta página o tómale foto y marca cada día.</p>'+
+     semana('Semana 1 · '+s1.n,s1.mide,s1.retos)+semana('Semana 2 · '+s2.n,s2.mide,s2.retos)+semana('Semana 3 · Integrar','Juntar lo aprendido y hacerlo parte de la familia.',integra)+'</div>';
+
+  // edades
+  var edadesSel=EDADES.filter(function(x){return persona.edades.indexOf(x.id)>=0});
+  if(edadesSel.length){
+    h+='<div class="card"><div class="ceja">Según la etapa de tus hijos</div><h2>Lo que más necesitan de ti ahora</h2>';
+    edadesSel.forEach(function(x){var g=EDAD_GUIA[x.id];
+      h+='<div class="edad"><b>'+g.n+' · '+g.clave+'</b><p style="margin-top:.4rem">'+esc(g.txt)+'</p><ul class="lista" style="margin-top:.5rem">'+g.tips.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul></div>'});
+    h+='</div>';
+  }
+
+  // biblioteca
+  h+='<div class="card"><div class="ceja">Biblioteca recomendada</div><h2>Para seguir aprendiendo</h2><p class="suave">Ordenados según tu perfil: primero los de tus áreas más bajas.</p>'+
+     ordenados.slice(0,4).map(function(id){var l=DIM[id].libro;return '<div class="libro"><i>📖</i><div><b>'+esc(l.t)+'</b> · '+esc(l.a)+'<br><span class="suave">'+DIM[id].n+' · '+esc(l.d)+'</span></div></div>'}).join('')+'</div>';
+
+  h+='<div class="card"><div class="ceja">Un último mensaje</div><h2>'+(rolN?'Ser '+rolN+' se aprende':'Criar se aprende')+'</h2>'+
+     '<p>Ningún resultado de este test te define. Es una foto de las últimas semanas, no una sentencia. El solo hecho de haberlo respondido con honestidad dice mucho de cuánto te importan tus hijos.</p>'+
+     '<p>Si en tu casa hay violencia, si sientes que el agotamiento te sobrepasa o si notas en tus hijos tristeza, aislamiento o cambios bruscos que te preocupan, busca acompañamiento profesional. Pedir ayuda también es criar bien.</p></div>';
+
+  h+='<div class="btns no-imprimir" style="justify-content:center"><button class="btn osc" onclick="window.print()">Guardar en PDF o imprimir</button><button class="btn sec" onclick="copiar(this)">Copiar resumen</button><button class="btn sec" onclick="reiniciar()">Responder de nuevo</button></div>';
+
+  $('test').style.display='none';$('intro').style.display='none';
+  var r=$('resultado');r.innerHTML=h;r.style.display='block';
+  window._resumen=resumen(c);
+  try{localStorage.setItem(CLAVE,JSON.stringify({persona:persona,R:R,paso:paso,fin:true}))}catch(e){}
+  window.scrollTo(0,0);
+}
+
+function resumen(c){
+  var t='Mi estilo de crianza (Hostify Tests): '+ESTILOS[c.estilo].n+'.\n';
+  t+='Bajo presión: '+ESTILOS[c.presion].n+'.\n';
+  t+=ORDEN_DIM.map(function(id){return DIM[id].n+': '+c.pct[id]}).join(' · ');
+  return t;
+}
+function copiar(b){
+  var t=window._resumen||'';
+  function ok(){b.textContent='¡Copiado!';setTimeout(function(){b.textContent='Copiar resumen'},1500)}
+  if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok,function(){prompt('Copia el resumen:',t)})}else{prompt('Copia el resumen:',t)}
+}
+function reiniciar(){
+  if(!confirm('¿Borrar tus respuestas y empezar de nuevo?'))return;
+  try{localStorage.removeItem(CLAVE)}catch(e){}
+  R={};paso=0;$('resultado').style.display='none';$('intro').style.display='block';pintarChips();window.scrollTo(0,0);
+}
+
+/* ---------- arranque ---------- */
+(function(){
+  var habia=cargar();
+  pintarChips();
+  if(persona.nombre)$('nombre').value=persona.nombre;
+  if(habia){
+    var g=null;try{g=JSON.parse(localStorage.getItem(CLAVE))}catch(e){}
+    if(g&&g.fin){terminar()}
+    else if(Object.keys(R).length){$('intro').style.display='none';$('test').style.display='block';pintar()}
+  }
+})();
+</script>
+</body>
+</html>

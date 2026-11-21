@@ -1,9 +1,11 @@
 import Link from 'next/link'
-import type { CatalogTest } from '@/lib/catalog'
+import { esNuevo, estaPublicado, fechaLarga, type CatalogTest } from '@/lib/catalog'
 import { formatPrecio, getTestPrice } from '@/lib/pricing'
 import TestIcon from './TestIcon'
 
 export default function TestCard({ test, featured = false }: { test: CatalogTest; featured?: boolean }) {
+  const proximo = !estaPublicado(test)
+  const nuevo = esNuevo(test)
   return (
     <Link
       href={`/tests/${test.id}`}
@@ -28,7 +30,14 @@ export default function TestCard({ test, featured = false }: { test: CatalogTest
         >
           <TestIcon name={test.icon} />
         </span>
-        <span className={`text-xs font-medium ${featured ? 'text-white/50' : 'text-ink-400'}`}>{test.duration}</span>
+        <span className="flex items-center gap-2">
+          {(proximo || nuevo) && (
+            <span className="rounded-full bg-brand px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">
+              {proximo ? `Llega el ${fechaLarga(test)}` : 'Nuevo'}
+            </span>
+          )}
+          <span className={`text-xs font-medium ${featured ? 'text-white/50' : 'text-ink-400'}`}>{test.duration}</span>
+        </span>
       </div>
 
       <p className={`relative mt-8 text-xs font-semibold uppercase tracking-[0.16em] ${featured ? 'text-brand' : 'text-brand-deep'}`}>

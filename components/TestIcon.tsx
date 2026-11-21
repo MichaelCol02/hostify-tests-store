@@ -72,6 +72,16 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M12 16h.01" />
     </>
   ),
+  // Un adulto y un niño de la mano.
+  family: (
+    <>
+      <circle cx="8" cy="5.5" r="2.3" />
+      <path d="M4.5 21v-6.5a3.5 3.5 0 0 1 7 0V21" />
+      <circle cx="17" cy="10" r="1.8" />
+      <path d="M14.5 21v-4a2.5 2.5 0 0 1 5 0v4" />
+      <path d="M11.5 16h3" />
+    </>
+  ),
 }
 
 export default function TestIcon({ name, className = 'h-6 w-6' }: { name: IconName; className?: string }) {

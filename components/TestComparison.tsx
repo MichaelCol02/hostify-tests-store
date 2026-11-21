@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { CATALOG } from '@/lib/catalog'
+import { publicados } from '@/lib/catalog'
 import { formatPrecio, getTestPrice } from '@/lib/pricing'
 import TestIcon from './TestIcon'
 
@@ -17,7 +17,7 @@ export default function TestComparison() {
           </tr>
         </thead>
         <tbody className="divide-y divide-black/[0.06]">
-          {CATALOG.map((t) => (
+          {publicados().map((t) => (
             <tr key={t.id} className="align-top transition hover:bg-ink-50">
               <th scope="row" className="px-6 py-5 font-semibold">
                 <Link href={`/tests/${t.id}`} className="flex items-center gap-3 hover:text-brand-deep">
