@@ -4,6 +4,7 @@ import './globals.css'
 import { AuthProvider } from '@/components/AuthProvider'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import BarraCampana from '@/components/BarraCampana'
+import { CREDIT_PACKS, textosPrecio } from '@/lib/pricing'
 
 // Inter Tight stands in for Neue Montreal (brand display face, not freely licensed); Manrope is the brand body face.
 const display = Inter_Tight({ subsets: ['latin'], weight: ['500', '600', '700'], variable: '--font-display', display: 'swap' })
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://hostifycol.netlify.app'),
   title: 'Hostify Tests — Evaluaciones para la hospitalidad',
   openGraph: { type: 'website', locale: 'es_CO', siteName: 'Hostify Tests' },
-  description: 'Tests de liderazgo, perfil conductual e inteligencia de hospitalidad. Resultados al instante. Desde $1.50 por test.',
+  description: `Tests de liderazgo, perfil conductual e inteligencia de hospitalidad. Resultados al instante. Desde ${textosPrecio(CREDIT_PACKS).porPersonaEquipo} por test.`,
 }
 
 export const viewport: Viewport = {

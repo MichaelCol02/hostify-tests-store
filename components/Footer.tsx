@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Logo from './Logo'
 import { CATALOG } from '@/lib/catalog'
 import { WHATSAPP_NUMBER, whatsappLink } from '@/lib/contact'
+import { MONEDA, PASARELA } from '@/lib/pricing'
 
 function ContactLink() {
   if (!WHATSAPP_NUMBER) return null
@@ -56,7 +57,7 @@ export default function Footer() {
       </div>
       <div className="container-x flex flex-col gap-2 border-t border-black/[0.06] py-6 text-xs text-ink-400 sm:flex-row sm:items-center sm:justify-between">
         <p>© {new Date().getFullYear()} Hostify. Todos los derechos reservados.</p>
-        <p>Pagos seguros con Stripe · Precios en USD</p>
+        <p>Pagos seguros con {PASARELA} · Precios en {MONEDA}</p>
       </div>
     </footer>
   )

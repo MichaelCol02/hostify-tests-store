@@ -8,6 +8,7 @@ import AudiencePicker from '@/components/AudiencePicker'
 import TestComparison from '@/components/TestComparison'
 import TeamContactButton from '@/components/TeamContactButton'
 import { CATALOG } from '@/lib/catalog'
+import { PASARELA, textosPrecio } from '@/lib/pricing'
 
 
 /** La oferta entra y sale por fecha, asi que la pagina se rehace sola cada 10
@@ -17,8 +18,9 @@ const PALABRAS = ['cero','una','dos','tres','cuatro','cinco','seis','siete','och
 const cuantos = PALABRAS[CATALOG.length] ?? String(CATALOG.length)
 const Cuantos = cuantos.charAt(0).toUpperCase() + cuantos.slice(1)
 
-const STEPS = [
-  { n: '01', title: 'Elige tus créditos', body: 'Un test por $5, tres por $9 o diez por $15. Pagas una vez y los usas cuando quieras.' },
+// Los precios se leen en cada render (no al cargar el módulo) para que la oferta entre y salga sola.
+const steps = (lista: string) => [
+  { n: '01', title: 'Elige tus créditos', body: `${lista}. Pagas una vez y los usas cuando quieras.` },
   { n: '02', title: 'Responde a tu ritmo', body: 'Cada crédito abre un test completo durante 24 horas. Sin prisas, desde cualquier dispositivo.' },
   { n: '03', title: 'Recibe tu resultado', body: 'Tu perfil y un plan de desarrollo al terminar. Repite el test o compártelo con tu equipo.' },
 ]
@@ -27,10 +29,12 @@ const FAQ = [
   { q: '¿Qué es un crédito?', a: 'Un crédito equivale a un test completo. Lo gastas al comenzar y el test queda abierto 24 horas para que lo termines, incluso si cierras la ventana.' },
   { q: '¿Puedo usar los créditos en tests distintos?', a: 'Sí. Tus créditos sirven para cualquiera de los tests, y también para repetir el mismo test más adelante o evaluar a otra persona de tu equipo.' },
   { q: '¿Los créditos vencen?', a: 'No. Quedan en tu cuenta hasta que los uses.' },
-  { q: '¿Cómo pago?', a: 'Con tarjeta, a través de Stripe. Nunca vemos ni guardamos los datos de tu tarjeta.' },
+  { q: '¿Cómo pago?', a: `A través de ${PASARELA}. Nunca vemos ni guardamos los datos de tu tarjeta.` },
 ]
 
 export default function Home() {
+  const precio = textosPrecio()
+  const STEPS = steps(precio.lista)
   return (
     <>
       <Header tone="dark" />
@@ -46,7 +50,7 @@ export default function Home() {
               className="inline-flex animate-fade-up items-center gap-2 rounded-full bg-white/[0.07] py-1.5 pl-1.5 pr-4 text-sm text-white/80 ring-1 ring-white/10 backdrop-blur transition hover:bg-white/10"
             >
               <span className="rounded-full bg-gradient-to-b from-brand to-brand-deep px-2.5 py-0.5 text-xs font-semibold text-white">Nuevo</span>
-              Tests desde $5 · Equipos desde $1.50 por persona
+              Tests desde {precio.desde} · Equipos desde {precio.porPersonaEquipo} por persona
               <span aria-hidden="true" className="text-white/40">→</span>
             </Link>
 
@@ -66,7 +70,7 @@ export default function Home() {
               </Link>
             </div>
             <ul className="delay-4 mt-7 flex animate-fade-up flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/45">
-              {['Resultados al instante', 'Tus créditos no vencen', 'Pago seguro con Stripe'].map((t) => (
+              {['Resultados al instante', 'Tus créditos no vencen', `Pago seguro con ${PASARELA}`].map((t) => (
                 <li key={t} className="flex items-center gap-2">
                   <span aria-hidden="true" className="h-1 w-1 rounded-full bg-brand" />
                   {t}
@@ -87,7 +91,7 @@ export default function Home() {
               { k: String(CATALOG.length), v: 'evaluaciones especializadas' },
               { k: '< 25 min', v: 'la mayoría de los tests' },
               { k: '24 h', v: 'para terminar a tu ritmo' },
-              { k: '$1.50', v: 'por test en paquete Equipo' },
+              { k: precio.porPersonaEquipo, v: 'por test en paquete Equipo' },
             ].map((s) => (
               <div key={s.v}>
                 <p className="font-display text-4xl font-semibold tracking-tightest sm:text-5xl">{s.k}</p>
@@ -162,7 +166,7 @@ export default function Home() {
                   <ul className="mt-8 grid gap-3 sm:grid-cols-2">
                     {[
                       'Créditos que reparte quien tú quieras',
-                      'Desde $1.50 por persona',
+                      `Desde ${precio.porPersonaEquipo} por persona`,
                       'Responden desde el celular',
                       'Sin vencimiento ni mensualidad',
                     ].map((t) => (

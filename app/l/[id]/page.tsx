@@ -8,7 +8,7 @@ import LandingBuy from '@/components/LandingBuy'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import { getCatalogTest } from '@/lib/catalog'
 import { LANDINGS, getLanding } from '@/lib/landings'
-import { formatPrecio, getTestPrice } from '@/lib/pricing'
+import { PASARELA, formatPrecio, getTestPrice } from '@/lib/pricing'
 
 
 /** La oferta entra y sale por fecha, asi que la pagina se rehace sola cada 10
@@ -182,7 +182,7 @@ export default function LandingPage({ params }: { params: { id: string } }) {
 
       <footer className="border-t border-black/[0.06] bg-ink-50 py-8">
         <div className="container-x flex flex-col gap-3 text-xs text-ink-400 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Hostify · Pago seguro con Stripe</p>
+          <p>© {new Date().getFullYear()} Hostify · Pago seguro con {PASARELA}</p>
           <div className="flex gap-4">
             <Link href="/legal/terminos" className="hover:text-ink">Términos</Link>
             <Link href="/legal/privacidad" className="hover:text-ink">Datos</Link>

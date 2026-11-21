@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import PricingCards from '@/components/PricingCards'
+import { CREDIT_PACKS, PASARELA, textosPrecio } from '@/lib/pricing'
 
 
 /** La oferta entra y sale por fecha, asi que la pagina se rehace sola cada 10
@@ -9,7 +10,8 @@ import PricingCards from '@/components/PricingCards'
 export const revalidate = 600
 export const metadata: Metadata = {
   title: 'Precios — Hostify Tests',
-  description: '1 test por $5, 3 tests por $9, 10 tests por $15. Pago único, créditos sin vencimiento.',
+  // Precio normal: los metadatos se arman al publicar y no deben quedarse con una oferta vencida.
+  description: `${textosPrecio(CREDIT_PACKS).lista}. Pago único, créditos sin vencimiento.`,
 }
 
 const INCLUDED = [
@@ -17,7 +19,7 @@ const INCLUDED = [
   'Cada test abierto 24 horas',
   'Resultados al terminar',
   'Repite tests o evalúa a tu equipo',
-  'Pago seguro con Stripe',
+  `Pago seguro con ${PASARELA}`,
   'Créditos sin vencimiento',
 ]
 

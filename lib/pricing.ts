@@ -75,6 +75,30 @@ export const COBRO_EN_PESOS = Boolean(process.env.NEXT_PUBLIC_WOMPI_PUBLIC_KEY)
 
 export const MONEDA = COBRO_EN_PESOS ? 'COP' : 'USD'
 
+/** La pasarela que de verdad cobra, para no prometer una y cobrar con otra. */
+export const PASARELA = COBRO_EN_PESOS ? 'Wompi' : 'Stripe'
+
+const EN_LETRAS = ['cero', 'un', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve', 'diez']
+const enLetras = (n: number) => EN_LETRAS[n] ?? String(n)
+
+/** Textos de precio para la portada y los metadatos, calculados de los paquetes
+ *  que se cobran (con la oferta si está vigente). Así ningún texto queda viejo. */
+export function textosPrecio(packs: CreditPack[] = packsVigentes()) {
+  const por = (id: PackId) => packs.find((p) => p.id === id)!
+  const single = por('single'), trio = por('trio'), team = por('team')
+  const tramo = (p: CreditPack) =>
+    `${enLetras(p.credits)} ${p.credits === 1 ? 'test' : 'tests'} por ${formatPrecio(precioPack(p))}`
+  const lista = `${tramo(single)}, ${tramo(trio)} o ${tramo(team)}`
+  return {
+    /** "$20.000": lo que cuesta el paquete más pequeño. */
+    desde: formatPrecio(precioPack(single)),
+    /** "$6.000": cada test en el paquete Equipo. */
+    porPersonaEquipo: formatPrecio(pricePerTest(team)),
+    /** "Un test por $20.000, tres tests por $36.000 o diez tests por $60.000" */
+    lista: lista.charAt(0).toUpperCase() + lista.slice(1),
+  }
+}
+
 /** Checkout validates against every sellable pack, not just the ones on display.
  *  Devuelve el paquete con la oferta ya aplicada: el cobro y los créditos que
  *  entrega salen de aquí, nunca de lo que mande el navegador. */
