@@ -92,6 +92,9 @@ input[type=text]:focus{outline:2px solid var(--marca);border-color:transparent}
 .contraste div{background:var(--fondo);border-radius:16px;padding:1rem}
 .contraste small{display:block;color:var(--tenue);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em}
 .contraste strong{font-size:1.15rem}
+.compartir{display:grid;grid-template-columns:minmax(0,260px) 1fr;gap:1.4rem;align-items:center}
+.compartir img{width:100%;border-radius:18px;box-shadow:0 12px 40px rgba(0,0,0,.18);display:block}
+@media(max-width:600px){.compartir{grid-template-columns:1fr}.compartir img{max-width:280px;margin:0 auto}}
 .pie{text-align:center;color:var(--tenue);font-size:.8rem;margin-top:2rem}
 svg text{font-family:inherit}
 @media(max-width:600px){.grid2,.contraste{grid-template-columns:1fr}.escala button{font-size:.68rem;padding:.6rem .1rem}.card{padding:1.25rem 1.05rem}}
@@ -243,6 +246,17 @@ var DIM = {
   libro:{t:'Ser padres conscientes',a:'Daniel J. Siegel y Mary Hartzell',d:'Cómo tu propia historia de infancia influye en tu forma de criar y cómo reparar las rupturas con tus hijos.'},
   retos:['Piensa en el último conflicto sin cerrar con tu hijo.','Pide perdón por él usando las tres partes.','Hoy, después de corregir, busca un gesto de cariño.','Cambia una etiqueta («eres desordenado») por una descripción de la conducta.','Cuéntale algo que tus papás hacían y que tú decidiste cambiar.','Pregúntale si hay algo que le dolió y no te ha dicho.','Escribe qué aprendiste de ti como papá o mamá esta semana.']}
 };
+/* Cómo se dice cada área cuando es una fortaleza: es lo que sale en la imagen
+   para Instagram, así que va en primera persona y en positivo. */
+var FUERTE = {calidez:'Mis hijos se sienten amados',estructura:'En casa hay límites claros y seguros',
+ autonomia:'Dejo crecer a mis hijos',escucha:'Mis hijos me cuentan sus cosas',autorregulacion:'Corrijo con calma',
+ coherencia:'Vivo lo que enseño',presencia:'Estoy presente de verdad',reparacion:'Sé pedir perdón y reconectar'};
+var SITIO = 'hostifycol.netlify.app';
+/* Frase de cada estilo para la imagen: solo lo bueno, en primera persona. */
+var LEMA_TARJETA = {G:'Firme y cálido a la vez: mis hijos saben que los amo y dónde está el límite.',
+ C:'Doy a mis hijos orden, rumbo y la seguridad de saber qué esperar.',
+ A:'Mis hijos crecen sabiéndose profundamente amados.',
+ E:'Doy a mis hijos espacio para crecer y encontrar su camino.'};
 var ORDEN_DIM = ['calidez','estructura','autonomia','escucha','autorregulacion','coherencia','presencia','reparacion'];
 
 /* ---------- las 40 afirmaciones (r = se puntúa al revés) ---------- */
@@ -575,11 +589,17 @@ function terminar(){
      '<p>Ningún resultado de este test te define. Es una foto de las últimas semanas, no una sentencia. El solo hecho de haberlo respondido con honestidad dice mucho de cuánto te importan tus hijos.</p>'+
      '<p>Si en tu casa hay violencia, si sientes que el agotamiento te sobrepasa o si notas en tus hijos tristeza, aislamiento o cambios bruscos que te preocupan, busca acompañamiento profesional. Pedir ayuda también es criar bien.</p></div>';
 
+  h+='<div class="card no-imprimir"><div class="ceja">Comparte tu resultado</div><div class="compartir"><img id="tarjeta" alt="Tu resultado para compartir en Instagram">'+
+     '<div><h2>Tu historia para Instagram</h2><p>Lista para subir: tu estilo y tus tres mayores fortalezas como '+(rolN||'papá o mamá')+'. Solo muestra lo bueno; tus áreas por trabajar se quedan aquí.</p>'+
+     '<div class="btns"><button class="btn" id="btnCompartir" onclick="compartir()">Compartir</button><button class="btn sec" onclick="descargar()">Descargar imagen</button></div>'+
+     '<p class="suave" style="font-size:.85rem;margin-top:.8rem">En el celular, «Compartir» te deja elegir Instagram directamente. En computador, descárgala y súbela desde tu teléfono.</p></div></div></div>';
+
   h+='<div class="btns no-imprimir" style="justify-content:center"><button class="btn osc" onclick="window.print()">Guardar en PDF o imprimir</button><button class="btn sec" onclick="copiar(this)">Copiar resumen</button><button class="btn sec" onclick="reiniciar()">Responder de nuevo</button></div>';
 
   $('test').style.display='none';$('intro').style.display='none';
   var r=$('resultado');r.innerHTML=h;r.style.display='block';
   window._resumen=resumen(c);
+  try{window._tarjeta=dibujarTarjeta(c);$('tarjeta').src=window._tarjeta.toDataURL('image/png')}catch(e){}
   try{localStorage.setItem(CLAVE,JSON.stringify({persona:persona,R:R,paso:paso,fin:true}))}catch(e){}
   window.scrollTo(0,0);
 }
@@ -589,6 +609,67 @@ function resumen(c){
   t+='Bajo presión: '+ESTILOS[c.presion].n+'.\n';
   t+=ORDEN_DIM.map(function(id){return DIM[id].n+': '+c.pct[id]}).join(' · ');
   return t;
+}
+/* ---------- imagen para Instagram (historia 1080×1920) ---------- */
+function dibujarTarjeta(c){
+  var W=1080,H=1920,cv=document.createElement('canvas');cv.width=W;cv.height=H;
+  var x=cv.getContext('2d'),F='-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif';
+  function fuente(px,peso){x.font=(peso||400)+' '+px+'px '+F}
+  function espacio(v){if('letterSpacing' in x)x.letterSpacing=v+'px'}
+  function lineas(t,max){var pal=t.split(' '),out=[],l='';pal.forEach(function(w){var p=l?l+' '+w:w;if(x.measureText(p).width>max&&l){out.push(l);l=w}else l=p});if(l)out.push(l);return out}
+  function redondo(x0,y0,w,h,r){x.beginPath();x.moveTo(x0+r,y0);x.arcTo(x0+w,y0,x0+w,y0+h,r);x.arcTo(x0+w,y0+h,x0,y0+h,r);x.arcTo(x0,y0+h,x0,y0,r);x.arcTo(x0,y0,x0+w,y0,r);x.closePath()}
+  var M=90,ancho=W-2*M,e=ESTILOS[c.estilo];
+
+  var g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#0d0d0d');g.addColorStop(.55,'#1d1410');g.addColorStop(1,'#3b2216');
+  x.fillStyle=g;x.fillRect(0,0,W,H);
+  var r=x.createRadialGradient(W-60,260,0,W-60,260,620);r.addColorStop(0,'rgba(255,107,44,.55)');r.addColorStop(1,'rgba(255,107,44,0)');
+  x.fillStyle=r;x.fillRect(0,0,W,H);
+
+  x.fillStyle='#ff6b2c';redondo(M,218,22,22,5);x.fill();
+  fuente(32,600);espacio(7);x.fillStyle='#c9c9ce';x.fillText('HOSTIFY TESTS',M+42,240);
+
+  var y=380;fuente(38,800);espacio(6);x.fillStyle='#ff6b2c';
+  x.fillText(((persona.nombre?persona.nombre.toUpperCase()+' · ':'')+'MI ESTILO DE CRIANZA').slice(0,40),M,y);
+
+  espacio(-3);var t=150;fuente(t,800);while(x.measureText(e.n).width>ancho&&t>80){t-=6;fuente(t,800)}
+  x.fillStyle='#fff';y+=t+20;x.fillText(e.n,M,y);
+
+  espacio(0);fuente(46,400);x.fillStyle='#d2d2d7';y+=40;
+  lineas(LEMA_TARJETA[c.estilo],ancho).slice(0,2).forEach(function(l){y+=64;x.fillText(l,M,y)});
+
+  y+=70;x.fillStyle='rgba(255,255,255,.15)';x.fillRect(M,y,ancho,2);
+  y+=100;fuente(36,800);espacio(6);x.fillStyle='#ff6b2c';x.fillText('MIS FORTALEZAS',M,y);espacio(0);
+
+  // Solo áreas que de verdad son fuertes (60+); si ninguna llega, la mejor de todas.
+  var top=ORDEN_DIM.slice().sort(function(a,b){return c.pct[b]-c.pct[a]});
+  var fuertes=top.filter(function(id){return c.pct[id]>=60}).slice(0,3);
+  (fuertes.length?fuertes:top.slice(0,1)).forEach(function(id){
+    var p=c.pct[id];y+=92;
+    fuente(52,700);x.fillStyle='#fff';x.fillText(DIM[id].n,M,y);
+    fuente(52,300);x.textAlign='right';x.fillStyle='#d2d2d7';x.fillText(String(p),W-M,y);x.textAlign='left';
+    y+=30;x.fillStyle='rgba(255,255,255,.12)';redondo(M,y,ancho,18,9);x.fill();
+    x.fillStyle=DIM[id].c==='#5a6b7d'?'#9fb0c2':DIM[id].c;redondo(M,y,Math.max(24,ancho*p/100),18,9);x.fill();
+    y+=64;fuente(38,400);x.fillStyle='#a1a1a6';x.fillText(FUERTE[id],M,y);
+  });
+
+  var by=Math.min(H-400,y+70);x.fillStyle='rgba(255,255,255,.08)';redondo(M,by,ancho,170,36);x.fill();
+  fuente(42,700);x.fillStyle='#fff';x.fillText('¿Y tú, qué tipo de papá o mamá eres?',M+48,by+74);
+  fuente(36,600);x.fillStyle='#ff6b2c';x.fillText('Descúbrelo en '+SITIO,M+48,by+128);
+  return cv;
+}
+function nombreArchivo(){return 'mi-estilo-de-crianza.png'}
+function descargar(){
+  if(!window._tarjeta)return;
+  var a=document.createElement('a');a.download=nombreArchivo();a.href=window._tarjeta.toDataURL('image/png');document.body.appendChild(a);a.click();a.remove();
+}
+function compartir(){
+  if(!window._tarjeta)return;
+  window._tarjeta.toBlob(function(b){
+    var f=null;try{f=new File([b],nombreArchivo(),{type:'image/png'})}catch(e){}
+    if(f&&navigator.canShare&&navigator.canShare({files:[f]})){
+      navigator.share({files:[f],text:'Este es mi estilo de crianza. ¿Y el tuyo? '+SITIO}).catch(function(){});
+    }else{descargar()}
+  },'image/png');
 }
 function copiar(b){
   var t=window._resumen||'';
