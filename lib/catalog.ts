@@ -60,7 +60,7 @@ export const CATALOG: CatalogTest[] = [
     audience: ['colaborador', 'lider', 'gerente'],
     credits: 1,
     people: 1,
-    lanzamiento: '2026-12-01',
+    lanzamiento: '2026-11-21',
   },
   {
     id: 'areas-vida',
