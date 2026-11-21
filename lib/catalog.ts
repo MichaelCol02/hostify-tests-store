@@ -31,6 +31,8 @@ export interface CatalogTest {
    *  fecha la ficha muestra «Próximamente» y no deja comprar; el día llega y
    *  la tienda lo lanza sola, sin publicar nada. Sin fecha: ya está a la venta. */
   lanzamiento?: string
+  /** Video vertical que explica el test (en public/videos). La ficha lo muestra antes de comprar. */
+  video?: { src: string; poster: string; titulo: string; texto: string }
 }
 
 export type Audience = 'colaborador' | 'lider' | 'gerente'
@@ -124,6 +126,13 @@ export const CATALOG: CatalogTest[] = [
     idealFor: 'Personal de contacto y equipos completos de hotel.',
     deliver: 'Tu índice por dimensión y el nivel de hospitalidad que alcanzas hoy.',
     audience: ['colaborador', 'lider', 'gerente'],
+    video: {
+      src: '/videos/hii-de-adentro-hacia-afuera.mp4',
+      poster: '/videos/hii-de-adentro-hacia-afuera.jpg',
+      titulo: '¿En qué nivel de hospitalidad está hoy tu hotel?',
+      texto:
+        'El éxito en la hotelería no está en invertir más en pauta, hacer más reels o abrir más plataformas. Está en entrenar a tus equipos en la hospitalidad irracional, de adentro hacia afuera.',
+    },
     credits: 1,
     people: 1,
   },

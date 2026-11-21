@@ -129,6 +129,33 @@ export default function TestPage({ params }: { params: { id: string } }) {
           </div>
         </section>
 
+        {test.video && (
+          <section className="pb-16">
+            <div className="container-x">
+              <div className="grid items-center gap-10 rounded-4xl bg-ink-900 p-6 text-white shadow-lift sm:p-10 lg:grid-cols-[auto,1fr] lg:gap-14">
+                <video
+                  className="mx-auto aspect-[9/16] w-full max-w-[320px] rounded-[1.75rem] bg-black object-cover ring-1 ring-white/10"
+                  src={test.video.src}
+                  poster={test.video.poster}
+                  controls
+                  playsInline
+                  preload="none"
+                />
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand">En video</p>
+                  <h2 className="mt-3 text-3xl font-semibold leading-tight text-white sm:text-4xl">{test.video.titulo}</h2>
+                  <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/65">{test.video.texto}</p>
+                  {aLaVenta && (
+                    <a href="#empezar" className="mt-8 inline-flex rounded-full bg-brand px-6 py-3 font-semibold text-white transition hover:bg-brand-deep">
+                      Hacer el test
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         <section id="empezar" className="scroll-mt-20 pb-28">
           <div className="container-x delay-3 animate-fade-up">
             {!aLaVenta ? (
