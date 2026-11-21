@@ -2,6 +2,7 @@ import { NextResponse, NextRequest } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { buscarOCrearCuenta } from '@/lib/account'
+import { getCatalogTest } from '@/lib/catalog'
 
 const CORREO = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
@@ -9,6 +10,8 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({}))
   const codigo = typeof body.code === 'string' ? body.code.trim().toUpperCase() : ''
   const correo = typeof body.email === 'string' ? body.email.trim().toLowerCase() : ''
+  // El test en cuya ficha se canjea: los códigos de lanzamiento solo sirven ahí.
+  const testId = typeof body.testId === 'string' ? body.testId : null
 
   if (!codigo) {
     return NextResponse.json({ error: 'codigo_invalido' }, { status: 400 })
@@ -35,7 +38,7 @@ export async function POST(req: NextRequest) {
     // Un código inválido termina aquí: no crea cuentas ni revela cuáles existen.
     const { data: cupon } = await supabaseAdmin
       .from('coupons')
-      .select('max_uses, used_count, expires_at, active')
+      .select('max_uses, used_count, expires_at, active, test_id')
       .eq('code', codigo)
       .maybeSingle()
     const vigente =
@@ -44,6 +47,10 @@ export async function POST(req: NextRequest) {
       (!cupon.expires_at || new Date(cupon.expires_at).getTime() > Date.now())
     if (!vigente) {
       return NextResponse.json({ error: 'cupon_no_valido' }, { status: 404 })
+    }
+    if (cupon.test_id && cupon.test_id !== testId) {
+      const nombre = getCatalogTest(cupon.test_id)?.name ?? 'otro test'
+      return NextResponse.json({ error: 'cupon_otro_test', testId: cupon.test_id, testName: nombre }, { status: 409 })
     }
 
     let destinatario = userId
@@ -61,6 +68,7 @@ export async function POST(req: NextRequest) {
     const { data: creditos, error } = await supabaseAdmin.rpc('store_use_coupon', {
       p_code: codigo,
       p_user: destinatario,
+      p_test: testId,
     })
     if (error) throw new Error(error.message)
 

@@ -11,7 +11,7 @@ const MENSAJES: Record<string, string> = {
   cuenta_existente: 'Ese correo ya tiene cuenta. Ingresa y canjea el cupón desde ahí; tu código sigue sin usarse.',
 }
 
-export default function CouponForm({ onCanjeado }: { onCanjeado?: () => void }) {
+export default function CouponForm({ onCanjeado, testId }: { onCanjeado?: () => void; testId?: string }) {
   const { user, refreshCredits, openAuth } = useAuth()
   const [abierto, setAbierto] = useState(false)
   const [codigo, setCodigo] = useState('')
@@ -31,12 +31,16 @@ export default function CouponForm({ onCanjeado }: { onCanjeado?: () => void }) 
       const res = await fetch('/api/cupon', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-        body: JSON.stringify({ code: codigo, email: correo }),
+        body: JSON.stringify({ code: codigo, email: correo, testId }),
       })
       const json = await res.json().catch(() => ({}))
 
       if (!res.ok) {
-        setError(MENSAJES[json.error] || 'No pudimos canjear el cupón. Intenta de nuevo.')
+        setError(
+          json.error === 'cupon_otro_test'
+            ? `Este código es solo para «${json.testName}». Canjéalo en la página de ese test.`
+            : MENSAJES[json.error] || 'No pudimos canjear el cupón. Intenta de nuevo.'
+        )
         setDebeIngresar(json.error === 'cuenta_existente')
         setEstado('inicial')
         return
