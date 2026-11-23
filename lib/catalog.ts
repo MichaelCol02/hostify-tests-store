@@ -1,7 +1,7 @@
 // Public catalog. Test URLs are deliberately absent: they live only in store_tests.url
 // and are returned by store_redeem_credit after a credit is spent.
 
-export type TestIcon = 'levels' | 'disc' | 'voice' | 'hospitality' | 'houses' | 'enneagram' | 'couple' | 'tree' | 'money' | 'shield' | 'family'
+export type TestIcon = 'levels' | 'disc' | 'voice' | 'hospitality' | 'houses' | 'enneagram' | 'couple' | 'tree' | 'money' | 'shield' | 'family' | 'heart'
 
 export interface CatalogTest {
   id: string
@@ -44,6 +44,24 @@ export const AUDIENCES: { id: Audience; label: string; blurb: string }[] = [
 ]
 
 export const CATALOG: CatalogTest[] = [
+  {
+    id: 'lenguajes-amor',
+    name: 'Los 5 lenguajes del amor',
+    kicker: 'Amor y pareja',
+    description:
+      'Cómo te sientes amado de verdad, cómo das amor tú y qué te duele cuando falta. Con una guía para enviarle a tu pareja y retos de 21 días.',
+    duration: '12–15 min',
+    questions: 45,
+    modules: ['Palabras', 'Tiempo', 'Regalos', 'Servicio', 'Contacto', 'Cómo das amor', 'Lo que duele'],
+    icon: 'heart',
+    measures: 'Tu lenguaje del amor principal y secundario, cómo das amor y qué ausencia te hiere más.',
+    idealFor: 'Parejas, matrimonios y cualquiera que quiera entender cómo ama y cómo quiere ser amado.',
+    deliver: 'Tu lenguaje con lectura amplia, el contraste entre cómo das y cómo recibes, una guía «cómo amarme bien» para enviar y retos de 21 días.',
+    audience: ['colaborador', 'lider', 'gerente'],
+    credits: 1,
+    people: 1,
+    lanzamiento: '2026-12-15',
+  },
   {
     id: 'estilo-crianza',
     name: 'Tu estilo de crianza',

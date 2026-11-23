@@ -26,7 +26,7 @@ Conviene tener cada test listo **al menos una semana antes** de su fecha, para q
 | # | Fecha | Test | Tipo | Base |
 |---|---|---|---|---|
 | 1 | 21 nov 2026 | **Tu estilo de crianza** ✅ lanzado | Conocimiento | Baumrind; Maccoby y Martin + 6 áreas |
-| 2 | 15 dic 2026 | Los 5 lenguajes del amor | Conocimiento | Gary Chapman |
+| 2 | 15 dic 2026 | **Los 5 lenguajes del amor** ✅ listo | Conocimiento | Gary Chapman |
 | 3 | 1 ene 2027 | Las inteligencias de tu hijo (lo responde el papá o la mamá) | Conocimiento | Howard Gardner |
 | 4 | 15 ene 2027 | Área 1 · Espiritualidad | Innovación · 12 áreas | Hostify |
 | 5 | 1 feb 2027 | Tu estilo de apego | Conocimiento | Bowlby y Ainsworth; apego adulto |

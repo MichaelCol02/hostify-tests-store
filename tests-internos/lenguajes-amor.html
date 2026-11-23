@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Los 5 lenguajes del amor · Hostify Tests</title>
+<style>
+
+:root{--tinta:#111;--suave:#6e6e73;--tenue:#86868b;--marca:#ff6b2c;--marca2:#d94d1a;--marcasuave:#fff1ea;
+ --fondo:#f5f5f7;--linea:#e8e8ed;--blanco:#fff;--verde:#2f9e6b;--verdesuave:#eaf6f0;--ambar:#c98512;--ambarsuave:#fcf4e4;
+ --rojo:#d6402b;--rojosuave:#fdece8;--azul:#3a6ea5;--azulsuave:#eaf1f9;}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--fondo);color:var(--tinta);font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;line-height:1.6;-webkit-text-size-adjust:100%}
+button{font:inherit;cursor:pointer}
+.hero{background:linear-gradient(135deg,#0d0d0d 0%,#1d1410 55%,#3b2216 100%);color:#fff}
+.hero .in{max-width:820px;margin:0 auto;padding:2.2rem 1.2rem 2rem}
+.marca{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#c9c9ce;font-weight:600;display:flex;align-items:center;gap:.5rem;margin-bottom:1rem}
+.marca i{width:9px;height:9px;background:var(--marca);border-radius:2px;display:inline-block}
+.hero h1{font-size:clamp(1.9rem,6vw,2.8rem);line-height:1.1;font-weight:800;letter-spacing:-.02em;margin-bottom:.7rem}
+.hero h1 em{font-style:normal;color:var(--marca)}
+.hero p{color:#c9c9ce;max-width:580px}
+.stats{display:flex;flex-wrap:wrap;gap:1rem 2.2rem;margin-top:1.4rem}
+.stats b{display:block;font-size:1.3rem;line-height:1.1}
+.stats span{font-size:.8rem;color:#a1a1a6}
+.wrap{max-width:820px;margin:0 auto;padding:1.4rem 1rem 4rem}
+.card{background:var(--blanco);border:1px solid var(--linea);border-radius:22px;padding:1.5rem 1.4rem;margin-bottom:1rem}
+.ceja{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--marca2);font-weight:700;margin-bottom:.4rem}
+h2{font-size:1.35rem;line-height:1.25;margin-bottom:.6rem;letter-spacing:-.01em}
+h3{font-size:1.08rem;margin:1.1rem 0 .4rem}
+p+p{margin-top:.7rem}
+.suave{color:var(--suave)}
+.lab{display:block;font-weight:600;font-size:.92rem;margin-bottom:.4rem}
+input[type=text]{width:100%;padding:.8rem 1rem;border:1px solid var(--linea);border-radius:14px;font:inherit;background:#fbfbfd}
+input[type=text]:focus{outline:2px solid var(--marca);border-color:transparent}
+.campo{margin-bottom:1.1rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{border:1px solid var(--linea);background:#fbfbfd;border-radius:999px;padding:.5rem 1rem;font-size:.92rem}
+.chip.on{background:var(--tinta);color:#fff;border-color:var(--tinta)}
+.btns{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+.btn{background:var(--marca);color:#fff;border:0;border-radius:999px;padding:.85rem 1.5rem;font-weight:700}
+.btn:disabled{opacity:.35;cursor:default}
+.btn.sec{background:#fff;color:var(--tinta);border:1px solid var(--linea)}
+.btn.osc{background:var(--tinta)}
+.aviso{color:var(--rojo);font-size:.88rem;margin-top:.5rem;min-height:1.2em}
+.barra{height:6px;background:var(--linea);border-radius:99px;overflow:hidden;margin-bottom:.6rem}
+.barra span{display:block;height:100%;background:var(--marca);width:0;transition:width .3s}
+.paso{font-size:.82rem;color:var(--tenue);margin-bottom:.7rem;display:flex;justify-content:space-between;gap:1rem}
+.preg{font-size:1.16rem;font-weight:600;line-height:1.4;margin:.2rem 0 1.2rem}
+.escala{display:grid;grid-template-columns:repeat(5,1fr);gap:.45rem}
+.escala button{border:1px solid var(--linea);background:#fbfbfd;border-radius:14px;padding:.75rem .2rem;font-size:.8rem;line-height:1.25;color:var(--suave)}
+.escala button b{display:block;font-size:1.15rem;color:var(--tinta)}
+.escala button.on{background:var(--marca);border-color:var(--marca);color:#fff}
+.escala button.on b{color:#fff}
+.opciones button{display:block;width:100%;text-align:left;border:1px solid var(--linea);background:#fbfbfd;border-radius:16px;padding:.9rem 1rem;margin-bottom:.55rem;font-size:.97rem;line-height:1.45}
+.opciones button.on{background:var(--marcasuave);border-color:var(--marca);box-shadow:inset 0 0 0 1px var(--marca)}
+.nav{display:flex;justify-content:space-between;gap:.6rem;margin-top:.4rem}
+.guardado{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--tinta);color:#fff;font-size:.8rem;padding:.4rem .9rem;border-radius:99px;opacity:0;transition:opacity .3s;pointer-events:none}
+.guardado.ver{opacity:.85}
+/* resultado */
+.res-hero{background:var(--tinta);color:#fff;border-radius:26px;padding:1.8rem 1.5rem;margin-bottom:1rem;position:relative;overflow:hidden}
+.res-hero:after{content:"";position:absolute;right:-90px;top:-90px;width:260px;height:260px;border-radius:50%;background:var(--marca);opacity:.35;filter:blur(50px)}
+.res-hero .ceja{color:var(--marca)}
+.res-hero h2{font-size:clamp(1.8rem,6vw,2.4rem);margin-bottom:.3rem}
+.res-hero .lema{color:#d2d2d7;font-size:1.05rem;max-width:560px;position:relative;z-index:1}
+.cita{border-left:3px solid var(--marca);padding:.4rem 0 .4rem 1rem;margin:1rem 0;font-style:italic;color:var(--suave)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.lista{padding-left:1.1rem}
+.lista li{margin-bottom:.4rem}
+.dim{margin-bottom:1rem}
+.dim .cab{display:flex;justify-content:space-between;gap:.6rem;font-size:.95rem;margin-bottom:.3rem}
+.dim .cab b{font-weight:600}
+.riel{height:10px;background:var(--linea);border-radius:99px;overflow:hidden}
+.riel span{display:block;height:100%;border-radius:99px}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;padding:.15rem .55rem;border-radius:99px;margin-left:.3rem;vertical-align:middle}
+.t-f{background:var(--verdesuave);color:var(--verde)}
+.t-d{background:var(--ambarsuave);color:var(--ambar)}
+.t-p{background:var(--rojosuave);color:var(--rojo)}
+.patron{background:var(--marcasuave);border-radius:16px;padding:1rem 1.1rem;margin-bottom:.7rem}
+.patron b{display:block;margin-bottom:.2rem}
+.guia{border:1px solid var(--linea);border-radius:18px;padding:1.2rem 1.1rem;margin-top:1rem}
+.guia h3{margin-top:0}
+.frase{background:var(--fondo);border-radius:12px;padding:.6rem .9rem;margin:.35rem 0;font-size:.95rem}
+.libro{display:flex;gap:.8rem;align-items:flex-start;background:var(--azulsuave);border-radius:14px;padding:.8rem 1rem;margin-top:.8rem}
+.libro i{font-style:normal;font-size:1.3rem;line-height:1.2}
+.semana{border-top:1px solid var(--linea);padding-top:1rem;margin-top:1rem}
+.semana:first-of-type{border-top:0;margin-top:0;padding-top:0}
+.dia{display:flex;gap:.7rem;padding:.45rem 0;border-bottom:1px dashed var(--linea);font-size:.95rem}
+.dia:last-child{border-bottom:0}
+.dia b{flex:0 0 3.6rem;color:var(--marca2);font-size:.85rem;padding-top:.1rem}
+.edad{background:var(--fondo);border-radius:16px;padding:1rem 1.1rem;margin-top:.8rem}
+.contraste{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:1rem 0}
+.contraste div{background:var(--fondo);border-radius:16px;padding:1rem}
+.contraste small{display:block;color:var(--tenue);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em}
+.contraste strong{font-size:1.15rem}
+.compartir{display:grid;grid-template-columns:minmax(0,260px) 1fr;gap:1.4rem;align-items:center}
+.compartir img{width:100%;border-radius:18px;box-shadow:0 12px 40px rgba(0,0,0,.18);display:block}
+@media(max-width:600px){.compartir{grid-template-columns:1fr}.compartir img{max-width:280px;margin:0 auto}}
+.pie{text-align:center;color:var(--tenue);font-size:.8rem;margin-top:2rem}
+svg text{font-family:inherit}
+@media(max-width:600px){.grid2,.contraste{grid-template-columns:1fr}.escala button{font-size:.68rem;padding:.6rem .1rem}.card{padding:1.25rem 1.05rem}}
+@media print{.hero,.no-imprimir,.guardado{display:none!important}body,html{background:#fff}.card,.guia{break-inside:avoid}.res-hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+.par{display:grid;gap:.6rem}
+.par button{display:flex;gap:.8rem;align-items:center;text-align:left;border:1px solid var(--linea);background:#fbfbfd;border-radius:18px;padding:1.1rem 1.1rem;font-size:1.02rem;line-height:1.45}
+.par button i{font-style:normal;font-size:1.5rem;flex:0 0 auto}
+.par button.on{background:var(--marcasuave);border-color:var(--marca);box-shadow:inset 0 0 0 1px var(--marca)}
+.o{text-align:center;color:var(--tenue);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase}
+.idioma{display:flex;gap:.9rem;align-items:center;margin-bottom:1rem}
+.idioma .ico{flex:0 0 2.6rem;height:2.6rem;border-radius:14px;display:grid;place-items:center;font-size:1.35rem}
+.idioma .cab{flex:1}
+.carta{background:linear-gradient(135deg,#fff7f2,#fff);border:1px solid #f6d9c8;border-radius:20px;padding:1.4rem 1.3rem}
+.carta h3{margin-top:.2rem}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="in">
+    <div class="marca"><i></i>Hostify Tests · Amor y pareja</div>
+    <h1>Los 5 lenguajes del <em>amor</em></h1>
+    <p>Descubre cómo te sientes amado de verdad, cómo das amor tú y qué es lo que más te duele cuando falta. Y llévate una guía para que quienes te aman sepan cómo llegarte al corazón.</p>
+    <div class="stats">
+      <div><b>45</b><span>preguntas</span></div>
+      <div><b>12–15 min</b><span>de respuesta</span></div>
+      <div><b>3</b><span>fuentes que se contrastan</span></div>
+      <div><b>21 días</b><span>de retos</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div id="intro">
+  <div class="card">
+    <div class="ceja">Antes de empezar</div>
+    <h2>Todos amamos en un idioma. Casi nunca es el mismo.</h2>
+    <p>El consejero Gary Chapman observó que las personas se sienten amadas de cinco formas principales: <b>palabras de afirmación, tiempo de calidad, regalos, actos de servicio y contacto físico</b>. Cada uno tiene una que le llena el corazón más que las otras. Cuando dos personas hablan idiomas distintos, pueden amarse mucho y aun así sentirse solas.</p>
+    <p>Este test tiene tres partes:</p>
+    <ul class="lista" style="margin-top:.5rem">
+      <li><b>30 elecciones</b> entre dos opciones: cuál te llena más.</li>
+      <li><b>10 afirmaciones</b> sobre cómo das amor tú.</li>
+      <li><b>5 situaciones</b> sobre lo que más te duele cuando falta.</li>
+    </ul>
+    <p class="suave">Las tres partes se contrastan entre sí. Muchas personas descubren que dan amor en un idioma y lo necesitan en otro.</p>
+  </div>
+  <div class="card">
+    <div class="campo">
+      <label class="lab" for="nombre">Tu nombre</label>
+      <input type="text" id="nombre" placeholder="Cómo quieres que te llamemos" autocomplete="given-name">
+    </div>
+    <div class="campo">
+      <span class="lab">Hoy estás</span>
+      <div class="chips" id="contextos"></div>
+    </div>
+    <p class="suave" style="font-size:.86rem">Si no tienes pareja, piensa en las personas que más quieres: familia y amigos. El test funciona igual.</p>
+    <p class="suave" style="font-size:.86rem">Tus respuestas se quedan en este dispositivo. Nadie más las ve.</p>
+    <div class="aviso" id="avisoIntro"></div>
+    <div class="btns" style="justify-content:flex-end"><button class="btn" onclick="empezar()">Empezar el test →</button></div>
+  </div>
+</div>
+
+<div id="test" style="display:none">
+  <div class="barra"><span id="barra"></span></div>
+  <div class="paso"><span id="parte"></span><span id="paso"></span></div>
+  <div class="card" id="pregunta"></div>
+  <div class="nav">
+    <button class="btn sec" id="atras" onclick="mover(-1)">← Atrás</button>
+    <button class="btn" id="sig" onclick="mover(1)" disabled>Siguiente →</button>
+  </div>
+</div>
+
+<div id="resultado" style="display:none"></div>
+
+<p class="pie">Hostify Tests · Basado en el modelo de los 5 lenguajes del amor de Gary Chapman. Preguntas e interpretación propias de Hostify. Herramienta de autoconocimiento, no un diagnóstico.</p>
+</main>
+<div class="guardado" id="guardado">Progreso guardado</div>
+
+<script>
+/* =====================================================================
+   LOS 5 LENGUAJES DEL AMOR · Hostify Tests
+   Tres fuentes que se contrastan:
+   1) 30 pares de elección forzada (cada lenguaje aparece 12 veces): cómo
+      RECIBES amor. Es la fuente principal.
+   2) 10 afirmaciones 1–5 (2 por lenguaje): cómo DAS amor.
+   3) 5 situaciones con 5 opciones: lo que más te DUELE cuando falta.
+   Las frases son propias; el modelo es de Gary Chapman.
+   ===================================================================== */
+
+var CONTEXTOS = [{id:'pareja',n:'En pareja o casado'},{id:'solo',n:'Sin pareja'}];
+var ESCALA = [null,'Nada','Poco','A veces','Bastante','Totalmente'];
+var ORDEN_L = ['P','T','R','S','C'];
+var SITIO = 'hostifycol.netlify.app';
+
+/* ---------- los cinco lenguajes ---------- */
+var L = {
+ P:{n:'Palabras de afirmación',corto:'Palabras',ico:'💬',c:'#ff6b2c',f:'#fff1ea',
+  lema:'Lo que se dice te construye. Una frase sincera te puede sostener por días.',
+  tarjeta:'Una palabra sincera me sostiene por días.',
+  desc:['Para ti, el amor se escucha. Un «estoy orgulloso de ti», un mensaje inesperado o un agradecimiento específico llegan directo al corazón. No es vanidad: las palabras son la forma en que confirmas que eres visto y valorado.','Por eso mismo, las palabras también te hieren más que a otros. Una crítica dura, un sarcasmo o un silencio prolongado pesan más en ti de lo que la otra persona imagina. Puedes recordar durante años una frase que alguien dijo de pasada.','Tu reto es doble: pedir lo que necesitas sin esperar que lo adivinen, y aprender a recibir el amor que te dan en otros idiomas, aunque no venga en palabras.'],
+  llena:['Un «te quiero» dicho mirándote, sin prisa.','Que reconozcan algo específico que hiciste bien.','Mensajes inesperados durante el día.','Elogios delante de otras personas.','Notas o cartas escritas a mano.','Que te digan «creo en ti» antes de algo importante.'],
+  vacia:['Las críticas duras o en público.','El sarcasmo y las burlas, aunque sean «en broma».','Que nunca reconozcan tu esfuerzo.','Los silencios largos después de un conflicto.'],
+  pedir:['«Me haría mucho bien que me dijeras qué valoras de mí. Las palabras me llegan mucho.»','«Cuando me dices "gracias por…", siento que lo que hago importa.»'],
+  guia:['Dime lo que admiras de mí, con ejemplos concretos.','Escríbeme un mensaje sin motivo en medio del día.','Agradéceme en voz alta, también delante de otros.','Cuando estemos en desacuerdo, cuida el tono: las palabras duras me duran mucho.','Antes de algo difícil para mí, dime que crees en mí.'],
+  trampa:'Puedes depender demasiado de la aprobación ajena y vivir una crítica como un rechazo total. Recuerda que una palabra dura no borra todo lo bueno.',
+  hijos:'Un niño con este lenguaje florece con el elogio del esfuerzo y se marchita con los gritos y las comparaciones. Las notas en la lonchera hacen milagros.',
+  trabajo:'En el trabajo, este perfil rinde más con reconocimiento verbal y específico, ojalá delante del equipo.',
+  libro:{t:'Los 5 lenguajes del amor',a:'Gary Chapman',d:'El libro original del modelo, con historias reales y ejemplos de cada lenguaje.'}},
+ T:{n:'Tiempo de calidad',corto:'Tiempo',ico:'⏳',c:'#3a6ea5',f:'#eaf1f9',
+  lema:'Para ti, amor es presencia: atención completa, sin pantallas y sin prisa.',
+  tarjeta:'Mi forma de sentir amor es la atención completa.',
+  desc:['Para ti, el amor se mide en atención. No basta con estar en el mismo lugar: necesitas sentir que la otra persona está realmente contigo, escuchándote, mirándote, sin el celular en la mano ni la cabeza en otra parte.','Una caminata sin plan, un café largo o una conversación profunda te llenan más que cualquier regalo. Y lo que más te duele no es una pelea, sino sentirte una tarea más en la agenda de alguien que dice amarte.','Tu reto es pedir tiempo sin reclamar, y entender que la otra persona quizá te está amando en otro idioma: trabajando, ayudando o diciéndote cosas bonitas.'],
+  llena:['Conversaciones largas sin celulares.','Planes sencillos solo para los dos.','Que te pregunten por tu día y escuchen la respuesta completa.','Que alguien aparte tiempo en su agenda para ti.','Hacer juntos algo que a ti te gusta.','Que recuerden lo que les contaste y lo retomen.'],
+  vacia:['Estar juntos con la otra persona pendiente del celular.','Cancelar planes a última hora.','Escucharte a medias mientras hace otra cosa.','Semanas sin un rato a solas.'],
+  pedir:['«¿Podemos tener esta noche media hora solo para nosotros, sin celulares?»','«Lo que más me llena es cuando te sientas conmigo a conversar sin prisa.»'],
+  guia:['Cuando te hable, suelta el celular y mírame.','Separa un rato fijo a la semana solo para nosotros.','Proponme planes sencillos: caminar, un café, cocinar juntos.','Si tienes que cancelar un plan, propón otra fecha de inmediato.','Pregúntame por mi día y escucha la respuesta completa.'],
+  trampa:'Puedes leer la falta de tiempo como falta de amor, incluso cuando la otra persona está agotada o te ama en otro idioma. Pide, pero también mira lo que sí te dan.',
+  hijos:'Un niño con este lenguaje necesita ratos a solas con su papá o su mamá. Veinte minutos de juego sin pantallas valen más que un juguete caro.',
+  trabajo:'En el trabajo, este perfil se siente valorado cuando el jefe le dedica tiempo: una reunión uno a uno, una conversación sin interrupciones.',
+  libro:{t:'Los 5 lenguajes del amor',a:'Gary Chapman',d:'Incluye el concepto de «conversación de calidad» y cómo crear tiempo real juntos.'}},
+ R:{n:'Regalos',corto:'Regalos',ico:'🎁',c:'#c98512',f:'#fcf4e4',
+  lema:'No es el precio: es la prueba tangible de que alguien pensó en ti.',
+  tarjeta:'Un detalle pensado para mí me dice: «me acordé de ti».',
+  desc:['Para ti, el amor se puede tocar. Un detalle, por pequeño que sea, es la prueba de que alguien pensó en ti cuando no estabas. No tiene nada que ver con el dinero: una flor del camino o tu antojo favorito pueden valer más que algo caro.','Por eso guardas cartas, tarjetas y recuerdos, y recuerdas quién te regaló qué. Y por eso te duele tanto que olviden una fecha importante: no es el objeto que falta, es la señal de que no estabas en su mente.','Tu reto es explicar este lenguaje sin que suene a interés, y valorar también el amor que llega sin envoltorio.'],
+  llena:['Detalles pequeños sin motivo, un día cualquiera.','Que recuerden algo que mencionaste hace tiempo y te lo regalen.','Que celebren tus fechas importantes.','Un recuerdo de un viaje o de un momento juntos.','Algo hecho a mano para ti.','Tu antojo favorito al llegar a casa.'],
+  vacia:['Que olviden tu cumpleaños o un aniversario.','Regalos genéricos, sin pensar en ti.','Que no valoren los detalles que tú das.','Llegar con las manos vacías a una fecha especial.'],
+  pedir:['«No necesito nada caro. Un detalle pequeño me dice que pensaste en mí, y eso me llena.»','«Me encantaría que celebráramos esta fecha con algo sencillo, pero pensado.»'],
+  guia:['Anota las cosas que menciono que me gustan: ahí están mis regalos.','No olvides mis fechas importantes.','Un detalle pequeño sin motivo vale más que uno grande una vez al año.','Tráeme algo cuando viajes, aunque sea pequeño.','Valora los detalles que yo te doy: son mi forma de decirte «te amo».'],
+  trampa:'Puedes medir el amor por los detalles y pasar por alto otras formas de cariño. También puede costarte poner límites cuando das demasiado.',
+  hijos:'Un niño con este lenguaje cuida sus cosas y las guarda como tesoros. No lo malcríes: el detalle debe hablar de atención, no de cantidad.',
+  trabajo:'En el trabajo, este perfil valora un pequeño obsequio o un gesto tangible de reconocimiento: un almuerzo, un libro, una tarjeta.',
+  libro:{t:'Los 5 lenguajes del amor',a:'Gary Chapman',d:'Explica por qué los regalos son símbolos de amor y cómo darlos sin caer en lo material.'}},
+ S:{n:'Actos de servicio',corto:'Servicio',ico:'🤝',c:'#2f9e6b',f:'#eaf6f0',
+  lema:'Para ti, el amor se demuestra haciendo: alivia tu carga y sabrás que te ama.',
+  tarjeta:'Para mí, el amor se demuestra haciendo.',
+  desc:['Para ti, el amor es un verbo. Que alguien te ayude sin que se lo pidas, resuelva algo que te tocaba o te aligere la carga en un día pesado te dice «te amo» más fuerte que cualquier frase.','Probablemente tú también amas así: resolviendo, ayudando, haciendo la vida más fácil a los demás. Y por eso te duele tanto cuando prometen ayudarte y no cumplen, o cuando sientes que cargas solo con todo.','Tu reto es pedir ayuda sin sentir que eres una carga, y no confundir el amor con la utilidad: también mereces amor en los días en que no produces nada.'],
+  llena:['Que te ayuden sin que tengas que pedirlo.','Llegar a casa y encontrar algo resuelto.','Que se encarguen de una diligencia por ti.','Que cuiden a los niños para que descanses.','Que hagan algo por ti que saben que no disfrutan.','«¿En qué te puedo ayudar hoy?», y que lo cumplan.'],
+  vacia:['Promesas de ayuda que no se cumplen.','Sentir que cargas solo con todo.','Que creen más trabajo del que ayudan a resolver.','La pereza o el desinterés cuando estás saturado.'],
+  pedir:['«Me sentiría muy amado si esta semana te encargaras de esto por mí.»','«Cuando me ayudas sin que te lo pida, siento que estamos en el mismo equipo.»'],
+  guia:['Pregúntame «¿en qué te ayudo hoy?» y cumple lo que digas.','Encárgate de algo de la casa sin que te lo pida.','Si prometes hacer algo, hazlo: una promesa incumplida me duele mucho.','En mis días pesados, quítame una tarea de encima.','Valora lo que hago por ti: es mi forma de decir «te amo».'],
+  trampa:'Puedes caer en hacer todo por todos y sentirte poco valorado cuando no te lo agradecen. También puedes confundir tu valor con lo que produces.',
+  hijos:'Un niño con este lenguaje se siente amado cuando lo ayudas con su proyecto o le arreglas la bicicleta. Ayúdalo, pero sin hacerle todo.',
+  trabajo:'En el trabajo, este perfil se siente valorado cuando alguien le echa una mano en momentos de carga, más que con discursos.',
+  libro:{t:'Los 5 lenguajes del aprecio en el trabajo',a:'Gary Chapman y Paul White',d:'Cómo aplicar los cinco lenguajes en equipos y con colaboradores, ideal si lideras personas.'}},
+ C:{n:'Contacto físico',corto:'Contacto',ico:'🫂',c:'#8a5cc2',f:'#f3edfa',
+  lema:'Un abrazo te dice más que mil palabras: la cercanía física es tu hogar.',
+  tarjeta:'Un abrazo me dice más que mil palabras.',
+  desc:['Para ti, el amor se siente en la piel. Un abrazo largo, tomarse de la mano, una caricia en el hombro o sentarse cerca te dan una seguridad que las palabras no alcanzan. No se trata solo de intimidad: es la cercanía cotidiana la que te llena.','En los momentos difíciles, un abrazo te consuela más que cualquier consejo. Y lo que más te duele es la frialdad física: que te esquiven, que no te toquen después de una discusión o que el contacto desaparezca de la rutina.','Tu reto es expresar esta necesidad con naturalidad, respetando el ritmo de quien no creció con tanto contacto, y recibir también el amor que llega en otros idiomas.'],
+  llena:['Abrazos largos al llegar y al despedirse.','Caminar de la mano.','Sentarse cerca, tocándose, mientras ven algo.','Una caricia cuando estás triste.','Un masaje después de un día difícil.','Que te busquen físicamente para reconciliarse.'],
+  vacia:['Que te esquiven o rechacen un abrazo.','La frialdad física después de una discusión.','Días enteros sin ningún contacto.','Un contacto brusco o sin cuidado.'],
+  pedir:['«¿Me das un abrazo? Lo necesito más que un consejo ahora.»','«Me encanta cuando me tomas de la mano; me hace sentir muy cerca de ti.»'],
+  guia:['Abrázame al llegar y al despedirte, todos los días.','Tómame de la mano cuando caminemos.','Cuando esté triste, primero un abrazo, después las palabras.','Después de discutir, búscame físicamente para reconciliarnos.','Siéntate cerca de mí cuando veamos algo juntos.'],
+  trampa:'Puedes sentir el rechazo físico como un rechazo total, aunque la otra persona solo esté cansada o haya crecido en una familia menos expresiva.',
+  hijos:'Un niño con este lenguaje busca tu regazo, se acurruca y pide abrazos. Nunca uses el contacto como castigo ni lo retires cuando se porta mal.',
+  trabajo:'En el trabajo, este perfil valora un saludo cálido, un apretón de manos o una palmada en el hombro, siempre con respeto y en su justa medida.',
+  libro:{t:'Los 5 lenguajes del amor',a:'Gary Chapman',d:'Explica el poder del contacto físico en la pareja y en la familia.'}}
+};
+
+/* ---------- parte 1: 12 frases por lenguaje, se combinan en 30 pares ---------- */
+var FRASES = {
+ P:['Que me digan lo orgullosos que están de mí.','Recibir un mensaje inesperado que diga cuánto me valoran.','Que reconozcan en voz alta algo que hice bien.','Escuchar un «te quiero» dicho con intención.','Que me animen con palabras cuando dudo de mí.','Recibir una nota escrita a mano.','Que me elogien delante de otras personas.','Que me digan qué es lo que más les gusta de mí.','Que me agradezcan de forma específica lo que hago.','Que me hablen con ternura incluso cuando estamos en desacuerdo.','Que me digan «creo en ti» antes de algo importante.','Recibir un halago sincero sobre quién soy.'],
+ T:['Una conversación larga, sin celulares, solo los dos.','Que alguien deje lo que está haciendo para escucharme de verdad.','Salir a caminar juntos sin un plan.','Que reserven en su agenda un tiempo solo para mí.','Hacer juntos algo que me gusta, aunque al otro no le encante.','Una comida en la que estemos realmente presentes.','Que me pregunten por mi día y escuchen la respuesta completa.','Una escapada de fin de semana para estar juntos.','Compartir un café tranquilo en la mañana.','Ver juntos una serie que nos gusta, sin mirar el celular.','Que alguien se desplace solo para pasar tiempo conmigo.','Que recuerden lo que les conté y retomen la conversación días después.'],
+ R:['Recibir un detalle que muestra que pensaron en mí.','Que me traigan algo pequeño de un viaje.','Recibir un regalo que recuerda algo que mencioné hace tiempo.','Que me sorprendan con flores, un dulce o algo que me gusta.','Guardar los regalos y tarjetas que me han dado.','Que celebren mis fechas importantes con un detalle.','Recibir algo hecho a mano para mí.','Un detalle sin motivo, un día cualquiera.','Que me regalen algo que necesitaba y no había pedido.','Que mi cumpleaños tenga algo pensado solo para mí.','Recibir un recuerdo de un momento especial que vivimos.','Que lleguen a casa con mi antojo favorito.'],
+ S:['Que me ayuden con una tarea pendiente sin que yo lo pida.','Llegar a casa y encontrar resuelto algo que me tocaba a mí.','Que se encarguen de un trámite o una diligencia por mí.','Que preparen la comida en un día en que no tengo energía.','Que me ayuden con mis responsabilidades cuando tengo demasiado encima.','Que alguien arregle algo que estaba dañado en casa.','Que se hagan cargo de todo un rato para que yo pueda descansar.','Que hagan algo por mí que saben que no disfrutan.','Que me tengan listo lo que necesito antes de salir.','Que me pregunten «¿en qué te ayudo hoy?» y lo cumplan.','Que me lleven o me recojan cuando lo necesito.','Que se ocupen del orden de la casa sin quejarse.'],
+ C:['Un abrazo largo al llegar a casa.','Caminar tomados de la mano.','Una caricia o una mano en el hombro cuando estoy triste.','Sentarnos cerca, tocándonos, mientras vemos algo.','Un beso al despedirnos y al reencontrarnos.','Un masaje después de un día difícil.','Que me toquen el brazo o la espalda mientras hablamos.','Quedarnos abrazados un rato antes de dormir.','Un abrazo fuerte cuando recibo una buena noticia.','Que me busquen físicamente para reconciliarnos después de discutir.','Saludar con un abrazo, no solo con palabras.','Un gesto cariñoso cuando pasamos uno al lado del otro.']
+};
+/* Las 10 combinaciones, tres veces, en un orden que no repite lenguaje seguido. */
+var COMBOS = ['RC','SP','TC','SR','PT','CR','TS','CP','RS','TP','SC','RT','PC','SR','PT','CS','TR','CP','TS','RP','SC','RT','PS','CT','PR','ST','RC','SP','TC','RP'];
+var PARES = (function(){
+  var usado={P:0,T:0,R:0,S:0,C:0};
+  return COMBOS.map(function(c){var a=c[0],b=c[1];return [{l:a,t:FRASES[a][usado[a]++]},{l:b,t:FRASES[b][usado[b]++]}]});
+})();
+
+/* ---------- parte 2: cómo das amor ---------- */
+var DAS = [
+ {l:'P',t:'Expreso mi cariño con palabras: digo lo que admiro y lo que agradezco.'},
+ {l:'T',t:'Cuando quiero a alguien, le aparto tiempo y le doy toda mi atención.'},
+ {l:'R',t:'Me fijo en detalles para sorprender a quien quiero con algo pensado para esa persona.'},
+ {l:'S',t:'Demuestro mi amor resolviendo cosas y haciéndoles la vida más fácil a los demás.'},
+ {l:'C',t:'Abrazo, tomo de la mano o toco el hombro con naturalidad a quienes quiero.'},
+ {l:'S',t:'Si alguien que quiero está cargado, me pongo a ayudarle sin que me lo pida.'},
+ {l:'P',t:'Escribo mensajes o notas para animar a las personas que amo.'},
+ {l:'C',t:'Me sale buscar cercanía física para consolar o para celebrar.'},
+ {l:'T',t:'Propongo planes para compartir, aunque sean sencillos.'},
+ {l:'R',t:'Me cuesta llegar con las manos vacías a una visita o a una fecha especial.'}
+];
+
+/* ---------- parte 3: lo que más duele ---------- */
+var DUELE = [
+ {t:'En una semana difícil, ¿qué te dolería más de la persona que amas?',o:{
+  P:'Que no te dijera ni una palabra de ánimo.',T:'Que no sacara ni un rato para estar contigo.',R:'Que olvidara una fecha importante para ti.',S:'Que te dejara con todas las tareas encima.',C:'Que no te diera ni un abrazo.'}},
+ {t:'Después de una discusión, ¿qué te cuesta más?',o:{
+  P:'Las palabras duras que se dijeron.',T:'Que la otra persona se aleje y no quiera compartir contigo.',R:'Que no haya ningún gesto concreto de reconciliación.',S:'Que no haga nada para arreglar lo que quedó pendiente.',C:'Que evite tocarte o abrazarte.'}},
+ {t:'¿Qué te haría sentir menos valorado?',o:{
+  P:'Que nunca reconozcan tu esfuerzo.',T:'Que estén contigo, pero pendientes del celular.',R:'Que nunca tengan un detalle contigo.',S:'Que te pidan ayuda, pero nunca te la ofrezcan.',C:'Que rechacen un abrazo tuyo.'}},
+ {t:'Si alguien te dice que te ama, ¿qué te haría dudarlo más?',o:{
+  P:'Que nunca te lo diga con palabras.',T:'Que nunca tenga tiempo para ti.',R:'Que no se acuerde de tus fechas ni tenga detalles.',S:'Que no mueva un dedo cuando necesitas ayuda.',C:'Que casi nunca te toque ni te abrace.'}},
+ {t:'Mirando tu infancia, ¿qué echaste más de menos?',o:{
+  P:'Que te dijeran que estaban orgullosos de ti.',T:'Tiempo a solas con tus papás.',R:'Detalles y celebraciones pensadas para ti.',S:'Ayuda cuando la necesitabas.',C:'Abrazos y cariño físico.'}}
+];
+/* Orden fijo de las opciones de cada situación, para que no siempre salga primero el mismo lenguaje. */
+var ORDEN_DUELE = [['T','C','P','R','S'],['S','P','C','T','R'],['C','R','T','S','P'],['R','S','P','C','T'],['P','T','S','R','C']];
+
+/* =====================================================================
+   ESTADO
+   ===================================================================== */
+var persona={nombre:'',contexto:''};
+var R={};var paso=0;
+var N1=PARES.length,N2=DAS.length,N3=DUELE.length,TOTAL=N1+N2+N3;
+var CLAVE='hostify_lenguajes_amor_v1';
+
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function pintarChips(){$('contextos').innerHTML=CONTEXTOS.map(function(c){return '<button type="button" class="chip'+(persona.contexto===c.id?' on':'')+'" onclick="ctx(\''+c.id+'\')">'+c.n+'</button>'}).join('')}
+function ctx(id){persona.contexto=id;pintarChips()}
+function guardar(){try{localStorage.setItem(CLAVE,JSON.stringify({persona:persona,R:R,paso:paso}))}catch(e){}var g=$('guardado');g.classList.add('ver');clearTimeout(guardar.t);guardar.t=setTimeout(function(){g.classList.remove('ver')},900)}
+function cargar(){try{var g=JSON.parse(localStorage.getItem(CLAVE)||'null');if(g&&g.persona){persona=g.persona;R=g.R||{};paso=g.paso||0;return g}}catch(e){}return null}
+
+function empezar(){
+  persona.nombre=$('nombre').value.trim();
+  if(!persona.contexto){$('avisoIntro').textContent='Elige si hoy estás en pareja o sin pareja.';return}
+  $('avisoIntro').textContent='';$('intro').style.display='none';$('test').style.display='block';
+  pintar();guardar();window.scrollTo(0,0);
+}
+function claveDe(p){return p<N1?'a'+p:(p<N1+N2?'b'+(p-N1):'c'+(p-N1-N2))}
+function quien(){return persona.contexto==='pareja'?'tu pareja':'las personas que amas'}
+
+function pintar(){
+  var k=claveDe(paso);
+  $('barra').style.width=Math.round(paso/TOTAL*100)+'%';
+  $('paso').textContent=(paso+1)+' de '+TOTAL;
+  $('atras').style.visibility=paso===0?'hidden':'visible';
+  $('sig').disabled=R[k]==null;
+  $('sig').textContent=paso===TOTAL-1?'Ver mi resultado →':'Siguiente →';
+  var h='';
+  if(paso<N1){
+    $('parte').textContent='Parte 1 · Lo que te llena';
+    var par=PARES[paso];
+    h=(paso===0?'<p class="suave" style="margin-bottom:.8rem">Elige la que te llena más. Si las dos te gustan, elige la que extrañarías más si faltara.</p>':'')+
+      '<div class="preg">¿Cuál de estas dos te llena más el corazón?</div><div class="par">'+
+      par.map(function(o,i){return (i===1?'<div class="o">o</div>':'')+'<button type="button" class="'+(R[k]===o.l?'on':'')+'" onclick="elegir(\''+k+'\',\''+o.l+'\')"><span>'+esc(o.t)+'</span></button>'}).join('')+'</div>';
+  }else if(paso<N1+N2){
+    $('parte').textContent='Parte 2 · Cómo das amor';
+    var it=DAS[paso-N1];
+    h=(paso===N1?'<p class="suave" style="margin-bottom:.8rem">Ahora piensa en cómo <b>das</b> amor tú. ¿Qué tanto te describe cada frase?</p>':'')+
+      '<div class="preg">'+esc(it.t)+'</div><div class="escala">';
+    for(var v=1;v<=5;v++){h+='<button type="button" class="'+(R[k]===v?'on':'')+'" onclick="elegir(\''+k+'\','+v+')"><b>'+v+'</b>'+ESCALA[v]+'</button>'}
+    h+='</div>';
+  }else{
+    $('parte').textContent='Parte 3 · Lo que más te duele';
+    var i3=paso-N1-N2,d=DUELE[i3];
+    h=(i3===0?'<p class="suave" style="margin-bottom:.8rem">Lo que más nos duele cuando falta suele revelar nuestro lenguaje. Elige una sola opción.</p>':'')+
+      '<div class="preg">'+esc(d.t)+'</div><div class="opciones">'+
+      ORDEN_DUELE[i3].map(function(l){return '<button type="button" class="'+(R[k]===l?'on':'')+'" onclick="elegir(\''+k+'\',\''+l+'\')">'+esc(d.o[l])+'</button>'}).join('')+'</div>';
+  }
+  $('pregunta').innerHTML=h;
+}
+function elegir(k,v){R[k]=v;guardar();pintar();setTimeout(function(){if(claveDe(paso)===k&&paso<TOTAL-1)mover(1)},260)}
+function mover(d){
+  if(d>0&&R[claveDe(paso)]==null)return;
+  if(d>0&&paso===TOTAL-1){terminar();return}
+  paso=Math.max(0,Math.min(TOTAL-1,paso+d));guardar();pintar();
+}
+
+/* =====================================================================
+   CÁLCULO
+   ===================================================================== */
+function calcular(){
+  var recibe={P:0,T:0,R:0,S:0,C:0},da={P:0,T:0,R:0,S:0,C:0},duele={P:0,T:0,R:0,S:0,C:0};
+  for(var i=0;i<N1;i++){var a=R['a'+i];if(a)recibe[a]++}
+  DAS.forEach(function(it,i){da[it.l]+=R['b'+i]||3});
+  for(var j=0;j<N3;j++){var c=R['c'+j];if(c)duele[c]++}
+  // Orden: los pares mandan; un empate lo rompe lo que más duele, y luego cómo das.
+  function orden(){return ORDEN_L.slice().sort(function(x,y){return recibe[y]-recibe[x]||duele[y]-duele[x]||da[y]-da[x]})}
+  var o=orden();
+  var pct={};ORDEN_L.forEach(function(l){pct[l]=Math.round(recibe[l]/12*100)});
+  var daOrden=ORDEN_L.slice().sort(function(x,y){return da[y]-da[x]||recibe[y]-recibe[x]});
+  var dueleOrden=ORDEN_L.slice().sort(function(x,y){return duele[y]-duele[x]||recibe[y]-recibe[x]});
+  return {recibe:recibe,da:da,duele:duele,pct:pct,orden:o,primario:o[0],secundario:o[1],
+    bilingue:recibe[o[0]]-recibe[o[1]]<=1,daTop:daOrden[0],dueleTop:dueleOrden[0],dueleMax:duele[dueleOrden[0]]};
+}
+
+/* =====================================================================
+   RESULTADO
+   ===================================================================== */
+function terminar(){
+  var c=calcular(),p=L[c.primario],s=L[c.secundario];
+  var nombre=persona.nombre?esc(persona.nombre):'';
+  var h='';
+
+  h+='<div class="res-hero"><div class="ceja">'+(nombre?nombre+', tu':'Tu')+' lenguaje del amor</div><h2>'+p.ico+' '+p.n+'</h2>'+
+     '<p class="lema">'+esc(p.lema)+'</p>'+
+     '<p style="color:#a1a1a6;font-size:.9rem;margin-top:.8rem;position:relative;z-index:1">'+(c.bilingue?'Eres bilingüe: tu segundo lenguaje, '+s.n.toLowerCase()+', está casi empatado.':'Tu segundo lenguaje: '+s.n.toLowerCase()+'.')+'</p></div>';
+
+  // ranking
+  h+='<div class="card"><div class="ceja">Tu mapa</div><h2>Cómo recibes amor</h2><p class="suave" style="margin-bottom:1rem">De las 30 elecciones, cuántas veces elegiste cada lenguaje (máximo 12).</p>';
+  c.orden.forEach(function(l,i){var x=L[l];
+    h+='<div class="dim"><div class="cab"><b>'+x.ico+' '+x.n+(i===0?'<span class="tag t-f">Principal</span>':(i===1?'<span class="tag t-d">Secundario</span>':''))+'</b><span>'+c.recibe[l]+' de 12</span></div><div class="riel"><span style="width:'+Math.max(3,c.pct[l])+'%;background:'+x.c+'"></span></div></div>'});
+  h+='</div>';
+
+  // lectura
+  h+='<div class="card"><div class="ceja">Tu lectura</div><h2>'+p.n+'</h2>'+p.desc.map(function(x){return '<p>'+esc(x)+'</p>'}).join('')+
+     '<div class="grid2" style="margin-top:.6rem"><div><h3>Lo que te llena</h3><ul class="lista">'+p.llena.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></div>'+
+     '<div><h3>Lo que te vacía</h3><ul class="lista">'+p.vacia.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></div></div>'+
+     '<h3>Tu trampa</h3><p>'+esc(p.trampa)+'</p>'+
+     '<h3>Cómo pedirlo sin reclamar</h3>'+p.pedir.map(function(x){return '<div class="frase">'+esc(x)+'</div>'}).join('')+'</div>';
+
+  // secundario
+  h+='<div class="card"><div class="ceja">Tu segundo lenguaje</div><div class="idioma"><div class="ico" style="background:'+s.f+'">'+s.ico+'</div><div class="cab"><h2 style="margin:0">'+s.n+'</h2></div></div>'+
+     '<p>'+esc(s.lema)+'</p><p class="suave">'+(c.bilingue?'Está casi a la par de tu lenguaje principal. Quien te ama puede llegarte por cualquiera de los dos, y lo ideal es combinarlos.':'No es el que más te llena, pero suma mucho. Combinado con tu lenguaje principal, multiplica el efecto.')+'</p>'+
+     '<h3>Lo que también te llena</h3><ul class="lista">'+s.llena.slice(0,3).map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></div>';
+
+  // contraste: das vs recibes, y lo que duele
+  var d=L[c.daTop],du=L[c.dueleTop];
+  h+='<div class="card"><div class="ceja">Tres fuentes</div><h2>'+(c.daTop===c.primario?'Das amor en el mismo idioma en que lo necesitas':'Das amor en un idioma y lo necesitas en otro')+'</h2>'+
+     '<div class="contraste"><div><small>Cómo recibes</small><strong>'+p.ico+' '+p.corto+'</strong></div><div><small>Cómo das</small><strong>'+d.ico+' '+d.corto+'</strong></div></div>';
+  if(c.daTop===c.primario){
+    h+='<p>Amas a los demás de la forma en que te gusta ser amado. Es natural: damos lo que valoramos. El riesgo es suponer que todos lo necesitan igual. Si '+quien()+' tiene otro lenguaje, tu esfuerzo puede no llegarle con la fuerza que imaginas.</p>';
+  }else{
+    h+='<p>Tú expresas tu amor sobre todo con <b>'+d.n.toLowerCase()+'</b>, pero lo que más te llena es <b>'+p.n.toLowerCase()+'</b>. Es más común de lo que parece: muchas veces damos lo que aprendimos en casa, no lo que necesitamos.</p><p>Esto tiene una consecuencia importante: quienes te aman pueden creer que lo que tú valoras es '+d.n.toLowerCase()+', porque es lo que te ven dar. Por eso es clave que les digas, con palabras, qué te llena a ti.</p>';
+  }
+  h+='<h3>Lo que más te duele</h3>';
+  if(c.dueleTop===c.primario&&c.dueleMax>=2){h+='<p>En las situaciones de dolor elegiste sobre todo opciones de <b>'+du.n.toLowerCase()+'</b>, lo mismo que en tus elecciones. Las dos fuentes coinciden: tu lenguaje principal está muy claro.</p>'}
+  else if(c.dueleTop===c.secundario&&c.dueleMax>=2){h+='<p>Lo que más te duele cuando falta es <b>'+du.n.toLowerCase()+'</b>, tu segundo lenguaje. Puede que te llene más '+p.n.toLowerCase()+', pero la ausencia de '+du.n.toLowerCase()+' te hiere más. Quien te ama necesita cuidar los dos.</p>'}
+  else if(c.dueleMax>=2){h+='<p>Lo que más te duele cuando falta es <b>'+du.n.toLowerCase()+'</b>, aunque no aparece entre tus primeros lenguajes. Quizá es una herida de tu historia: algo que te faltó y que hoy pesa más de lo que imaginas. Vale la pena prestarle atención.</p>'}
+  else{h+='<p>Tus respuestas de dolor se repartieron entre varios lenguajes. Eso suele indicar que tu forma de sentirte amado es amplia, y que lo que más pesa es la constancia más que un gesto específico.</p>'}
+  h+='<p class="suave" style="font-size:.88rem">Lo que más te duele: '+ORDEN_L.map(function(l){return L[l].corto+' '+c.duele[l]}).join(' · ')+' (de 5).</p></div>';
+
+  // guía para quien te ama
+  h+='<div class="card"><div class="ceja">Para '+(persona.contexto==='pareja'?'tu pareja':'quienes te aman')+'</div><div class="carta" id="carta"><h3>Cómo amar'+(nombre?' a '+nombre:'me')+' bien</h3>'+
+     '<p class="suave">Mi lenguaje del amor es <b>'+p.n.toLowerCase()+'</b>, y después <b>'+s.n.toLowerCase()+'</b>.</p>'+
+     '<h3>Lo que más me llena</h3><ol class="lista">'+p.guia.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'<li>'+esc(s.guia[0])+'</li></ol>'+
+     '<h3>Lo que más me duele</h3><ul class="lista">'+p.vacia.slice(0,3).map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></div>'+
+     '<div class="btns no-imprimir"><button class="btn" onclick="enviarGuia(this)">Enviar esta guía</button></div>'+
+     '<p class="suave" style="font-size:.85rem;margin-top:.6rem">Envíasela a '+quien()+' por WhatsApp. Y pídele que haga el test: así cada uno sabe cómo llegarle al otro.</p></div>';
+
+  // retos 21 días
+  var dias=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+  function semana(t,sub,retos){return '<div class="semana"><h3>'+t+'</h3><p class="suave">'+sub+'</p>'+retos.map(function(r,i){return '<div class="dia"><b>'+dias[i]+'</b><span>'+esc(r)+'</span></div>'}).join('')+'</div>'}
+  var s1=['Escribe en una frase qué te llena el corazón y por qué.','Recuerda un momento en que te sentiste muy amado. ¿Qué lenguaje fue?','Envía la guía de este test a '+quien()+'.','Pide algo de tu lenguaje usando una de las frases de «cómo pedirlo».','Agradece en voz alta un gesto que recibiste, aunque no sea en tu idioma.','Fíjate en cómo te ama la gente cercana. ¿En qué idioma te habla?','Escribe qué descubriste de ti esta semana.'];
+  var s2=['Observa: ¿de qué se queja más '+(persona.contexto==='pareja'?'tu pareja':'alguien que amas')+'? Ahí está su lenguaje.','Observa: ¿qué pide con más frecuencia?','Observa: ¿cómo te demuestra su cariño? Suele dar lo que necesita.','Pregúntale directamente: «¿qué te hace sentir más amado?».','Invítale a hacer este test.','Haz un gesto en su lenguaje, no en el tuyo.','Conversen sobre lo que descubrieron.'];
+  var s3=ORDEN_L.map(function(l){return L[l].ico+' '+L[l].n+': '+L[l].guia[0]}).concat(['Repite el gesto que mejor recibió esta semana.','Celebren juntos: ¿qué cambió en estas tres semanas?']);
+  h+='<div class="card"><div class="ceja">Reto de 21 días</div><h2>Llenar el tanque del amor</h2><p>Chapman habla de un «tanque del amor»: cuando está lleno, las personas son pacientes, generosas y seguras. Estos retos llenan el tuyo y el de quienes amas.</p>'+
+     semana('Semana 1 · Conócete y pídelo','Entender tu lenguaje y aprender a pedirlo sin reclamar.',s1)+
+     semana('Semana 2 · Aprende a leer a los tuyos','Descubrir el lenguaje de quienes amas.',s2)+
+     semana('Semana 3 · Habla los cinco idiomas','Un lenguaje por día, para practicar los que menos usas.',s3)+'</div>';
+
+  // en otros ámbitos
+  h+='<div class="card"><div class="ceja">Más allá de la pareja</div><h2>Tu lenguaje en la familia y en el trabajo</h2>'+
+     '<h3>Con tus hijos</h3><p>'+esc(p.hijos)+' Cada hijo tiene su propio lenguaje, y no siempre es el tuyo.</p>'+
+     '<h3>En el trabajo</h3><p>'+esc(p.trabajo)+'</p>'+
+     '<div class="btns no-imprimir"><a class="btn sec" style="text-decoration:none" href="/tests/estilo-crianza" target="_top">Ver el test «Tu estilo de crianza» →</a></div></div>';
+
+  // libros
+  var libros=[p.libro,{t:'Los 5 lenguajes del amor de los niños',a:'Gary Chapman y Ross Campbell',d:'Cómo descubrir y hablar el lenguaje de cada hijo según su edad.'},{t:'Los 5 lenguajes del aprecio en el trabajo',a:'Gary Chapman y Paul White',d:'Los mismos principios aplicados a equipos y a liderazgo.'}];
+  var vistos={};libros=libros.filter(function(b){if(vistos[b.t])return false;vistos[b.t]=1;return true});
+  h+='<div class="card"><div class="ceja">Para seguir aprendiendo</div><h2>Biblioteca recomendada</h2>'+libros.map(function(b){return '<div class="libro"><i>📖</i><div><b>'+esc(b.t)+'</b> · '+esc(b.a)+'<br><span class="suave">'+esc(b.d)+'</span></div></div>'}).join('')+'</div>';
+
+  // compartir
+  h+='<div class="card no-imprimir"><div class="ceja">Comparte tu resultado</div><div class="compartir"><img id="tarjeta" alt="Tu resultado para compartir en Instagram">'+
+     '<div><h2>Tu historia para Instagram</h2><p>Lista para subir: tu lenguaje del amor y cómo se reparten los cinco en ti. Ideal para que tu pareja y tus amigos descubran el suyo.</p>'+
+     '<div class="btns"><button class="btn" onclick="compartir()">Compartir</button><button class="btn sec" onclick="descargar()">Descargar imagen</button></div>'+
+     '<p class="suave" style="font-size:.85rem;margin-top:.8rem">En el celular, «Compartir» te deja elegir Instagram directamente. En computador, descárgala y súbela desde tu teléfono.</p></div></div></div>';
+
+  h+='<div class="btns no-imprimir" style="justify-content:center"><button class="btn osc" onclick="window.print()">Guardar en PDF o imprimir</button><button class="btn sec" onclick="reiniciar()">Responder de nuevo</button></div>';
+
+  $('test').style.display='none';$('intro').style.display='none';
+  var r=$('resultado');r.innerHTML=h;r.style.display='block';
+  window._c=c;
+  try{window._tarjeta=dibujarTarjeta(c);$('tarjeta').src=window._tarjeta.toDataURL('image/png')}catch(e){}
+  try{localStorage.setItem(CLAVE,JSON.stringify({persona:persona,R:R,paso:paso,fin:true}))}catch(e){}
+  window.scrollTo(0,0);
+}
+
+function textoGuia(){
+  var c=window._c,p=L[c.primario],s=L[c.secundario];
+  var t='Hice el test de los 5 lenguajes del amor (Hostify Tests) y quiero que sepas cómo llegarme al corazón ❤️\n\n';
+  t+='Mi lenguaje del amor es '+p.n.toUpperCase()+', y después '+s.n.toLowerCase()+'.\n\nLo que más me llena:\n';
+  p.guia.forEach(function(x){t+='• '+x+'\n'});
+  t+='\nLo que más me duele:\n';p.vacia.slice(0,3).forEach(function(x){t+='• '+x+'\n'});
+  t+='\n¿Y tú? Descubre el tuyo en '+SITIO+' y me cuentas.';
+  return t;
+}
+function enviarGuia(b){
+  var t=textoGuia();
+  if(navigator.share){navigator.share({text:t}).catch(function(){});return}
+  window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank');
+}
+
+/* ---------- imagen para Instagram (historia 1080×1920) ---------- */
+function dibujarTarjeta(c){
+  var W=1080,H=1920,cv=document.createElement('canvas');cv.width=W;cv.height=H;
+  var x=cv.getContext('2d'),F='-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif';
+  function fuente(px,peso){x.font=(peso||400)+' '+px+'px '+F}
+  function espacio(v){if('letterSpacing' in x)x.letterSpacing=v+'px'}
+  function lineas(t,max){var pal=t.split(' '),out=[],l='';pal.forEach(function(w){var p=l?l+' '+w:w;if(x.measureText(p).width>max&&l){out.push(l);l=w}else l=p});if(l)out.push(l);return out}
+  function redondo(x0,y0,w,h,r){x.beginPath();x.moveTo(x0+r,y0);x.arcTo(x0+w,y0,x0+w,y0+h,r);x.arcTo(x0+w,y0+h,x0,y0+h,r);x.arcTo(x0,y0+h,x0,y0,r);x.arcTo(x0,y0,x0+w,y0,r);x.closePath()}
+  var M=90,ancho=W-2*M,p=L[c.primario];
+
+  var g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#0d0d0d');g.addColorStop(.55,'#1d1410');g.addColorStop(1,'#3b2216');
+  x.fillStyle=g;x.fillRect(0,0,W,H);
+  var r=x.createRadialGradient(W-60,260,0,W-60,260,620);r.addColorStop(0,'rgba(255,107,44,.55)');r.addColorStop(1,'rgba(255,107,44,0)');
+  x.fillStyle=r;x.fillRect(0,0,W,H);
+
+  x.fillStyle='#ff6b2c';redondo(M,218,22,22,5);x.fill();
+  fuente(32,600);espacio(7);x.fillStyle='#c9c9ce';x.fillText('HOSTIFY TESTS',M+42,240);
+
+  var y=380;fuente(38,800);espacio(6);x.fillStyle='#ff6b2c';
+  x.fillText(((persona.nombre?persona.nombre.toUpperCase()+' · ':'')+'MI LENGUAJE DEL AMOR').slice(0,40),M,y);
+
+  espacio(-2);var t=120;fuente(t,800);var ls=lineas(p.n,ancho);
+  while((ls.length>2||ls.some(function(l){return x.measureText(l).width>ancho}))&&t>70){t-=6;fuente(t,800);ls=lineas(p.n,ancho)}
+  x.fillStyle='#fff';ls.forEach(function(l){y+=t+6;x.fillText(l,M,y)});
+
+  espacio(0);fuente(44,400);x.fillStyle='#d2d2d7';y+=30;
+  lineas(p.tarjeta,ancho).slice(0,2).forEach(function(l){y+=62;x.fillText(l,M,y)});
+
+  y+=60;x.fillStyle='rgba(255,255,255,.15)';x.fillRect(M,y,ancho,2);
+  y+=90;fuente(34,800);espacio(6);x.fillStyle='#ff6b2c';x.fillText('ASÍ ME LLENO',M,y);espacio(0);
+
+  c.orden.forEach(function(l,i){
+    var v=c.recibe[l];y+=70;
+    fuente(i===0?44:40,i===0?700:500);x.fillStyle=i===0?'#fff':'#d2d2d7';x.fillText(L[l].ico+'  '+L[l].corto,M,y);
+    y+=24;x.fillStyle='rgba(255,255,255,.12)';redondo(M,y,ancho,16,8);x.fill();
+    x.fillStyle=L[l].c;redondo(M,y,Math.max(20,ancho*v/12),16,8);x.fill();
+  });
+
+  var by=Math.min(H-400,y+80);x.fillStyle='rgba(255,255,255,.08)';redondo(M,by,ancho,170,36);x.fill();
+  fuente(42,700);x.fillStyle='#fff';x.fillText('¿Y tú, cómo te sientes amado?',M+48,by+74);
+  fuente(36,600);x.fillStyle='#ff6b2c';x.fillText('Descúbrelo en '+SITIO,M+48,by+128);
+  return cv;
+}
+function nombreArchivo(){return 'mi-lenguaje-del-amor.png'}
+function descargar(){if(!window._tarjeta)return;var a=document.createElement('a');a.download=nombreArchivo();a.href=window._tarjeta.toDataURL('image/png');document.body.appendChild(a);a.click();a.remove()}
+function compartir(){
+  if(!window._tarjeta)return;
+  window._tarjeta.toBlob(function(b){
+    var f=null;try{f=new File([b],nombreArchivo(),{type:'image/png'})}catch(e){}
+    if(f&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],text:'Este es mi lenguaje del amor. ¿Y el tuyo? '+SITIO}).catch(function(){})}
+    else{descargar()}
+  },'image/png');
+}
+function reiniciar(){
+  if(!confirm('¿Borrar tus respuestas y empezar de nuevo?'))return;
+  try{localStorage.removeItem(CLAVE)}catch(e){}
+  R={};paso=0;$('resultado').style.display='none';$('intro').style.display='block';pintarChips();window.scrollTo(0,0);
+}
+
+/* ---------- arranque ---------- */
+(function(){
+  var g=cargar();pintarChips();
+  if(persona.nombre)$('nombre').value=persona.nombre;
+  if(g){if(g.fin){terminar()}else if(Object.keys(R).length){$('intro').style.display='none';$('test').style.display='block';pintar()}}
+})();
+</script>
+</body>
+</html>
