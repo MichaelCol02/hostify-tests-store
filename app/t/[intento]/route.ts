@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
-import { firmaValida, nombreCookie } from '@/lib/intento'
+import { cookieInvitacion, firmaValida, firmarInvitacion, invitacionValida, nombreCookie } from '@/lib/intento'
 import { esRecurso } from '@/lib/productos'
-import { PREFIJO_INTERNO, testInterno } from '@/lib/tests-internos'
+import { conContexto, PREFIJO_INTERNO, testInterno } from '@/lib/tests-internos'
 
 /** Veces que un mismo crédito puede abrir su test. Alcanza de sobra para una
  *  recarga, una pantalla completa y un regreso al día siguiente; no alcanza
@@ -15,7 +15,12 @@ const APERTURAS_MAXIMAS = 8
 export async function GET(req: NextRequest, { params }: { params: { intento: string } }) {
   const intento = params.intento
 
-  if (!firmaValida(intento, req.cookies.get(nombreCookie(intento))?.value)) {
+  const dueno = firmaValida(intento, req.cookies.get(nombreCookie(intento))?.value)
+  // La pareja entra con su propio enlace (?p=) y desde ahí con su propia cookie.
+  const firmaPareja = req.nextUrl.searchParams.get('p') ?? req.cookies.get(cookieInvitacion(intento))?.value
+  const pareja = !dueno && invitacionValida(intento, firmaPareja)
+
+  if (!dueno && !pareja) {
     return respuesta(
       'Este enlace no es tuyo',
       'Los tests se abren desde tu panel, en el navegador donde compraste. Si lo recibiste de otra persona, su enlace no funciona fuera de su dispositivo.',
@@ -56,15 +61,21 @@ export async function GET(req: NextRequest, { params }: { params: { intento: str
   // compra al cerrar la pestaña, no para responder el test veinte veces.
   // Un recurso comprado es otra cosa: se consulta, y se consulta muchas veces.
   const { data: veces } = await supabaseAdmin.rpc('store_registrar_apertura', { p_attempt: intento })
-  if (!esRecurso(fila.test_id) && typeof veces === 'number' && veces > APERTURAS_MAXIMAS) {
+  const maximo = testInterno(url)?.pareja ? APERTURAS_MAXIMAS * 2 : APERTURAS_MAXIMAS
+  if (!esRecurso(fila.test_id) && typeof veces === 'number' && veces > maximo) {
     return respuesta(
       'Este test ya se usó',
-      `Un crédito abre el test hasta ${APERTURAS_MAXIMAS} veces, para que puedas recargar o volver si se te cierra. Para responderlo otra vez hay que abrir uno nuevo.`,
+      `Un crédito abre el test hasta ${maximo} veces, para que puedas recargar o volver si se te cierra. Para responderlo otra vez hay que abrir uno nuevo.`,
       429
     )
   }
 
-  let html = testInterno(url)
+  const interno = testInterno(url)
+  if (pareja && !interno?.pareja) {
+    return respuesta('Este enlace no es tuyo', 'Este test no es para dos personas. Pídele a quien lo compró que lo abra desde su panel.', 403)
+  }
+
+  let html = interno?.html ?? null
   if (html === null) {
     if (url.startsWith(PREFIJO_INTERNO)) {
       return respuesta('No encontramos este test', 'Vuelve a tu panel y ábrelo desde ahí.', 404)
@@ -76,7 +87,16 @@ export async function GET(req: NextRequest, { params }: { params: { intento: str
     html = await origen.text()
   }
 
-  return new NextResponse(html, {
+  if (interno?.pareja) {
+    html = conContexto(html, {
+      pareja: true,
+      invitado: pareja,
+      // Solo quien compró recibe el enlace para invitar.
+      invitacion: dueno ? `${req.nextUrl.origin}/t/${intento}?p=${firmarInvitacion(intento)}` : null,
+    })
+  }
+
+  const res = new NextResponse(html, {
     status: 200,
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
@@ -85,6 +105,19 @@ export async function GET(req: NextRequest, { params }: { params: { intento: str
       'X-Robots-Tag': 'noindex, nofollow',
     },
   })
+  // La pareja que entró por su enlace queda recordada en su navegador, para
+  // que una recarga no le pida el enlace otra vez.
+  if (pareja && firmaPareja) {
+    const quedan = Math.floor((new Date(fila.expires_at).getTime() - Date.now()) / 1000)
+    res.cookies.set(cookieInvitacion(intento), firmaPareja, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      path: '/',
+      maxAge: Math.max(quedan, 0),
+    })
+  }
+  return res
 }
 
 function respuesta(titulo: string, detalle: string, status: number) {

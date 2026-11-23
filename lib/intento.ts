@@ -20,3 +20,19 @@ export function firmaValida(intento: string, firma: string | undefined) {
   const recibida = Buffer.from(firma)
   return esperada.length === recibida.length && timingSafeEqual(esperada, recibida)
 }
+
+/** En los tests para dos, quien compró recibe un segundo enlace para su
+ *  pareja: /t/<intento>?p=<firma>. Es otra firma (no la de la cookie), así que
+ *  el enlace de la pareja no sirve para hacerse pasar por quien compró. */
+export function firmarInvitacion(intento: string) {
+  return createHmac('sha256', LLAVE).update(`pareja:${intento}`).digest('base64url')
+}
+
+export function invitacionValida(intento: string, firma: string | null | undefined) {
+  if (!firma || !LLAVE) return false
+  const esperada = Buffer.from(firmarInvitacion(intento))
+  const recibida = Buffer.from(firma)
+  return esperada.length === recibida.length && timingSafeEqual(esperada, recibida)
+}
+
+export const cookieInvitacion = (intento: string) => `${nombreCookie(intento)}_p`

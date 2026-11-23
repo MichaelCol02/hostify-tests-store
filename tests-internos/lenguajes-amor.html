@@ -132,6 +132,7 @@ svg text{font-family:inherit}
 <main class="wrap">
 
 <div id="intro">
+  <div class="card" id="introPareja" style="display:none;border-color:#f6d9c8;background:linear-gradient(135deg,#fff7f2,#fff)"></div>
   <div class="card">
     <div class="ceja">Antes de empezar</div>
     <h2>Todos amamos en un idioma. Casi nunca es el mismo.</h2>
@@ -202,6 +203,7 @@ var L = {
   vacia:['Las críticas duras o en público.','El sarcasmo y las burlas, aunque sean «en broma».','Que nunca reconozcan tu esfuerzo.','Los silencios largos después de un conflicto.'],
   pedir:['«Me haría mucho bien que me dijeras qué valoras de mí. Las palabras me llegan mucho.»','«Cuando me dices "gracias por…", siento que lo que hago importa.»'],
   guia:['Dime lo que admiras de mí, con ejemplos concretos.','Escríbeme un mensaje sin motivo en medio del día.','Agradéceme en voz alta, también delante de otros.','Cuando estemos en desacuerdo, cuida el tono: las palabras duras me duran mucho.','Antes de algo difícil para mí, dime que crees en mí.'],
+  hazlo:['Dile cada día algo concreto que admiras de él o de ella.','Escríbele un mensaje sin motivo en medio del día.','Cuida tu tono al discutir: tus palabras le duran mucho.'],
   trampa:'Puedes depender demasiado de la aprobación ajena y vivir una crítica como un rechazo total. Recuerda que una palabra dura no borra todo lo bueno.',
   hijos:'Un niño con este lenguaje florece con el elogio del esfuerzo y se marchita con los gritos y las comparaciones. Las notas en la lonchera hacen milagros.',
   trabajo:'En el trabajo, este perfil rinde más con reconocimiento verbal y específico, ojalá delante del equipo.',
@@ -214,6 +216,7 @@ var L = {
   vacia:['Estar juntos con la otra persona pendiente del celular.','Cancelar planes a última hora.','Escucharte a medias mientras hace otra cosa.','Semanas sin un rato a solas.'],
   pedir:['«¿Podemos tener esta noche media hora solo para nosotros, sin celulares?»','«Lo que más me llena es cuando te sientas conmigo a conversar sin prisa.»'],
   guia:['Cuando te hable, suelta el celular y mírame.','Separa un rato fijo a la semana solo para nosotros.','Proponme planes sencillos: caminar, un café, cocinar juntos.','Si tienes que cancelar un plan, propón otra fecha de inmediato.','Pregúntame por mi día y escucha la respuesta completa.'],
+  hazlo:['Cuando te hable, suelta el celular y míralo a los ojos.','Separa un rato fijo a la semana solo para los dos.','Si cancelas un plan, propón otra fecha en el momento.'],
   trampa:'Puedes leer la falta de tiempo como falta de amor, incluso cuando la otra persona está agotada o te ama en otro idioma. Pide, pero también mira lo que sí te dan.',
   hijos:'Un niño con este lenguaje necesita ratos a solas con su papá o su mamá. Veinte minutos de juego sin pantallas valen más que un juguete caro.',
   trabajo:'En el trabajo, este perfil se siente valorado cuando el jefe le dedica tiempo: una reunión uno a uno, una conversación sin interrupciones.',
@@ -226,6 +229,7 @@ var L = {
   vacia:['Que olviden tu cumpleaños o un aniversario.','Regalos genéricos, sin pensar en ti.','Que no valoren los detalles que tú das.','Llegar con las manos vacías a una fecha especial.'],
   pedir:['«No necesito nada caro. Un detalle pequeño me dice que pensaste en mí, y eso me llena.»','«Me encantaría que celebráramos esta fecha con algo sencillo, pero pensado.»'],
   guia:['Anota las cosas que menciono que me gustan: ahí están mis regalos.','No olvides mis fechas importantes.','Un detalle pequeño sin motivo vale más que uno grande una vez al año.','Tráeme algo cuando viajes, aunque sea pequeño.','Valora los detalles que yo te doy: son mi forma de decirte «te amo».'],
+  hazlo:['Anota lo que menciona que le gusta: ahí están sus regalos.','No olvides sus fechas importantes.','Un detalle pequeño sin motivo, de vez en cuando.'],
   trampa:'Puedes medir el amor por los detalles y pasar por alto otras formas de cariño. También puede costarte poner límites cuando das demasiado.',
   hijos:'Un niño con este lenguaje cuida sus cosas y las guarda como tesoros. No lo malcríes: el detalle debe hablar de atención, no de cantidad.',
   trabajo:'En el trabajo, este perfil valora un pequeño obsequio o un gesto tangible de reconocimiento: un almuerzo, un libro, una tarjeta.',
@@ -236,9 +240,10 @@ var L = {
   desc:['Para ti, el amor es un verbo. Que alguien te ayude sin que se lo pidas, resuelva algo que te tocaba o te aligere la carga en un día pesado te dice «te amo» más fuerte que cualquier frase.','Probablemente tú también amas así: resolviendo, ayudando, haciendo la vida más fácil a los demás. Y por eso te duele tanto cuando prometen ayudarte y no cumplen, o cuando sientes que cargas solo con todo.','Tu reto es pedir ayuda sin sentir que eres una carga, y no confundir el amor con la utilidad: también mereces amor en los días en que no produces nada.'],
   llena:['Que te ayuden sin que tengas que pedirlo.','Llegar a casa y encontrar algo resuelto.','Que se encarguen de una diligencia por ti.','Que cuiden a los niños para que descanses.','Que hagan algo por ti que saben que no disfrutan.','«¿En qué te puedo ayudar hoy?», y que lo cumplan.'],
   vacia:['Promesas de ayuda que no se cumplen.','Sentir que cargas solo con todo.','Que creen más trabajo del que ayudan a resolver.','La pereza o el desinterés cuando estás saturado.'],
-  pedir:['«Me sentiría muy amado si esta semana te encargaras de esto por mí.»','«Cuando me ayudas sin que te lo pida, siento que estamos en el mismo equipo.»'],
+  pedir:['«Sentiría mucho amor si esta semana te encargaras de esto por mí.»','«Cuando me ayudas sin que te lo pida, siento que estamos en el mismo equipo.»'],
   guia:['Pregúntame «¿en qué te ayudo hoy?» y cumple lo que digas.','Encárgate de algo de la casa sin que te lo pida.','Si prometes hacer algo, hazlo: una promesa incumplida me duele mucho.','En mis días pesados, quítame una tarea de encima.','Valora lo que hago por ti: es mi forma de decir «te amo».'],
-  trampa:'Puedes caer en hacer todo por todos y sentirte poco valorado cuando no te lo agradecen. También puedes confundir tu valor con lo que produces.',
+  hazlo:['Pregúntale «¿en qué te ayudo hoy?» y cúmplelo.','Encárgate de algo de la casa sin que te lo pida.','Si prometes hacer algo, hazlo.'],
+  trampa:'Puedes caer en hacer todo por todos y sentir que no valoran lo que haces cuando no te lo agradecen. También puedes confundir tu valor con lo que produces.',
   hijos:'Un niño con este lenguaje se siente amado cuando lo ayudas con su proyecto o le arreglas la bicicleta. Ayúdalo, pero sin hacerle todo.',
   trabajo:'En el trabajo, este perfil se siente valorado cuando alguien le echa una mano en momentos de carga, más que con discursos.',
   libro:{t:'Los 5 lenguajes del aprecio en el trabajo',a:'Gary Chapman y Paul White',d:'Cómo aplicar los cinco lenguajes en equipos y con colaboradores, ideal si lideras personas.'}},
@@ -250,6 +255,7 @@ var L = {
   vacia:['Que te esquiven o rechacen un abrazo.','La frialdad física después de una discusión.','Días enteros sin ningún contacto.','Un contacto brusco o sin cuidado.'],
   pedir:['«¿Me das un abrazo? Lo necesito más que un consejo ahora.»','«Me encanta cuando me tomas de la mano; me hace sentir muy cerca de ti.»'],
   guia:['Abrázame al llegar y al despedirte, todos los días.','Tómame de la mano cuando caminemos.','Cuando esté triste, primero un abrazo, después las palabras.','Después de discutir, búscame físicamente para reconciliarnos.','Siéntate cerca de mí cuando veamos algo juntos.'],
+  hazlo:['Abrázalo al llegar y al despedirte, todos los días.','Tómale la mano cuando caminen juntos.','Cuando esté triste, primero un abrazo y después las palabras.'],
   trampa:'Puedes sentir el rechazo físico como un rechazo total, aunque la otra persona solo esté cansada o haya crecido en una familia menos expresiva.',
   hijos:'Un niño con este lenguaje busca tu regazo, se acurruca y pide abrazos. Nunca uses el contacto como castigo ni lo retires cuando se porta mal.',
   trabajo:'En el trabajo, este perfil valora un saludo cálido, un apretón de manos o una palmada en el hombro, siempre con respeto y en su justa medida.',
@@ -308,13 +314,15 @@ var persona={nombre:'',contexto:''};
 var R={};var paso=0;
 var N1=PARES.length,N2=DAS.length,N3=DUELE.length,TOTAL=N1+N2+N3;
 var CLAVE='hostify_lenguajes_amor_v1';
+var slot=1;try{slot=parseInt(localStorage.getItem(CLAVE+'_slot')||'1',10)===2?2:1}catch(e){}
+function clave(){return CLAVE+'_'+slot}
 
 function $(id){return document.getElementById(id)}
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function pintarChips(){$('contextos').innerHTML=CONTEXTOS.map(function(c){return '<button type="button" class="chip'+(persona.contexto===c.id?' on':'')+'" onclick="ctx(\''+c.id+'\')">'+c.n+'</button>'}).join('')}
 function ctx(id){persona.contexto=id;pintarChips()}
-function guardar(){try{localStorage.setItem(CLAVE,JSON.stringify({persona:persona,R:R,paso:paso}))}catch(e){}var g=$('guardado');g.classList.add('ver');clearTimeout(guardar.t);guardar.t=setTimeout(function(){g.classList.remove('ver')},900)}
-function cargar(){try{var g=JSON.parse(localStorage.getItem(CLAVE)||'null');if(g&&g.persona){persona=g.persona;R=g.R||{};paso=g.paso||0;return g}}catch(e){}return null}
+function guardar(){try{localStorage.setItem(clave(),JSON.stringify({persona:persona,R:R,paso:paso}))}catch(e){}var g=$('guardado');g.classList.add('ver');clearTimeout(guardar.t);guardar.t=setTimeout(function(){g.classList.remove('ver')},900)}
+function cargar(){try{var g=JSON.parse(localStorage.getItem(clave())||'null');if(g&&g.persona){persona=g.persona;R=g.R||{};paso=g.paso||0;return g}}catch(e){}return null}
 
 function empezar(){
   persona.nombre=$('nombre').value.trim();
@@ -370,6 +378,9 @@ function calcular(){
   for(var i=0;i<N1;i++){var a=R['a'+i];if(a)recibe[a]++}
   DAS.forEach(function(it,i){da[it.l]+=R['b'+i]||3});
   for(var j=0;j<N3;j++){var c=R['c'+j];if(c)duele[c]++}
+  return armar(recibe,da,duele);
+}
+function armar(recibe,da,duele){
   // Orden: los pares mandan; un empate lo rompe lo que más duele, y luego cómo das.
   function orden(){return ORDEN_L.slice().sort(function(x,y){return recibe[y]-recibe[x]||duele[y]-duele[x]||da[y]-da[x]})}
   var o=orden();
@@ -434,6 +445,8 @@ function terminar(){
      '<div class="btns no-imprimir"><button class="btn" onclick="enviarGuia(this)">Enviar esta guía</button></div>'+
      '<p class="suave" style="font-size:.85rem;margin-top:.6rem">Envíasela a '+quien()+' por WhatsApp. Y pídele que haga el test: así cada uno sabe cómo llegarle al otro.</p></div>';
 
+  h+=bloquePareja(c);
+
   // retos 21 días
   var dias=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
   function semana(t,sub,retos){return '<div class="semana"><h3>'+t+'</h3><p class="suave">'+sub+'</p>'+retos.map(function(r,i){return '<div class="dia"><b>'+dias[i]+'</b><span>'+esc(r)+'</span></div>'}).join('')+'</div>'}
@@ -468,7 +481,7 @@ function terminar(){
   var r=$('resultado');r.innerHTML=h;r.style.display='block';
   window._c=c;
   try{window._tarjeta=dibujarTarjeta(c);$('tarjeta').src=window._tarjeta.toDataURL('image/png')}catch(e){}
-  try{localStorage.setItem(CLAVE,JSON.stringify({persona:persona,R:R,paso:paso,fin:true}))}catch(e){}
+  try{localStorage.setItem(clave(),JSON.stringify({persona:persona,R:R,paso:paso,fin:true}))}catch(e){}
   window.scrollTo(0,0);
 }
 
@@ -542,13 +555,233 @@ function compartir(){
 }
 function reiniciar(){
   if(!confirm('¿Borrar tus respuestas y empezar de nuevo?'))return;
-  try{localStorage.removeItem(CLAVE)}catch(e){}
+  try{localStorage.removeItem(clave())}catch(e){}
   R={};paso=0;$('resultado').style.display='none';$('intro').style.display='block';pintarChips();window.scrollTo(0,0);
+}
+
+/* =====================================================================
+   EN PAREJA
+   Cada uno responde por aparte (en su celular con su propio enlace, o en el
+   mismo dispositivo uno después del otro). Los resultados se cruzan con un
+   código corto que no contiene respuestas, solo los puntajes.
+   ===================================================================== */
+var CTX = window.HOSTIFY || {};
+
+/* Cómo se ve cada combinación de lenguajes principales. {A} es quien tiene el
+   primer lenguaje de la clave y {B} quien tiene el segundo. */
+var DUO = {
+ PP:{luz:'Los dos se nutren de palabras, y su casa puede ser el lugar donde más ánimo reciben en el mundo. Se dicen lo que admiran, se agradecen lo pequeño y se sostienen con frases que el otro recuerda por años.',
+  sombra:'El mismo poder funciona al revés. En una discusión, las palabras se vuelven armas y los dos quedan heridos, porque a los dos les duelen igual. El sarcasmo y los silencios largos son su veneno compartido.',
+  ritual:'Cada noche, antes de dormir, cada uno dice una cosa concreta que admiró del otro ese día.'},
+ TT:{luz:'Los dos se aman estando. Disfrutan las conversaciones largas, los planes sencillos y la complicidad de quien conoce el día del otro con detalle.',
+  sombra:'Cuando la agenda se llena (trabajo, hijos, pantallas) los dos se sienten abandonados a la vez, y pueden empezar a competir por atención o a reclamarse el tiempo que ninguno está dando.',
+  ritual:'Una cita semanal sagrada, sin celulares, aunque sea un café de 40 minutos.'},
+ RR:{luz:'Su relación tiene memoria tangible: detalles, tarjetas, fechas celebradas y recuerdos de cada viaje. Los dos saben hacer sentir al otro pensado.',
+  sombra:'Pueden empezar a llevar la cuenta: quién dio más, quién olvidó qué. Un olvido se vive como traición, y el gasto puede volverse un tema de tensión.',
+  ritual:'Un detalle pequeño a la semana, hecho o encontrado, no necesariamente comprado.'},
+ SS:{luz:'Son un equipo eficiente. Se cuidan resolviendo, la casa funciona y los dos se sienten respaldados en lo práctico.',
+  sombra:'Pueden convertirse en socios de logística: mucho hacer y poco estar. Aparece el resentimiento silencioso por quién hace más, y el cariño se reduce a tareas.',
+  ritual:'Una hora a la semana en la que está prohibido resolver pendientes: solo estar juntos.'},
+ CC:{luz:'Su relación se ve y se siente: abrazos, manos tomadas y cercanía constante. Los dos se calman con el contacto del otro.',
+  sombra:'En un conflicto, la distancia física duele el doble a los dos. El peligro es usar el contacto como premio o castigo: retirarlo para que el otro sienta el enojo.',
+  ritual:'Un abrazo de 20 segundos al llegar a casa, aunque estén enojados.'},
+ PT:{luz:'Juntos logran conversaciones profundas: {A} pone las palabras y {B} pone la presencia. Cuando funciona, cada charla es a la vez un regalo de atención y una lluvia de afirmación.',
+  sombra:'A {A} le falta oír cosas bonitas cuando {B} escucha mucho pero dice poco. Y {B} siente que las palabras sin presencia son vacías: un «te amo» dicho mirando el celular no le llega.',
+  ritual:'Una caminata semanal sin celulares en la que cada uno le dice al otro algo que valora de él.'},
+ PR:{luz:'La combinación perfecta es un detalle acompañado de palabras: una tarjeta escrita, un regalo con una nota. Así los dos reciben lo que necesitan en el mismo gesto.',
+  sombra:'{B} da objetos sin palabras y {A} da palabras sin gestos tangibles. Los dos pueden sentir que el otro «no se esfuerza», aunque los dos se estén esforzando en su propio idioma.',
+  ritual:'Cada detalle va con una nota escrita, y cada palabra importante, de vez en cuando, con un detalle.'},
+ PS:{luz:'Pueden crear un ciclo virtuoso: {B} hace y {A} reconoce en voz alta. Cuando a {B} le agradecen, hace con más gusto; cuando {A} recibe ayuda, la celebra.',
+  sombra:'{B} resuelve todo en silencio y siente que {A} solo da «puras palabras». {A} siente que {B} solo hace cosas, pero nunca le dice nada bonito. Los dos se aman y los dos se sienten poco valorados.',
+  ritual:'{A} agradece cada acto concreto de {B}; {B} dice en voz alta por qué lo hace: «lo hice porque te quiero».'},
+ PC:{luz:'Su relación es muy expresiva y cálida: ternura en las palabras y en el cuerpo. Los demás los ven como una pareja cariñosa.',
+  sombra:'En un conflicto, {A} necesita hablarlo y {B} necesita primero un abrazo. Si {A} habla sin acercarse, {B} lo vive como rechazo; si {B} abraza sin hablar, {A} siente que se tapó el problema.',
+  ritual:'Reconcíliense en dos pasos: primero un abrazo, después las palabras.'},
+ TR:{luz:'Convierten las experiencias compartidas en recuerdos: viajes, salidas y fotos que {B} guarda y que {A} disfrutó viviendo.',
+  sombra:'{B} puede compensar la ausencia con regalos, y {A} siente que intentan «comprar» su cariño en lugar de acompañarle. {A} da presencia pero olvida fechas, y {B} lo vive como desinterés.',
+  ritual:'Regálense experiencias: un plan juntos es tiempo para uno y regalo para el otro.'},
+ TS:{luz:'Saben compartir el tiempo de forma productiva: cocinar juntos, proyectos en casa, tareas en equipo. Hacer juntos los une.',
+  sombra:'{B} siempre tiene las manos en algo que hace «por el otro», y {A} siente que nunca hay un rato para simplemente estar. {B} siente que {A} pide tiempo pero no ayuda con lo pendiente.',
+  ritual:'Primero hacen juntos una tarea; después, un rato sin tareas, solo para conversar.'},
+ TC:{luz:'Su lugar feliz es estar cerca: sofá, película, abrazos y conversación. La presencia de uno y la cercanía del otro se suman.',
+  sombra:'{B} se llena con abrazos frente a la televisión, pero {A} necesita atención y conversación. Pueden estar juntos y que solo uno de los dos se sienta lleno.',
+  ritual:'Caminar de la mano conversando: tiempo de calidad y contacto a la vez.'},
+ RS:{luz:'Se cuidan en lo concreto: {A} con detalles pensados, {B} con ayuda práctica. Su amor se nota en cosas tangibles.',
+  sombra:'{B} puede ver los regalos como gasto innecesario, y {A} puede sentir que lavar los platos no es «pensar en mí». Cada uno desprecia sin querer el idioma del otro.',
+  ritual:'El detalle puede ser un servicio envuelto: una tarjeta que diga «hoy me encargo yo de…».'},
+ RC:{luz:'Su amor es visible y cercano: llegar con un detalle y un abrazo. Los gestos del uno y la cercanía del otro hacen una relación muy demostrativa.',
+  sombra:'Para {A}, una fecha importante sin detalle se vive como olvido; para {B}, un detalle sin abrazo se siente lejano. Un regalo entregado con frialdad no le llega a ninguno.',
+  ritual:'Cada detalle se entrega con un abrazo.'},
+ SC:{luz:'Su amor es de hechos y de piel, con poco discurso: cuidado silencioso, ayuda concreta y cercanía cálida.',
+  sombra:'{A}, sin energía de tanto hacer, puede esquivar el contacto, y {B} lo vive como rechazo. {B} puede pedir cariño sin ayudar, y {A} siente que carga solo.',
+  ritual:'Primero aligerar la carga, después la cercanía: «te ayudo con esto y después nos sentamos juntos».'}
+};
+function duoDe(a,b){
+  var ia=ORDEN_L.indexOf(a),ib=ORDEN_L.indexOf(b);
+  return ia<=ib?{d:DUO[a+b],A:'A',B:'B'}:{d:DUO[b+a],A:'B',B:'A'};
+}
+
+/* ---------- código de resultado ---------- */
+function limpiarNombre(n){return String(n||'').replace(/[^A-Za-zÀ-ÿ]/g,'').slice(0,20)}
+function codigoDe(c,nombre){
+  var d='';
+  ORDEN_L.forEach(function(l){d+=c.recibe[l].toString(36)});
+  ORDEN_L.forEach(function(l){d+=c.da[l].toString(36)});
+  ORDEN_L.forEach(function(l){d+=c.duele[l].toString(36)});
+  var s=0;for(var i=0;i<d.length;i++)s+=parseInt(d[i],36)*(i+1);
+  var n=limpiarNombre(nombre);
+  return ('AMOR-'+d+(s%36).toString(36)).toUpperCase()+(n?'-'+n:'');
+}
+function leerCodigo(texto){
+  var m=/AMOR-([0-9A-Z]{16})(?:-([A-Za-zÀ-ÿ]{1,20}))?/i.exec(String(texto||''));
+  if(!m)return null;
+  var d=m[1].toLowerCase(),s=0;
+  for(var i=0;i<15;i++)s+=parseInt(d[i],36)*(i+1);
+  if((s%36).toString(36)!==d[15])return null;
+  var v=d.split('').map(function(x){return parseInt(x,36)});
+  var recibe={},da={},duele={};
+  ORDEN_L.forEach(function(l,i){recibe[l]=v[i];da[l]=v[5+i];duele[l]=v[10+i]});
+  var sr=0,sd=0,ok=true;
+  ORDEN_L.forEach(function(l){sr+=recibe[l];sd+=duele[l];if(recibe[l]>12||da[l]<2||da[l]>10)ok=false});
+  if(!ok||sr!==30||sd!==5)return null;
+  return {nombre:m[2]||'',c:armar(recibe,da,duele)};
+}
+
+/* ---------- quién es la pareja de quien está viendo ---------- */
+function leerSlot(n){try{return JSON.parse(localStorage.getItem(CLAVE+'_'+n)||'null')}catch(e){return null}}
+function resultadoDeSlot(n){
+  var g=leerSlot(n);if(!g||!g.fin)return null;
+  var guard=R;R=g.R;var c=calcular();R=guard;
+  return {nombre:g.persona.nombre||'',c:c,slot:n};
+}
+function obtenerPareja(){
+  var otro=resultadoDeSlot(slot===1?2:1);
+  if(otro)return otro;
+  var cod=null;try{cod=localStorage.getItem(CLAVE+'_pareja')}catch(e){}
+  return cod?leerCodigo(cod):null;
+}
+
+/* ---------- bloque que va dentro del resultado ---------- */
+function bloquePareja(c){
+  var yo=persona.nombre||'Tú',p=obtenerPareja(),cod=codigoDe(c,persona.nombre);
+  window._codigo=cod;
+  if(p)return resultadoPareja(c,yo,p.c,p.nombre||'tu pareja',p.slot);
+  var h='<div class="card" id="pareja"><div class="ceja">En pareja</div><h2>Ahora descubran cómo se aman los dos</h2>'+
+    '<p>Cuando los dos respondan, verán un resultado de pareja: cómo se cruzan sus lenguajes, cómo se ve su relación en luz y en sombra, y cómo vivirlo día a día.</p>';
+  if(CTX.pareja&&!CTX.invitado&&CTX.invitacion){
+    h+='<h3>Cada uno en su celular</h3><p class="suave">Envíale a tu pareja su propio enlace. Lo responde por aparte y, al terminar, ve su resultado y el de los dos. El enlace sirve mientras tu test esté abierto (24 horas desde que lo empezaste).</p>'+
+       '<div class="btns"><button class="btn" onclick="invitar()">Enviar el enlace a mi pareja</button></div>'+
+       '<h3>En este mismo dispositivo</h3><p class="suave">Tu pareja responde aquí, después de ti. Sus respuestas quedan aparte y no verá las tuyas hasta el final.</p>'+
+       '<div class="btns"><button class="btn sec" onclick="mismoDispositivo()">Ahora responde mi pareja aquí</button></div>';
+  }else if(CTX.invitado){
+    h+='<p>Envíale tu código a quien te invitó para que también vea el resultado de los dos.</p><div class="btns"><button class="btn" onclick="enviarCodigo()">Enviar mi resultado a mi pareja</button></div>';
+  }else{
+    h+='<p class="suave">Si tu pareja también hizo este test, pídele su código de resultado y pégalo aquí. Y envíale el tuyo.</p><div class="btns"><button class="btn sec" onclick="enviarCodigo()">Enviar mi código</button></div>';
+  }
+  h+='<h3>¿Ya tienes el código de tu pareja?</h3><div style="display:flex;gap:.5rem;flex-wrap:wrap"><input type="text" id="codPareja" placeholder="AMOR-…" style="flex:1;min-width:12rem"><button class="btn osc" onclick="usarCodigo()">Ver nuestro resultado</button></div><div class="aviso" id="avisoCodigo"></div>'+
+     '<p class="suave" style="font-size:.85rem;margin-top:.6rem">Tu código: <b>'+esc(cod)+'</b>. Solo lleva tus puntajes, no tus respuestas.</p></div>';
+  return h;
+}
+
+function cruce(nDa,cDa,nRe,cRe){
+  var da=cDa.daTop,necesita=cRe.primario;
+  if(da===necesita)return '<p>✅ <b>'+esc(nDa)+'</b> da amor sobre todo con <b>'+L[da].n.toLowerCase()+'</b>, justo el lenguaje de <b>'+esc(nRe)+'</b>. Su esfuerzo llega directo.</p>';
+  if(da===cRe.secundario)return '<p>🟡 <b>'+esc(nDa)+'</b> da amor sobre todo con <b>'+L[da].n.toLowerCase()+'</b>, el segundo lenguaje de <b>'+esc(nRe)+'</b>. Le llega, pero a medias: si suma <b>'+L[necesita].n.toLowerCase()+'</b>, llega completo.</p>';
+  return '<p>🔴 <b>'+esc(nDa)+'</b> da amor sobre todo con <b>'+L[da].n.toLowerCase()+'</b>, pero <b>'+esc(nRe)+'</b> necesita <b>'+L[necesita].n.toLowerCase()+'</b>. Su esfuerzo es real, pero no llega con la fuerza que imagina. Aquí está la mayor oportunidad de la relación.</p>';
+}
+
+function resultadoPareja(c1,n1,c2,n2,slotOtro){
+  var a=c1.primario,b=c2.primario,info=duoDe(a,b),d=info.d;
+  var nombres={A:n1,B:n2};
+  function poner(t){return esc(t).replace(/\{A\}/g,'<b>'+esc(nombres[info.A])+'</b>').replace(/\{B\}/g,'<b>'+esc(nombres[info.B])+'</b>')}
+  var h='<div id="pareja"></div><div class="res-hero"><div class="ceja">Resultado de pareja</div><h2>'+esc(n1)+' y '+esc(n2)+'</h2>'+
+    '<p class="lema">'+L[a].ico+' '+L[a].n+(a===b?', los dos.':' + '+L[b].ico+' '+L[b].n)+'</p>'+
+    '<p style="color:#a1a1a6;font-size:.9rem;margin-top:.8rem;position:relative;z-index:1">'+(a===b?'Hablan el mismo idioma. Eso facilita mucho, y también trae sus propias sombras.':'Hablan idiomas distintos. No es un problema: es algo que se aprende.')+'</p></div>';
+
+  h+='<div class="card"><div class="ceja">Sus dos mapas</div><h2>Cómo recibe amor cada uno</h2><p class="suave" style="margin-bottom:1rem">Barra de arriba: '+esc(n1)+'. Barra de abajo: '+esc(n2)+'.</p>';
+  ORDEN_L.forEach(function(l){
+    h+='<div class="dim"><div class="cab"><b>'+L[l].ico+' '+L[l].n+'</b><span>'+c1.recibe[l]+' · '+c2.recibe[l]+'</span></div>'+
+       '<div class="riel"><span style="width:'+Math.max(3,c1.recibe[l]/12*100)+'%;background:'+L[l].c+'"></span></div>'+
+       '<div class="riel" style="margin-top:4px;opacity:.55"><span style="width:'+Math.max(3,c2.recibe[l]/12*100)+'%;background:'+L[l].c+'"></span></div></div>'});
+  h+='</div>';
+
+  h+='<div class="card"><div class="ceja">Cómo se cruzan</div><h2>¿Lo que cada uno da le llega al otro?</h2>'+cruce(n1,c1,n2,c2)+cruce(n2,c2,n1,c1);
+  if(c1.secundario===b||c2.secundario===a)h+='<p class="suave">Buena noticia: '+(c1.secundario===b?esc(n1)+' tiene como segundo lenguaje el principal de '+esc(n2):esc(n2)+' tiene como segundo lenguaje el principal de '+esc(n1))+'. Ahí tienen un puente natural.</p>';
+  h+='</div>';
+
+  h+='<div class="card" style="border-color:#f6d9c8;background:linear-gradient(135deg,#fffaf6,#fff)"><div class="ceja">☀️ En luz</div><h2>Así se ve su amor cuando los dos tanques están llenos</h2><p>'+poner(d.luz)+'</p>'+
+     '<p class="suave">En luz, '+esc(n1)+' siente amor cuando recibe '+L[a].n.toLowerCase()+', y '+esc(n2)+' cuando recibe '+L[b].n.toLowerCase()+'. Con los tanques llenos, los dos son más pacientes, más generosos y más fáciles de amar.</p></div>';
+
+  h+='<div class="card" style="background:#1c1c1e;color:#e8e8ed;border-color:#2a2a2a"><div class="ceja" style="color:#a1a1a6">🌑 En sombra</div><h2 style="color:#fff">Así se ve cuando los tanques se vacían</h2><p>'+poner(d.sombra)+'</p>'+
+     '<h3 style="color:#fff">La sombra de cada uno</h3><p><b>'+esc(n1)+':</b> '+esc(L[a].trampa)+'</p><p><b>'+esc(n2)+':</b> '+esc(L[b].trampa)+'</p>'+
+     '<h3 style="color:#fff">Las señales de alerta</h3><ul class="lista"><li>'+esc(n1)+' empieza a reclamar: '+esc(L[a].vacia[0].toLowerCase())+'</li><li>'+esc(n2)+' empieza a reclamar: '+esc(L[b].vacia[0].toLowerCase())+'</li></ul>'+
+     '<p style="color:#a1a1a6">Cuando aparezcan estas señales, no es falta de amor: es un tanque vacío. La respuesta no es defenderse, es llenarlo.</p></div>';
+
+  h+='<div class="card"><div class="ceja">Cómo vivirlo</div><h2>Sus acuerdos de amor</h2>'+
+     '<div class="patron"><b>Su ritual semanal</b>'+poner(d.ritual)+'</div>'+
+     '<div class="grid2"><div><h3>'+esc(n1)+' para '+esc(n2)+'</h3><ol class="lista">'+L[b].hazlo.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ol></div>'+
+     '<div><h3>'+esc(n2)+' para '+esc(n1)+'</h3><ol class="lista">'+L[a].hazlo.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ol></div></div>'+
+     '<h3>Una frase para cada uno</h3><div class="frase"><b>'+esc(n1)+' le pide a '+esc(n2)+':</b> '+esc(L[a].pedir[0])+'</div><div class="frase"><b>'+esc(n2)+' le pide a '+esc(n1)+':</b> '+esc(L[b].pedir[0])+'</div>'+
+     '<p class="suave" style="margin-top:.8rem">Amar en el idioma del otro cuesta al principio, porque no es natural. Justamente por eso vale tanto: es amor elegido, no solo sentido.</p>'+
+     '<div class="btns no-imprimir">'+(slotOtro?'<button class="btn sec" onclick="verSlot('+slotOtro+')">Ver el resultado individual de '+esc(n2)+'</button>':'<button class="btn sec" onclick="enviarCodigo()">Enviar mi resultado a '+esc(n2)+'</button>')+'<button class="btn sec" onclick="olvidarPareja()">Quitar este resultado de pareja</button></div></div>';
+  return h;
+}
+
+/* ---------- acciones ---------- */
+function compartirTexto(t){
+  if(navigator.share){navigator.share({text:t}).catch(function(){});return}
+  window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank');
+}
+function invitar(){
+  var url=CTX.invitacion+'#c='+encodeURIComponent(window._codigo||'');
+  compartirTexto('Hagamos juntos el test de los 5 lenguajes del amor ❤️ Cada uno responde por aparte y al final vemos cómo nos amamos los dos. Este es tu enlace (sirve por 24 horas):\n'+url);
+}
+function enviarCodigo(){
+  compartirTexto('Este es mi código del test de los 5 lenguajes del amor (Hostify Tests): '+(window._codigo||'')+'\nPégalo al final de tu resultado, en «¿Ya tienes el código de tu pareja?», y vemos el resultado de los dos.');
+}
+function usarCodigo(){
+  var p=leerCodigo($('codPareja').value);
+  if(!p){$('avisoCodigo').textContent='Ese código no es válido. Cópialo completo, empieza por AMOR-.';return}
+  try{localStorage.setItem(CLAVE+'_pareja',$('codPareja').value.trim())}catch(e){}
+  terminar();setTimeout(function(){var el=$('pareja');if(el&&el.scrollIntoView)el.scrollIntoView()},50);
+}
+function olvidarPareja(){
+  if(!confirm('¿Quitar el resultado de pareja? Tu resultado individual no se borra.'))return;
+  try{localStorage.removeItem(CLAVE+'_pareja')}catch(e){}
+  terminar();
+}
+function mismoDispositivo(){
+  slot=2;try{localStorage.setItem(CLAVE+'_slot','2')}catch(e){}
+  persona={nombre:'',contexto:'pareja'};R={};paso=0;
+  var g=leerSlot(2);if(g&&g.persona){persona=g.persona;R=g.R||{};paso=g.paso||0;if(g.fin){terminar();return}}
+  $('resultado').style.display='none';$('test').style.display='none';$('intro').style.display='block';
+  $('nombre').value=persona.nombre||'';pintarChips();pintarIntroPareja();window.scrollTo(0,0);
+}
+function verSlot(n){
+  slot=n;try{localStorage.setItem(CLAVE+'_slot',String(n))}catch(e){}
+  var g=leerSlot(n);if(!g)return;persona=g.persona;R=g.R||{};paso=g.paso||0;
+  if(g.fin)terminar();else{$('resultado').style.display='none';$('intro').style.display='none';$('test').style.display='block';pintar()}
+}
+function pintarIntroPareja(){
+  var el=$('introPareja');if(!el)return;
+  var otro=leerSlot(slot===1?2:1),nom=otro&&otro.persona&&otro.persona.nombre;
+  var t='';
+  if(slot===2)t='<div class="ceja">Turno de tu pareja</div><h2>Ahora responde '+(nom?'la pareja de '+esc(nom):'tu pareja')+'</h2><p>Escribe tu nombre y responde con calma. Tus respuestas quedan aparte: '+(nom?esc(nom):'tu pareja')+' no las ve. Al final verás tu resultado y el de los dos.</p>';
+  else if(CTX.invitado){var dueno=leerCodigoHash();t='<div class="ceja">Te invitaron</div><h2>'+(dueno&&dueno.nombre?esc(dueno.nombre)+' te invitó':'Te invitaron')+' a descubrir cómo se aman</h2><p>Responde por tu cuenta, sin mirar las respuestas del otro. Al terminar verás tu resultado individual y el de los dos.</p>'}
+  else if(CTX.pareja)t='<div class="ceja">Test para los dos</div><h2>Cada uno responde por aparte</h2><p>Responde tú primero. Al terminar te damos un enlace para tu pareja, o puede responder aquí mismo después de ti. Luego verán su resultado de pareja: en luz y en sombra.</p>';
+  el.innerHTML=t;el.style.display=t?'block':'none';
+  if(CTX.pareja||slot===2){persona.contexto='pareja';pintarChips()}
+}
+function leerCodigoHash(){
+  var m=/[#&]c=([^&]+)/.exec(location.hash||'');
+  return m?leerCodigo(decodeURIComponent(m[1])):null;
 }
 
 /* ---------- arranque ---------- */
 (function(){
-  var g=cargar();pintarChips();
+  // Quien llega por el enlace de su pareja trae el código de quien lo invitó.
+  var h=leerCodigoHash();if(h){try{localStorage.setItem(CLAVE+'_pareja',decodeURIComponent(/[#&]c=([^&]+)/.exec(location.hash)[1]))}catch(e){}}
+  var g=cargar();pintarChips();pintarIntroPareja();
   if(persona.nombre)$('nombre').value=persona.nombre;
   if(g){if(g.fin){terminar()}else if(Object.keys(R).length){$('intro').style.display='none';$('test').style.display='block';pintar()}}
 })();
