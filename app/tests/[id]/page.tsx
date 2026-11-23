@@ -8,6 +8,7 @@ import TestAccess from '@/components/TestAccess'
 import { CATALOG, estaPublicado, fechaLarga, getCatalogTest } from '@/lib/catalog'
 import { formatPrecio, getCheapestPerTest, getTestPrice, MONEDA } from '@/lib/pricing'
 import StickyBuyBar from '@/components/StickyBuyBar'
+import { tonoDe } from '@/lib/tonos'
 
 
 /** La oferta entra y sale por fecha, asi que la pagina se rehace sola cada 10
@@ -43,6 +44,7 @@ export default function TestPage({ params }: { params: { id: string } }) {
 
   const precio = getTestPrice(test.credits)
   const aLaVenta = estaPublicado(test)
+  const tono = tonoDe(test.id)
   const faq = [
     {
       q: '¿Cuánto cuesta este test?',
@@ -92,10 +94,10 @@ export default function TestPage({ params }: { params: { id: string } }) {
 
             <div className="mt-8 grid items-end gap-10 lg:grid-cols-[1.3fr,1fr]">
               <div className="animate-fade-up">
-                <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-soft text-brand-deep">
+                <span className="flex h-14 w-14 items-center justify-center rounded-2xl" style={{ background: tono.suave, color: tono.texto }}>
                   <TestIcon name={test.icon} className="h-7 w-7" />
                 </span>
-                <p className="eyebrow mt-8">{test.kicker}</p>
+                <p className="eyebrow mt-8" style={{ color: tono.texto }}>{test.kicker}</p>
                 <h1 className="mt-3 text-5xl font-semibold leading-[1.02] tracking-tightest sm:text-6xl">{test.name}</h1>
                 <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-500">{test.description}</p>
               </div>

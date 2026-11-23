@@ -7,7 +7,8 @@ import ReportPreview from '@/components/ReportPreview'
 import AudiencePicker from '@/components/AudiencePicker'
 import TestComparison from '@/components/TestComparison'
 import TeamContactButton from '@/components/TeamContactButton'
-import { fechaLarga, proximos, publicados } from '@/lib/catalog'
+import BannerLanzamiento from '@/components/BannerLanzamiento'
+import { esNuevo, fechaLarga, proximos, publicados } from '@/lib/catalog'
 import { PASARELA, textosPrecio } from '@/lib/pricing'
 
 
@@ -34,6 +35,7 @@ export default function Home() {
   // Se calcula en cada render: el día del lanzamiento el test nuevo aparece solo.
   const CATALOGO = publicados()
   const siguiente = proximos()[0]
+  const recien = CATALOGO.find((t) => esNuevo(t))
   const cuantos = PALABRAS[CATALOGO.length] ?? String(CATALOGO.length)
   const Cuantos = cuantos.charAt(0).toUpperCase() + cuantos.slice(1)
   const precio = textosPrecio()
@@ -49,11 +51,13 @@ export default function Home() {
 
           <div className="container-x relative text-center">
             <Link
-              href="/precios"
+              href={recien ? `/tests/${recien.id}` : '/precios'}
               className="inline-flex animate-fade-up items-center gap-2 rounded-full bg-white/[0.07] py-1.5 pl-1.5 pr-4 text-sm text-white/80 ring-1 ring-white/10 backdrop-blur transition hover:bg-white/10"
             >
               <span className="rounded-full bg-gradient-to-b from-brand to-brand-deep px-2.5 py-0.5 text-xs font-semibold text-white">Nuevo</span>
-              Tests desde {precio.desde} · Equipos desde {precio.porPersonaEquipo} por persona
+              {recien
+                ? `Recién lanzado: ${recien.name}`
+                : `Tests desde ${precio.desde} · Equipos desde ${precio.porPersonaEquipo} por persona`}
               <span aria-hidden="true" className="text-white/40">→</span>
             </Link>
 
@@ -86,6 +90,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <BannerLanzamiento />
 
         {/* Stats */}
         <section className="border-b border-black/[0.06] bg-white">

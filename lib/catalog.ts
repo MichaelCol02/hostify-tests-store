@@ -60,7 +60,7 @@ export const CATALOG: CatalogTest[] = [
     audience: ['colaborador', 'lider', 'gerente'],
     credits: 1,
     people: 1,
-    lanzamiento: '2026-12-15',
+    lanzamiento: '2026-11-23',
   },
   {
     id: 'lenguajes-amor-pareja',
@@ -79,7 +79,7 @@ export const CATALOG: CatalogTest[] = [
     credits: 2,
     people: 2,
     suggestedPack: 'pareja',
-    lanzamiento: '2026-12-15',
+    lanzamiento: '2026-11-23',
   },
   {
     id: 'estilo-crianza',
