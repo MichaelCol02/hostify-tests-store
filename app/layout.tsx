@@ -17,9 +17,9 @@ const archivo = Archivo_Black({ subsets: ['latin'], weight: '400', variable: '--
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://hostifycol.netlify.app'),
-  title: 'Hostify Tests — Evaluaciones para la hospitalidad',
+  title: 'Hostify Tests — Conócete a ti y a los que amas',
   openGraph: { type: 'website', locale: 'es_CO', siteName: 'Hostify Tests' },
-  description: `Tests de liderazgo, perfil conductual e inteligencia de hospitalidad. Resultados al instante. Desde ${textosPrecio(CREDIT_PACKS).porPersonaEquipo} por test.`,
+  description: `Tests profundos para conocerte, amar mejor a tu pareja, criar con intención y liderar tu equipo. Resultado al terminar, con guía práctica y plan de 21 días. Desde ${textosPrecio(CREDIT_PACKS).porPersonaEquipo} por test.`,
 }
 
 export const viewport: Viewport = {

@@ -8,6 +8,7 @@ import AudiencePicker from '@/components/AudiencePicker'
 import TestComparison from '@/components/TestComparison'
 import TeamContactButton from '@/components/TeamContactButton'
 import BannerLanzamiento from '@/components/BannerLanzamiento'
+import TituloRotativo from '@/components/TituloRotativo'
 import { esNuevo, fechaLarga, proximos, publicados } from '@/lib/catalog'
 import { PASARELA, textosPrecio } from '@/lib/pricing'
 
@@ -47,7 +48,6 @@ export default function Home() {
         {/* Hero */}
         <section className="relative overflow-hidden bg-ink-900 pb-24 pt-16 text-white sm:pb-32 sm:pt-24">
           <div aria-hidden="true" className="bg-grid mask-fade-b pointer-events-none absolute inset-0" />
-          <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-[-18rem] h-[36rem] w-[60rem] -translate-x-1/2 rounded-full bg-brand/25 blur-[140px]" />
 
           <div className="container-x relative text-center">
             <Link
@@ -61,19 +61,17 @@ export default function Home() {
               <span aria-hidden="true" className="text-white/40">→</span>
             </Link>
 
-            <h1 className="delay-1 mx-auto mt-8 max-w-4xl animate-fade-up text-5xl font-semibold leading-[1.02] tracking-tightest text-white sm:text-7xl lg:text-[5.5rem]">
-              Deja de adivinar. <span className="text-gradient">Conoce a tu gente.</span>
-            </h1>
+            <TituloRotativo />
             <p className="delay-2 mx-auto mt-7 max-w-2xl animate-fade-up text-lg leading-relaxed text-white/60 sm:text-xl">
-              Contrata con criterio, lidera con acierto y potencia a los que ya están contigo. {Cuantos} evaluaciones de
-              talento, liderazgo y perfil conductual, con resultado al terminar. La mayoría toma menos de 25 minutos.
+              {Cuantos} tests profundos para entenderte a ti y a los que amas: tu pareja, tus hijos y tu equipo. Cada uno con
+              una lectura amplia, guías prácticas y un plan de 21 días. La mayoría toma menos de 25 minutos.
             </p>
             <div className="delay-3 mt-10 flex animate-fade-up flex-col items-center justify-center gap-3 sm:flex-row">
               <Link href="/tests" className="btn-primary px-7 py-3.5 text-base">
                 Hacer un test
               </Link>
               <Link href="#hoteles" className="btn-ghost-dark px-7 py-3.5 text-base">
-                Evaluar a mi equipo
+                Para equipos
               </Link>
             </div>
             <ul className="delay-4 mt-7 flex animate-fade-up flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/45">
