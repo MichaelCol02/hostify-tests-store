@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Portada from '@/components/Portada'
+import FichaHistoria from '@/components/FichaHistoria'
 import TestAccess from '@/components/TestAccess'
 import { CATALOG, estaPublicado, fechaLarga, getCatalogTest } from '@/lib/catalog'
 import { formatPrecio, getCheapestPerTest, getTestPrice, MONEDA } from '@/lib/pricing'
@@ -142,6 +143,8 @@ export default function TestPage({ params }: { params: { id: string } }) {
             </div>
           </div>
         </section>
+
+        <FichaHistoria test={test} />
 
         {test.video && (
           <section className="pb-16">
