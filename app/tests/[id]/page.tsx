@@ -3,12 +3,12 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import TestIcon from '@/components/TestIcon'
+import Portada from '@/components/Portada'
 import TestAccess from '@/components/TestAccess'
 import { CATALOG, estaPublicado, fechaLarga, getCatalogTest } from '@/lib/catalog'
 import { formatPrecio, getCheapestPerTest, getTestPrice, MONEDA } from '@/lib/pricing'
 import StickyBuyBar from '@/components/StickyBuyBar'
-import { tonoDe } from '@/lib/tonos'
+import { marcaDe } from '@/lib/marcas'
 
 
 /** La oferta entra y sale por fecha, asi que la pagina se rehace sola cada 10
@@ -44,7 +44,7 @@ export default function TestPage({ params }: { params: { id: string } }) {
 
   const precio = getTestPrice(test.credits)
   const aLaVenta = estaPublicado(test)
-  const tono = tonoDe(test.id)
+  const marca = marcaDe(test.id, test.name)
   const faq = [
     {
       q: '¿Cuánto cuesta este test?',
@@ -86,47 +86,59 @@ export default function TestPage({ params }: { params: { id: string } }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Header />
       <main className="flex-grow">
-        <section className="pb-12 pt-10 sm:pt-16">
-          <div className="container-x">
-            <Link href="/tests" className="inline-flex items-center gap-1.5 text-sm font-medium text-ink-500 transition hover:text-ink">
+        <section className="relative overflow-hidden pb-14 pt-8 text-white sm:pb-20 sm:pt-12" style={{ background: marca.profundo }}>
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-1/2 top-24 h-[34rem] w-[60rem] -translate-x-1/2 rounded-full opacity-40 blur-[120px]"
+            style={{ background: marca.fondo[1] }}
+          />
+          <div className="container-x relative">
+            <Link href="/tests" className="inline-flex items-center gap-1.5 text-sm font-medium text-white/60 transition hover:text-white">
               <span aria-hidden="true">←</span> Todos los tests
             </Link>
 
-            <div className="mt-8 grid items-end gap-10 lg:grid-cols-[1.3fr,1fr]">
-              <div className="animate-fade-up">
-                <span className="flex h-14 w-14 items-center justify-center rounded-2xl" style={{ background: tono.suave, color: tono.texto }}>
-                  <TestIcon name={test.icon} className="h-7 w-7" />
-                </span>
-                <p className="eyebrow mt-8" style={{ color: tono.texto }}>{test.kicker}</p>
-                <h1 className="mt-3 text-5xl font-semibold leading-[1.02] tracking-tightest sm:text-6xl">{test.name}</h1>
-                <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-500">{test.description}</p>
-              </div>
-
-              <dl className="delay-1 grid animate-fade-up grid-cols-3 gap-3">
-                {[
-                  { k: 'Duración', v: test.duration },
-                  { k: test.people > 1 ? 'Preguntas c/u' : 'Preguntas', v: String(test.questions) },
-                  {
-                    k: 'Precio',
-                    v: `${formatPrecio(precio)} ${MONEDA}`,
-                    nota: test.people > 1 ? 'incluye a los dos' : `o ${formatPrecio(getCheapestPerTest())} por test en el paquete Equipo`,
-                  },
-                ].map((s) => (
-                  <div key={s.k} className="rounded-3xl bg-white p-5 shadow-soft ring-1 ring-black/[0.05]">
-                    <dt className="text-xs text-ink-400">{s.k}</dt>
-                    <dd className="mt-1.5 font-display text-lg font-semibold tracking-tighter">{s.v}</dd>
-                    {s.nota && <dd className="mt-0.5 text-xs text-brand-deep">{s.nota}</dd>}
-                  </div>
-                ))}
-              </dl>
+            <div className="mt-6 animate-fade-up overflow-hidden rounded-[1.75rem] shadow-[0_30px_80px_-20px_rgba(0,0,0,.6)] ring-1 ring-white/10">
+              <Portada id={test.id} nombre={test.name} className="aspect-[4/3] sm:aspect-[21/9]" escala={0.62} />
             </div>
 
-            <div className="delay-2 mt-8 flex animate-fade-up flex-wrap gap-2">
-              {test.modules.map((m) => (
-                <span key={m} className="rounded-full bg-white px-3.5 py-1.5 text-sm text-ink-700 ring-1 ring-black/[0.07]">
-                  {m}
-                </span>
-              ))}
+            <div className="delay-1 mt-10 grid animate-fade-up items-start gap-8 lg:grid-cols-[1.4fr,1fr] lg:gap-14">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: marca.acento }}>{test.kicker}</p>
+                <h1 className="mt-3 text-4xl font-semibold leading-[1.05] tracking-tighter text-white sm:text-5xl">{test.name}</h1>
+                <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/70">{test.description}</p>
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {test.modules.map((m) => (
+                    <span key={m} className="rounded-full bg-white/[0.08] px-3.5 py-1.5 text-sm text-white/80 ring-1 ring-white/10">
+                      {m}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="lg:pt-6">
+                <dl className="grid grid-cols-3 divide-x divide-white/10 rounded-2xl bg-white/[0.07] ring-1 ring-white/10 backdrop-blur">
+                  {[
+                    { k: 'Duración', v: test.duration },
+                    { k: test.people > 1 ? 'Preguntas c/u' : 'Preguntas', v: String(test.questions) },
+                    { k: 'Precio', v: formatPrecio(precio) },
+                  ].map((s) => (
+                    <div key={s.k} className="px-4 py-4 text-center">
+                      <dt className="text-[11px] uppercase tracking-wider text-white/50">{s.k}</dt>
+                      <dd className="mt-1 font-display text-base font-semibold sm:text-lg">{s.v}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <p className="mt-3 text-center text-xs text-white/50">
+                  {MONEDA} · {test.people > 1 ? 'incluye a los dos' : `o ${formatPrecio(getCheapestPerTest())} por test en el paquete Equipo`}
+                </p>
+                <a
+                  href="#empezar"
+                  className="mt-5 flex w-full items-center justify-center rounded-full bg-white px-6 py-3.5 font-semibold transition hover:bg-white/90"
+                  style={{ color: marca.profundo }}
+                >
+                  {aLaVenta ? 'Hacer el test' : `Llega el ${fechaLarga(test)}`}
+                </a>
+              </div>
             </div>
           </div>
         </section>
@@ -158,7 +170,7 @@ export default function TestPage({ params }: { params: { id: string } }) {
           </section>
         )}
 
-        <section id="empezar" className="scroll-mt-20 pb-28">
+        <section id="empezar" className="scroll-mt-20 pb-28 pt-14">
           <div className="container-x delay-3 animate-fade-up">
             {!aLaVenta ? (
               <div className="rounded-4xl bg-ink-900 p-8 text-white shadow-lift sm:p-10">

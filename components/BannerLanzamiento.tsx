@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { publicados, esNuevo } from '@/lib/catalog'
 import { formatPrecio, getTestPrice } from '@/lib/pricing'
 import { tonoDe } from '@/lib/tonos'
-import TestIcon from './TestIcon'
+import Portada from './Portada'
 
 /** Los tests lanzados en los últimos 30 días, arriba en la portada. Se arma
  *  solo con las fechas del catálogo: el día de un lanzamiento aparece y a los
@@ -37,28 +37,28 @@ export default function BannerLanzamiento() {
           {nuevos.map((t) => {
             const tono = tonoDe(t.id)
             return (
-              <Link
-                key={t.id}
-                href={`/tests/${t.id}`}
-                className="group relative flex flex-col overflow-hidden rounded-4xl p-7 text-white shadow-lift transition-all duration-500 hover:-translate-y-1 sm:p-8"
-                style={{ background: `linear-gradient(145deg, ${tono.c} 0%, ${tono.texto} 100%)` }}
-              >
-                <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-white/15 blur-2xl" />
-                <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20">
-                  <TestIcon name={t.icon} />
-                </span>
-                <p className="relative mt-6 text-xs font-semibold uppercase tracking-[0.16em] text-white/80">{t.kicker}</p>
-                <h3 className="relative mt-2 text-2xl font-semibold leading-tight">{t.name}</h3>
-                <p className="relative mt-3 text-[15px] leading-relaxed text-white/85">{t.description}</p>
-                <span className="relative mt-auto flex items-center justify-between pt-8 text-sm font-semibold">
-                  <span>
-                    {formatPrecio(getTestPrice(t.credits))}
-                    {t.people > 1 && ' · para los dos'}
+              <Link key={t.id} href={`/tests/${t.id}`} className="group flex flex-col">
+                <div className="relative overflow-hidden rounded-[1.75rem] shadow-lift transition-all duration-500 ease-out group-hover:-translate-y-1.5">
+                  <Portada id={t.id} nombre={t.name} className={`${nuevos.length === 1 ? 'aspect-[21/9]' : 'aspect-[4/5] sm:aspect-[16/11] md:aspect-[4/5]'} transition-transform duration-700 group-hover:scale-[1.03]`} escala={nuevos.length === 1 ? 0.6 : 1.25} />
+                  <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[11px] font-bold uppercase tracking-wider" style={{ color: tono.texto }}>
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full" style={{ background: tono.c }} />
+                    Nuevo
                   </span>
-                  <span className="rounded-full bg-white px-4 py-2 transition group-hover:translate-x-0.5" style={{ color: tono.texto }}>
-                    Hacer el test →
+                </div>
+                <div className="flex flex-1 flex-col px-1 pt-5">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em]" style={{ color: tono.texto }}>{t.kicker}</p>
+                  <h3 className="mt-1.5 text-2xl font-semibold leading-tight">{t.name}</h3>
+                  <p className="mt-2 text-[15px] leading-relaxed text-ink-500">{t.description}</p>
+                  <span className="mt-auto flex items-center justify-between pt-5 text-sm">
+                    <span className="font-semibold">
+                      {formatPrecio(getTestPrice(t.credits))}
+                      {t.people > 1 && <span className="font-normal text-ink-400"> · para los dos</span>}
+                    </span>
+                    <span className="rounded-full px-4 py-2 font-semibold text-white transition group-hover:translate-x-0.5" style={{ background: tono.c }}>
+                      Hacer el test →
+                    </span>
                   </span>
-                </span>
+                </div>
               </Link>
             )
           })}
