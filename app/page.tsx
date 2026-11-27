@@ -4,8 +4,7 @@ import Footer from '@/components/Footer'
 import TestCard from '@/components/TestCard'
 import PricingCards from '@/components/PricingCards'
 import ReportPreview from '@/components/ReportPreview'
-import AudiencePicker from '@/components/AudiencePicker'
-import TestComparison from '@/components/TestComparison'
+import QueQuieresEntender from '@/components/QueQuieresEntender'
 import TeamContactButton from '@/components/TeamContactButton'
 import BannerLanzamiento from '@/components/BannerLanzamiento'
 import TituloRotativo from '@/components/TituloRotativo'
@@ -142,28 +141,15 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ¿Para quién es? */}
+        {/* ¿Qué quieres entender? */}
         <section className="bg-white py-24 sm:py-28">
           <div className="container-x">
             <div className="mx-auto max-w-2xl text-center">
-              <p className="eyebrow">¿Para quién es?</p>
-              <h2 className="mt-4 text-4xl font-semibold leading-[1.05] sm:text-5xl">Dinos quién eres y te decimos por dónde empezar.</h2>
-            </div>
-            <div className="mt-12">
-              <AudiencePicker />
-            </div>
-          </div>
-        </section>
-
-        {/* Comparador */}
-        <section className="py-24 sm:py-28">
-          <div className="container-x">
-            <div className="max-w-2xl">
-              <p className="eyebrow">Compara</p>
-              <h2 className="mt-4 text-4xl font-semibold leading-[1.05] sm:text-5xl">Todos los tests, lado a lado.</h2>
+              <p className="eyebrow">Por dónde empezar</p>
+              <h2 className="mt-4 text-4xl font-semibold leading-[1.05] sm:text-5xl">¿Qué quieres entender hoy?</h2>
             </div>
             <div className="mt-10">
-              <TestComparison />
+              <QueQuieresEntender />
             </div>
           </div>
         </section>
