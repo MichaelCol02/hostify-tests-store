@@ -228,3 +228,17 @@ export function marcaDe(id: string, nombre: string): Marca {
 export function esClara(m: Marca) {
   return m.tinta.startsWith('#0') || m.tinta.startsWith('#1')
 }
+
+function luz(hex: string) {
+  const n = parseInt(hex.slice(1), 16)
+  return (0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255
+}
+
+/** El color vivo de la marca, para barras, anillos y detalles sobre fondo blanco.
+ *  Si el fondo de la portada es muy claro o muy oscuro, se usa el acento. */
+export function colorVivo(m: Marca) {
+  const l = luz(m.fondo[1])
+  if (l > 0.25 && l < 0.75) return m.fondo[1]
+  const la = luz(m.acento)
+  return la > 0.75 ? m.fondo[1] === '#1D1D1D' ? '#2F6FEB' : '#B8862B' : m.acento
+}
