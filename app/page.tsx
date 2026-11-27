@@ -21,7 +21,7 @@ const PALABRAS = ['cero','una','dos','tres','cuatro','cinco','seis','siete','och
 const steps = (lista: string) => [
   { n: '01', title: 'Elige tus créditos', body: `${lista}. Pagas una vez y los usas cuando quieras.` },
   { n: '02', title: 'Responde a tu ritmo', body: 'Cada crédito abre un test completo durante 24 horas. Sin prisas, desde cualquier dispositivo.' },
-  { n: '03', title: 'Recibe tu resultado', body: 'Tu perfil y un plan de desarrollo al terminar. Repite el test o compártelo con tu equipo.' },
+  { n: '03', title: 'Recibe tu resultado', body: 'Tu perfil y un plan de desarrollo al terminar. Repítelo cuando quieras o regálale un test a alguien que amas.' },
 ]
 
 const FAQ = [
@@ -69,7 +69,7 @@ export default function Home() {
               <Link href="/tests" className="btn-primary px-7 py-3.5 text-base">
                 Hacer un test
               </Link>
-              <Link href="#hoteles" className="btn-ghost-dark px-7 py-3.5 text-base">
+              <Link href="#equipos" className="btn-ghost-dark px-7 py-3.5 text-base">
                 Para equipos
               </Link>
             </div>
@@ -94,7 +94,7 @@ export default function Home() {
         <section className="border-b border-black/[0.06] bg-white">
           <div className="container-x grid grid-cols-2 gap-y-8 py-12 text-center lg:grid-cols-4">
             {[
-              { k: String(CATALOGO.length), v: 'evaluaciones especializadas' },
+              { k: String(CATALOGO.length), v: 'tests para conocerte' },
               { k: '< 25 min', v: 'la mayoría de los tests' },
               { k: '24 h', v: 'para terminar a tu ritmo' },
               { k: precio.porPersonaEquipo, v: 'por test en paquete Equipo' },
@@ -154,14 +154,14 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Para hoteles */}
-        <section id="hoteles" className="scroll-mt-20 bg-white py-24 sm:py-28">
+        {/* Para equipos */}
+        <section id="equipos" className="scroll-mt-20 bg-white py-24 sm:py-28">
           <div className="container-x">
             <div className="relative overflow-hidden rounded-[2.5rem] bg-ink-900 p-8 text-white sm:p-14">
               <div aria-hidden="true" className="pointer-events-none absolute -right-20 -top-28 h-80 w-80 rounded-full bg-brand/30 blur-3xl" />
               <div className="relative grid items-center gap-10 lg:grid-cols-[1.2fr,1fr]">
                 <div>
-                  <p className="eyebrow">Para hoteles y equipos</p>
+                  <p className="eyebrow">Para empresas y equipos</p>
                   <h2 className="mt-4 text-4xl font-semibold leading-[1.05] text-white sm:text-5xl">
                     Conoce al equipo que ya tienes.
                   </h2>
@@ -257,9 +257,9 @@ export default function Home() {
           <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2.5rem] bg-ink-900 px-8 py-20 text-center text-white sm:py-24">
             <div aria-hidden="true" className="pointer-events-none absolute -bottom-40 left-1/2 h-80 w-[80%] -translate-x-1/2 rounded-full bg-brand/45 blur-[110px]" />
             <h2 className="relative mx-auto max-w-3xl text-4xl font-semibold leading-[1.05] text-white sm:text-6xl">
-              Tu equipo ya hace sentir a otros como en casa.
+              Conócete. Ama mejor. Deja huella en los tuyos.
             </h2>
-            <p className="relative mx-auto mt-5 max-w-xl text-lg text-white/60">Ahora conoce exactamente cómo lo logra.</p>
+            <p className="relative mx-auto mt-5 max-w-xl text-lg text-white/60">Empieza hoy con el test que más te hable. Resultado al terminar y un plan para vivirlo.</p>
             <Link href="/tests" className="btn-primary relative mt-10 px-8 py-4 text-base">
               Hacer un test
             </Link>

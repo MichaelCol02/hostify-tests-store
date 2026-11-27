@@ -1,6 +1,6 @@
 import { WHATSAPP_NUMBER, whatsappLink } from '@/lib/contact'
 
-const MENSAJE = 'Hola, tengo un hotel y quiero evaluar a mi equipo con los tests de Hostify.'
+const MENSAJE = 'Hola, quiero evaluar a mi equipo con los tests de Hostify.'
 
 export default function TeamContactButton({ className = '' }: { className?: string }) {
   if (!WHATSAPP_NUMBER) return null

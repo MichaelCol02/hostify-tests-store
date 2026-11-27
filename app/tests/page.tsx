@@ -12,7 +12,7 @@ import { formatPrecio, getCheapestPerTest, getTestPrice } from '@/lib/pricing'
 export const revalidate = 600
 export const metadata: Metadata = {
   title: 'Tests — Hostify',
-  description: 'Cinco evaluaciones para líderes y equipos de hospitalidad.',
+  description: 'Tests para conocerte, amar mejor a tu pareja, criar con intención y liderar tu equipo.',
 }
 
 export default function TestsPage() {

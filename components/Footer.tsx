@@ -22,7 +22,7 @@ export default function Footer() {
         <div className="sm:col-span-2">
           <Logo />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink-500">
-            Impulsamos la hospitalidad. Evaluaciones creadas para los equipos que hacen sentir a otros como en casa.
+            Tests profundos para conocerte a ti y a los que amas: tu pareja, tus hijos y tu equipo.
           </p>
         </div>
         <div>
