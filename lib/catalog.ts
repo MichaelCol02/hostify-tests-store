@@ -1,7 +1,7 @@
 // Public catalog. Test URLs are deliberately absent: they live only in store_tests.url
 // and are returned by store_redeem_credit after a credit is spent.
 
-export type TestIcon = 'levels' | 'disc' | 'voice' | 'hospitality' | 'houses' | 'enneagram' | 'couple' | 'tree' | 'money' | 'shield' | 'family' | 'heart'
+export type TestIcon = 'levels' | 'disc' | 'voice' | 'hospitality' | 'houses' | 'enneagram' | 'couple' | 'tree' | 'money' | 'shield' | 'family' | 'heart' | 'spark'
 
 export interface CatalogTest {
   id: string
@@ -44,6 +44,24 @@ export const AUDIENCES: { id: Audience; label: string; blurb: string }[] = [
 ]
 
 export const CATALOG: CatalogTest[] = [
+  {
+    id: 'inteligencias-hijo',
+    name: 'Las inteligencias de tu hijo',
+    kicker: 'Familia y paternidad',
+    description:
+      'Todos los niños son inteligentes, pero no de la misma forma. Descubre las inteligencias más fuertes de tu hijo, cómo aprende mejor y qué hacer en casa según su edad.',
+    duration: '12–15 min',
+    questions: 48,
+    modules: ['Palabras', 'Lógica', 'Imágenes', 'Cuerpo', 'Música', 'Personas', 'Interior', 'Naturaleza'],
+    icon: 'spark',
+    measures: 'Las 8 inteligencias de tu hijo (Gardner): su constelación de tres y cómo aprende mejor.',
+    idealFor: 'Papás y mamás de niños de 3 a 17 años que quieren acompañarlos según sus talentos.',
+    deliver: 'Su constelación de inteligencias, actividades para su edad, cómo ayudarle a estudiar, un plan de 21 días e imagen para compartir.',
+    audience: ['colaborador', 'lider', 'gerente'],
+    credits: 1,
+    people: 1,
+    lanzamiento: '2027-01-01',
+  },
   {
     id: 'lenguajes-amor',
     name: 'Los 5 lenguajes del amor',

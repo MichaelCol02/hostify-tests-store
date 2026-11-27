@@ -3,6 +3,7 @@
 // aquí. Para sumar uno: guarda su HTML en tests-internos/ y agrégalo abajo.
 import estiloCrianza from '@/tests-internos/estilo-crianza.html'
 import lenguajesAmor from '@/tests-internos/lenguajes-amor.html'
+import inteligenciasHijo from '@/tests-internos/inteligencias-hijo.html'
 
 interface TestInterno {
   html: string
@@ -14,6 +15,7 @@ const TESTS: Record<string, TestInterno> = {
   'estilo-crianza': { html: estiloCrianza },
   'lenguajes-amor': { html: lenguajesAmor },
   'lenguajes-amor-pareja': { html: lenguajesAmor, pareja: true },
+  'inteligencias-hijo': { html: inteligenciasHijo },
 }
 
 export const PREFIJO_INTERNO = 'interno:'

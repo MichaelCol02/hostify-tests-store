@@ -72,6 +72,13 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M12 16h.01" />
     </>
   ),
+  // Una chispa: el talento que se enciende.
+  spark: (
+    <>
+      <path d="M12 3v4M12 17v4M3 12h4M17 12h4" />
+      <path d="M12 8.5 13.2 11l2.3 1-2.3 1L12 15.5 10.8 13l-2.3-1 2.3-1Z" />
+    </>
+  ),
   heart: (
     <>
       <path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z" />

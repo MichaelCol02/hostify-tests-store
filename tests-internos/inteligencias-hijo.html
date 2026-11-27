@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Las inteligencias de tu hijo · Hostify Tests</title>
+<style>
+
+:root{--tinta:#111;--suave:#6e6e73;--tenue:#86868b;--marca:#ff6b2c;--marca2:#d94d1a;--marcasuave:#fff1ea;
+ --fondo:#f5f5f7;--linea:#e8e8ed;--blanco:#fff;--verde:#2f9e6b;--verdesuave:#eaf6f0;--ambar:#c98512;--ambarsuave:#fcf4e4;
+ --rojo:#d6402b;--rojosuave:#fdece8;--azul:#3a6ea5;--azulsuave:#eaf1f9;}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--fondo);color:var(--tinta);font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;line-height:1.6;-webkit-text-size-adjust:100%}
+button{font:inherit;cursor:pointer}
+.hero{background:linear-gradient(135deg,#0d0d0d 0%,#1d1410 55%,#3b2216 100%);color:#fff}
+.hero .in{max-width:820px;margin:0 auto;padding:2.2rem 1.2rem 2rem}
+.marca{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#c9c9ce;font-weight:600;display:flex;align-items:center;gap:.5rem;margin-bottom:1rem}
+.marca i{width:9px;height:9px;background:var(--marca);border-radius:2px;display:inline-block}
+.hero h1{font-size:clamp(1.9rem,6vw,2.8rem);line-height:1.1;font-weight:800;letter-spacing:-.02em;margin-bottom:.7rem}
+.hero h1 em{font-style:normal;color:var(--marca)}
+.hero p{color:#c9c9ce;max-width:580px}
+.stats{display:flex;flex-wrap:wrap;gap:1rem 2.2rem;margin-top:1.4rem}
+.stats b{display:block;font-size:1.3rem;line-height:1.1}
+.stats span{font-size:.8rem;color:#a1a1a6}
+.wrap{max-width:820px;margin:0 auto;padding:1.4rem 1rem 4rem}
+.card{background:var(--blanco);border:1px solid var(--linea);border-radius:22px;padding:1.5rem 1.4rem;margin-bottom:1rem}
+.ceja{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--marca2);font-weight:700;margin-bottom:.4rem}
+h2{font-size:1.35rem;line-height:1.25;margin-bottom:.6rem;letter-spacing:-.01em}
+h3{font-size:1.08rem;margin:1.1rem 0 .4rem}
+p+p{margin-top:.7rem}
+.suave{color:var(--suave)}
+.lab{display:block;font-weight:600;font-size:.92rem;margin-bottom:.4rem}
+input[type=text]{width:100%;padding:.8rem 1rem;border:1px solid var(--linea);border-radius:14px;font:inherit;background:#fbfbfd}
+input[type=text]:focus{outline:2px solid var(--marca);border-color:transparent}
+.campo{margin-bottom:1.1rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{border:1px solid var(--linea);background:#fbfbfd;border-radius:999px;padding:.5rem 1rem;font-size:.92rem}
+.chip.on{background:var(--tinta);color:#fff;border-color:var(--tinta)}
+.btns{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+.btn{background:var(--marca);color:#fff;border:0;border-radius:999px;padding:.85rem 1.5rem;font-weight:700}
+.btn:disabled{opacity:.35;cursor:default}
+.btn.sec{background:#fff;color:var(--tinta);border:1px solid var(--linea)}
+.btn.osc{background:var(--tinta)}
+.aviso{color:var(--rojo);font-size:.88rem;margin-top:.5rem;min-height:1.2em}
+.barra{height:6px;background:var(--linea);border-radius:99px;overflow:hidden;margin-bottom:.6rem}
+.barra span{display:block;height:100%;background:var(--marca);width:0;transition:width .3s}
+.paso{font-size:.82rem;color:var(--tenue);margin-bottom:.7rem;display:flex;justify-content:space-between;gap:1rem}
+.preg{font-size:1.16rem;font-weight:600;line-height:1.4;margin:.2rem 0 1.2rem}
+.escala{display:grid;grid-template-columns:repeat(5,1fr);gap:.45rem}
+.escala button{border:1px solid var(--linea);background:#fbfbfd;border-radius:14px;padding:.75rem .2rem;font-size:.8rem;line-height:1.25;color:var(--suave)}
+.escala button b{display:block;font-size:1.15rem;color:var(--tinta)}
+.escala button.on{background:var(--marca);border-color:var(--marca);color:#fff}
+.escala button.on b{color:#fff}
+.opciones button{display:block;width:100%;text-align:left;border:1px solid var(--linea);background:#fbfbfd;border-radius:16px;padding:.9rem 1rem;margin-bottom:.55rem;font-size:.97rem;line-height:1.45}
+.opciones button.on{background:var(--marcasuave);border-color:var(--marca);box-shadow:inset 0 0 0 1px var(--marca)}
+.nav{display:flex;justify-content:space-between;gap:.6rem;margin-top:.4rem}
+.guardado{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--tinta);color:#fff;font-size:.8rem;padding:.4rem .9rem;border-radius:99px;opacity:0;transition:opacity .3s;pointer-events:none}
+.guardado.ver{opacity:.85}
+/* resultado */
+.res-hero{background:var(--tinta);color:#fff;border-radius:26px;padding:1.8rem 1.5rem;margin-bottom:1rem;position:relative;overflow:hidden}
+.res-hero:after{content:"";position:absolute;right:-90px;top:-90px;width:260px;height:260px;border-radius:50%;background:var(--marca);opacity:.35;filter:blur(50px)}
+.res-hero .ceja{color:var(--marca)}
+.res-hero h2{font-size:clamp(1.8rem,6vw,2.4rem);margin-bottom:.3rem}
+.res-hero .lema{color:#d2d2d7;font-size:1.05rem;max-width:560px;position:relative;z-index:1}
+.cita{border-left:3px solid var(--marca);padding:.4rem 0 .4rem 1rem;margin:1rem 0;font-style:italic;color:var(--suave)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.lista{padding-left:1.1rem}
+.lista li{margin-bottom:.4rem}
+.dim{margin-bottom:1rem}
+.dim .cab{display:flex;justify-content:space-between;gap:.6rem;font-size:.95rem;margin-bottom:.3rem}
+.dim .cab b{font-weight:600}
+.riel{height:10px;background:var(--linea);border-radius:99px;overflow:hidden}
+.riel span{display:block;height:100%;border-radius:99px}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;padding:.15rem .55rem;border-radius:99px;margin-left:.3rem;vertical-align:middle}
+.t-f{background:var(--verdesuave);color:var(--verde)}
+.t-d{background:var(--ambarsuave);color:var(--ambar)}
+.t-p{background:var(--rojosuave);color:var(--rojo)}
+.patron{background:var(--marcasuave);border-radius:16px;padding:1rem 1.1rem;margin-bottom:.7rem}
+.patron b{display:block;margin-bottom:.2rem}
+.guia{border:1px solid var(--linea);border-radius:18px;padding:1.2rem 1.1rem;margin-top:1rem}
+.guia h3{margin-top:0}
+.frase{background:var(--fondo);border-radius:12px;padding:.6rem .9rem;margin:.35rem 0;font-size:.95rem}
+.libro{display:flex;gap:.8rem;align-items:flex-start;background:var(--azulsuave);border-radius:14px;padding:.8rem 1rem;margin-top:.8rem}
+.libro i{font-style:normal;font-size:1.3rem;line-height:1.2}
+.semana{border-top:1px solid var(--linea);padding-top:1rem;margin-top:1rem}
+.semana:first-of-type{border-top:0;margin-top:0;padding-top:0}
+.dia{display:flex;gap:.7rem;padding:.45rem 0;border-bottom:1px dashed var(--linea);font-size:.95rem}
+.dia:last-child{border-bottom:0}
+.dia b{flex:0 0 3.6rem;color:var(--marca2);font-size:.85rem;padding-top:.1rem}
+.edad{background:var(--fondo);border-radius:16px;padding:1rem 1.1rem;margin-top:.8rem}
+.contraste{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:1rem 0}
+.contraste div{background:var(--fondo);border-radius:16px;padding:1rem}
+.contraste small{display:block;color:var(--tenue);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em}
+.contraste strong{font-size:1.15rem}
+.compartir{display:grid;grid-template-columns:minmax(0,260px) 1fr;gap:1.4rem;align-items:center}
+.compartir img{width:100%;border-radius:18px;box-shadow:0 12px 40px rgba(0,0,0,.18);display:block}
+@media(max-width:600px){.compartir{grid-template-columns:1fr}.compartir img{max-width:280px;margin:0 auto}}
+.pie{text-align:center;color:var(--tenue);font-size:.8rem;margin-top:2rem}
+svg text{font-family:inherit}
+@media(max-width:600px){.grid2,.contraste{grid-template-columns:1fr}.escala button{font-size:.68rem;padding:.6rem .1rem}.card{padding:1.25rem 1.05rem}}
+@media print{.hero,.no-imprimir,.guardado{display:none!important}body,html{background:#fff}.card,.guia{break-inside:avoid}.res-hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+.constelacion{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-top:1rem}
+.constelacion div{border-radius:18px;padding:1rem .9rem;text-align:center}
+.constelacion i{font-style:normal;font-size:1.8rem;display:block}
+.constelacion b{display:block;margin-top:.3rem;font-size:.95rem;line-height:1.25}
+.constelacion small{display:block;color:var(--suave);font-size:.78rem;margin-top:.2rem}
+.actividad{display:flex;gap:.7rem;padding:.55rem 0;border-bottom:1px dashed var(--linea)}
+.actividad:last-child{border-bottom:0}
+.actividad i{font-style:normal}
+@media(max-width:600px){.constelacion{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="in">
+    <div class="marca"><i></i>Hostify Tests · Familia y paternidad</div>
+    <h1>Las inteligencias de <em>tu hijo</em></h1>
+    <p>Todos los niños son inteligentes, pero no de la misma forma. Descubre las inteligencias más fuertes de tu hijo o hija, cómo aprende mejor y qué hacer en casa para que florezca.</p>
+    <div class="stats">
+      <div><b>48</b><span>preguntas</span></div>
+      <div><b>12–15 min</b><span>de respuesta</span></div>
+      <div><b>8</b><span>inteligencias</span></div>
+      <div><b>4</b><span>etapas: de 3 a 17 años</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div id="intro">
+  <div class="card">
+    <div class="ceja">Antes de empezar</div>
+    <h2>No preguntes qué tan inteligente es. Pregunta cómo es inteligente.</h2>
+    <p>El psicólogo Howard Gardner, de la Universidad de Harvard, propuso que no existe una sola inteligencia, sino varias: con las palabras, los números, las imágenes, el cuerpo, la música, las personas, el mundo interior y la naturaleza. Cada niño tiene una combinación única.</p>
+    <p>Este test lo respondes tú, pensando en <b>uno de tus hijos</b>. Tiene dos partes:</p>
+    <ul class="lista" style="margin-top:.5rem">
+      <li><b>40 observaciones</b> sobre lo que ves en su día a día.</li>
+      <li><b>8 situaciones</b> sobre lo que elige cuando nadie le dice qué hacer.</li>
+    </ul>
+    <p class="suave">No es una prueba de coeficiente intelectual ni un diagnóstico. Es un mapa de sus fortalezas para acompañarle mejor.</p>
+  </div>
+  <div class="card">
+    <div class="campo">
+      <label class="lab" for="nombre">Nombre de tu hijo o hija</label>
+      <input type="text" id="nombre" placeholder="Solo el primer nombre" autocomplete="off">
+    </div>
+    <div class="campo">
+      <span class="lab">Es</span>
+      <div class="chips" id="generos"></div>
+    </div>
+    <div class="campo">
+      <span class="lab">Edad</span>
+      <div class="chips" id="edades"></div>
+    </div>
+    <p class="suave" style="font-size:.86rem">Si tienes varios hijos, responde pensando en uno solo. Cada hijo merece su propio mapa.</p>
+    <p class="suave" style="font-size:.86rem">Las respuestas se quedan en este dispositivo. Nadie más las ve.</p>
+    <div class="aviso" id="avisoIntro"></div>
+    <div class="btns" style="justify-content:flex-end"><button class="btn" onclick="empezar()">Empezar el test →</button></div>
+  </div>
+</div>
+
+<div id="test" style="display:none">
+  <div class="barra"><span id="barra"></span></div>
+  <div class="paso"><span id="parte"></span><span id="paso"></span></div>
+  <div class="card" id="pregunta"></div>
+  <div class="nav">
+    <button class="btn sec" id="atras" onclick="mover(-1)">← Atrás</button>
+    <button class="btn" id="sig" onclick="mover(1)" disabled>Siguiente →</button>
+  </div>
+</div>
+
+<div id="resultado" style="display:none"></div>
+
+<p class="pie">Hostify Tests · Basado en la teoría de las inteligencias múltiples de Howard Gardner. Preguntas e interpretación propias de Hostify. Herramienta de orientación para papás, no un diagnóstico.</p>
+</main>
+<div class="guardado" id="guardado">Progreso guardado</div>
+
+<script>
+/* =====================================================================
+   LAS INTELIGENCIAS DE TU HIJO · Hostify Tests
+   Lo responde el papá o la mamá. Dos fuentes que se contrastan:
+   1) 40 observaciones 1–5 (5 por inteligencia): lo que se ve en su día a día.
+   2) 8 situaciones con 4 opciones (cada inteligencia aparece 4 veces): lo que
+      elige cuando nadie le dice qué hacer.
+   Puntaje final: 75 % observaciones + 25 % situaciones.
+   Textos con marcas: {n} nombre, {o} o/a, {el} él/ella, {lo} lo/la, {hijo} hijo/hija.
+   ===================================================================== */
+
+var ESCALA=[null,'Nunca','Rara vez','A veces','Casi siempre','Siempre'];
+var GENEROS=[{id:'m',n:'Niño'},{id:'f',n:'Niña'}];
+var EDADES=[{id:'e3',n:'3 a 5 años'},{id:'e6',n:'6 a 8 años'},{id:'e9',n:'9 a 12 años'},{id:'e13',n:'13 a 17 años'}];
+var ORDEN_I=['L','M','E','C','Mu','I','In','N'];
+var SITIO='hostifycol.netlify.app';
+
+/* ---------- las ocho inteligencias ---------- */
+var INT={
+ L:{n:'Lingüística',corto:'Palabras',ico:'📚',c:'#ff6b2c',f:'#fff1ea',
+  lema:'Piensa en palabras y ama las historias.',
+  desc:['{n} piensa en palabras. Disfruta las historias, los cuentos, las conversaciones y los juegos con el lenguaje. Probablemente usa palabras que te sorprenden para su edad, recuerda frases enteras y explica las cosas con detalle.','Esta inteligencia es la que más valora el colegio tradicional, así que suele brillar en lectura, escritura e idiomas. Su riesgo no es académico: es que hable mucho y escuche poco, o que se frustre cuando no encuentra las palabras para lo que siente.'],
+  aprende:['Leyendo, escuchando y explicando en voz alta.','Haciendo resúmenes, listas y mapas de palabras.','Con debates, preguntas y discusiones.','Contándole a otro lo que acaba de aprender.'],
+  act:{e3:['Léele un cuento cada noche y pídele que invente el final.','Juega a las rimas: «gato, pato, zapato…».','Ponle nombre a todo lo que ven en la calle.'],
+   e6:['Regálale un diario y aníma{lo} a escribir o dibujar su día.','Jueguen a inventar historias por turnos, una frase cada uno.','Visiten la biblioteca y déja{lo} escoger sus libros.'],
+   e9:['Propón que escriba cuentos, cartas o un pequeño blog familiar.','Jueguen juegos de palabras: crucigramas, Scrabble, Pictionary de palabras.','Pídele que te explique un tema del colegio como si fuera el profesor.'],
+   e13:['Aníma{lo} a participar en debates, oratoria o el periódico escolar.','Lean el mismo libro y conversen sobre él.','Que escriba sobre lo que le apasiona: un blog, un pódcast o guiones.']},
+  frases:['«Me encanta cómo explicas las cosas.»','«Tus historias me hacen imaginar.»'],
+  cuidado:'Puede hablar mucho y escuchar poco, o usar las palabras para ganar discusiones. Enséñale que escuchar también es parte del lenguaje.',
+  caminos:['Escritor, periodista o comunicador','Abogado','Docente','Traductor','Creador de contenido','Publicista']},
+ M:{n:'Lógico-matemática',corto:'Lógica',ico:'🧩',c:'#3a6ea5',f:'#eaf1f9',
+  lema:'Busca el porqué de todo y disfruta resolver.',
+  desc:['{n} piensa con lógica. Quiere saber el porqué de las cosas, disfruta los rompecabezas, los números, los patrones y los experimentos. No se queda con cualquier respuesta: necesita que tenga sentido.','Le gusta el orden, las reglas claras y los retos. Su riesgo es frustrarse cuando algo no tiene una respuesta exacta (las emociones, las relaciones) o volverse rígido cuando las cosas no siguen su lógica.'],
+  aprende:['Entendiendo el porqué antes de memorizar.','Con problemas, retos y preguntas abiertas.','Organizando la información en pasos, tablas o esquemas.','Experimentando para comprobar si algo es cierto.'],
+  act:{e3:['Cuenten juntos todo: escalones, carros rojos, frutas.','Rompecabezas y juegos de encajar figuras.','Clasifiquen juguetes por color, tamaño o forma.'],
+   e6:['Juegos de mesa de estrategia: damas, Uno, juegos de cartas.','Cocinen juntos midiendo ingredientes.','Experimentos caseros: qué flota y qué se hunde.'],
+   e9:['Ajedrez, sudokus, cubos de Rubik y acertijos.','Kits de ciencia, robótica o programación por bloques.','Dale un presupuesto pequeño para planear una salida familiar.'],
+   e13:['Programación, olimpiadas de matemáticas o clubes de ciencia.','Que te ayude a analizar una decisión con pros y contras.','Proyectos reales: un pequeño emprendimiento con cuentas.']},
+  frases:['«Qué buena pregunta. Investiguémosla juntos.»','«Me gusta cómo piensas los problemas.»'],
+  cuidado:'Puede volverse impaciente con lo que no es lógico, incluidas las emociones propias y ajenas. Ayúdale a ver que sentir también tiene su lógica.',
+  caminos:['Ingeniero','Científico','Programador','Economista o financiero','Médico investigador','Analista de datos']},
+ E:{n:'Visual-espacial',corto:'Imágenes',ico:'🎨',c:'#c98512',f:'#fcf4e4',
+  lema:'Piensa en imágenes y crea con lo que ve.',
+  desc:['{n} piensa en imágenes. Dibuja, construye, se fija en colores, formas y detalles que otros no ven, y recuerda mejor lo que ve que lo que escucha. Su mente funciona como una pantalla donde imagina y diseña.','Suele disfrutar el dibujo, los bloques, los mapas y todo lo que se pueda ver y armar. Su riesgo en el colegio es aburrirse con explicaciones solo habladas o escritas y parecer «distraíd{o}» cuando en realidad está imaginando.'],
+  aprende:['Con dibujos, diagramas, mapas mentales y colores.','Viendo videos, demostraciones y ejemplos visuales.','Subrayando y organizando con colores.','Dibujando lo que acaba de aprender.'],
+  act:{e3:['Pinturas, plastilina y papel grande para crear sin límites.','Bloques y juegos de construcción.','Busquen figuras en las nubes.'],
+   e6:['Lego, legos técnicos o juegos de construcción.','Que dibuje el mapa de la casa o del barrio.','Regálale un cuaderno de dibujo solo para él o ella.'],
+   e9:['Maquetas, origami y manualidades con instrucciones.','Fotografía con el celular: retos de fotos de la semana.','Que diseñe la decoración de su cuarto o de una fiesta.'],
+   e13:['Diseño gráfico, edición de video o modelado 3D.','Arquitectura o arte en cursos de vacaciones.','Que te ayude a planear visualmente un viaje o un proyecto.']},
+  frases:['«Ves cosas que los demás no ven.»','«Me encanta lo que creaste.»'],
+  cuidado:'Puede parecer distraíd{o} cuando en realidad está imaginando. No {lo} regañes por dibujar en el cuaderno: muchas veces así es como pone atención.',
+  caminos:['Arquitecto','Diseñador gráfico, industrial o de moda','Artista o ilustrador','Ingeniero civil','Fotógrafo o cineasta','Piloto']},
+ C:{n:'Corporal-kinestésica',corto:'Cuerpo',ico:'⚽',c:'#2f9e6b',f:'#eaf6f0',
+  lema:'Piensa con el cuerpo y aprende haciendo.',
+  desc:['{n} piensa con el cuerpo. Necesita moverse, tocar, construir y probar. Aprende haciendo, no mirando. Probablemente tiene buena coordinación y disfruta el deporte, el baile o los trabajos manuales.','En un colegio donde hay que estar quiet{o} muchas horas, {n} puede ser etiquetad{o} como inquiet{o} o desatent{o}. Pero no es que no pueda aprender: es que aprende moviéndose. Si le das movimiento, le das concentración.'],
+  aprende:['Haciendo, tocando y practicando.','Con pausas activas cada 20 o 30 minutos.','Estudiando de pie, caminando o con una pelota en la mano.','Con dramatizaciones, maquetas y experimentos.'],
+  act:{e3:['Mucho juego libre al aire libre: correr, trepar, saltar.','Bailar canciones con movimientos.','Plastilina, arena y masa para moldear.'],
+   e6:['Inscríbe{lo} en un deporte o en clases de baile.','Cocinen juntos: amasar, cortar, mezclar.','Juegos de imitación: adivina el animal o la película con mímica.'],
+   e9:['Deporte de equipo o arte marcial con disciplina.','Proyectos manuales: carpintería, costura, reparar cosas.','Que estudie caminando o repasando con movimientos.'],
+   e13:['Deporte competitivo, danza, teatro o escalada.','Voluntariados activos: construir, sembrar, organizar eventos.','Talleres prácticos: cocina, mecánica, electrónica.']},
+  frases:['«Eres muy hábil con tus manos y tu cuerpo.»','«Muévete, después seguimos: tu cuerpo te ayuda a pensar.»'],
+  cuidado:'Puede ser vist{o} como inquiet{o} o indisciplinad{o}. Antes de pensar que tiene un problema de atención, prueba darle movimiento para aprender.',
+  caminos:['Deportista o entrenador','Cirujano o fisioterapeuta','Bailarín o actor','Chef','Ingeniero mecánico o técnico','Bombero o rescatista']},
+ Mu:{n:'Musical',corto:'Música',ico:'🎵',c:'#8a5cc2',f:'#f3edfa',
+  lema:'Siente el mundo en ritmos y melodías.',
+  desc:['{n} piensa en ritmos y sonidos. Tararea, canta, lleva el ritmo con las manos o los pies, recuerda canciones con facilidad y nota cuando algo suena distinto. La música le cambia el ánimo.','Esta inteligencia se puede usar para todo: aprender tablas con canciones, calmarse con música o expresar lo que siente. Su riesgo es que en casa o en el colegio se vea su ruido como molestia en lugar de como talento.'],
+  aprende:['Con canciones, ritmos y rimas para memorizar.','Con música de fondo suave mientras estudia.','Inventando canciones con lo que aprende.','Escuchando explicaciones en audio.'],
+  act:{e3:['Canten juntos todos los días: en el baño, en el carro.','Instrumentos sencillos: tambor, maracas, xilófono.','Bailen y jueguen a las estatuas musicales.'],
+   e6:['Clases de un instrumento: piano, guitarra, flauta.','Inventen canciones para aprender las tablas o los días.','Escuchen juntos música de distintos estilos y países.'],
+   e9:['Coro, banda o grupo musical del colegio.','Aplicaciones para crear música o ritmos.','Que arme listas de música para la familia.'],
+   e13:['Producción musical, composición o una banda con amigos.','Conciertos y festivales juntos.','Que use la música para estudiar y para regular sus emociones.']},
+  frases:['«Tienes un oído increíble.»','«Me encanta cuando cantas.»'],
+  cuidado:'Su ritmo constante (golpear la mesa, tararear) puede leerse como distracción. Muchas veces es su forma de concentrarse.',
+  caminos:['Músico o compositor','Productor musical','Ingeniero de sonido','Profesor de música','Musicoterapeuta','Director de coro u orquesta']},
+ I:{n:'Interpersonal',corto:'Personas',ico:'🤝',c:'#e5466f',f:'#fdebf0',
+  lema:'Entiende a las personas y une a los demás.',
+  desc:['{n} piensa con y a través de las personas. Hace amigos con facilidad, percibe cómo se sienten los demás, organiza juegos y suele hacer de mediador o líder. Le importa mucho pertenecer y ser parte de un grupo.','Es una inteligencia de enorme valor para la vida: liderazgo, trabajo en equipo, servicio. Su riesgo es depender demasiado de la aprobación del grupo o sufrir mucho cuando hay conflictos con sus amigos.'],
+  aprende:['En grupo, explicando a otros y debatiendo.','Con juegos de roles y trabajo en equipo.','Enseñándole a otro lo que aprendió.','Con un compañero de estudio.'],
+  act:{e3:['Juegos de roles: la tiendita, el doctor, la casita.','Citas de juego con otros niños.','Pregúntale cómo crees que se siente el personaje del cuento.'],
+   e6:['Déja{lo} organizar un juego o una actividad para la familia.','Actividades en grupo: scouts, catequesis, equipos.','Que ayude a un primo o amigo menor con algo.'],
+   e9:['Proyectos en equipo y voluntariados.','Que sea parte de la organización de eventos del colegio.','Conversen sobre cómo resolver un conflicto con un amigo.'],
+   e13:['Liderazgo estudiantil, grupos juveniles o servicio social.','Mentoría a niños más pequeños.','Primeros trabajos de atención a personas: ventas, eventos, servicio.']},
+  frases:['«Tienes un don para hacer sentir bien a los demás.»','«Tus amigos tienen suerte de tenerte.»'],
+  cuidado:'Puede depender demasiado de lo que piensa el grupo. Enséñale a decir que no y a tener criterio propio aunque no sea popular.',
+  caminos:['Líder o gerente','Psicólogo o terapeuta','Docente','Trabajador social','Vendedor o relacionista','Político o diplomático']},
+ In:{n:'Intrapersonal',corto:'Interior',ico:'🌱',c:'#5a6b7d',f:'#eef1f4',
+  lema:'Se conoce, piensa a fondo y tiene voz propia.',
+  desc:['{n} piensa hacia adentro. Sabe lo que siente, reflexiona, tiene gustos e ideas propias y disfruta sus momentos a solas. No sigue al grupo solo porque sí: necesita que algo tenga sentido para {el}.','Es la inteligencia del autoconocimiento, una de las más importantes para una vida plena. Su riesgo es aislarse, guardarse todo o ser vist{o} como «tímid{o}» o «rar{o}» cuando simplemente necesita su espacio para procesar.'],
+  aprende:['A su ritmo, con tiempo para pensar antes de responder.','Con metas personales y proyectos propios.','Escribiendo un diario o reflexionando sobre lo aprendido.','Conectando lo que aprende con lo que le importa.'],
+  act:{e3:['Dale un rincón propio con sus cosas.','Pregúntale cada noche qué le gustó y qué no le gustó del día.','Nombren juntos las emociones con caritas o colores.'],
+   e6:['Un diario de emociones o de dibujos.','Déja{lo} escoger algunas actividades por su cuenta.','Respeta sus momentos a solas sin interpretarlos como tristeza.'],
+   e9:['Que se ponga una meta personal y la siga en un tablero.','Lecturas que {lo} hagan pensar: biografías, historias con dilemas.','Conversaciones uno a uno, sin público.'],
+   e13:['Escritura personal, fotografía o arte como expresión.','Conversaciones profundas sobre propósito, valores y fe.','Proyectos propios que le apasionen, con tu apoyo y sin presión.']},
+  frases:['«Me gusta cómo piensas por tu cuenta.»','«Puedes tomarte tu tiempo, te espero.»'],
+  cuidado:'Puede aislarse o guardarse lo que siente. No {lo} obligues a ser sociable, pero asegúrate de que tenga al menos un adulto con quien hablar.',
+  caminos:['Escritor o filósofo','Psicólogo o consejero','Investigador','Emprendedor','Artista','Líder espiritual']},
+ N:{n:'Naturalista',corto:'Naturaleza',ico:'🌿',c:'#1f9aa8',f:'#e6f5f7',
+  lema:'Observa, cuida y entiende el mundo vivo.',
+  desc:['{n} piensa observando el mundo natural. Se fascina con los animales, las plantas, los insectos, el clima o el universo. Colecciona, clasifica y hace preguntas sobre cómo funciona la vida.','Es una inteligencia de gran observación y paciencia. Su riesgo es que el encierro y las pantallas le quiten justo lo que más {lo} nutre: estar afuera, explorar y cuidar algo vivo.'],
+  aprende:['Al aire libre y con ejemplos de la naturaleza.','Observando, clasificando y comparando.','Con colecciones, herbarios y cuadernos de campo.','Conectando cada tema con la vida real.'],
+  act:{e3:['Salidas al parque a buscar bichos, hojas y piedras.','Que cuide una planta o una mascota con tu ayuda.','Libros de animales con muchas imágenes.'],
+   e6:['Una pequeña huerta en casa o en macetas.','Colecciones: hojas, piedras, conchas, con nombres.','Documentales de naturaleza juntos.'],
+   e9:['Excursiones, campamentos y caminatas.','Un cuaderno de campo con dibujos y observaciones.','Responsabilidad total de una mascota o del jardín.'],
+   e13:['Voluntariados ambientales o de rescate animal.','Clubes de ciencia, astronomía o biología.','Viajes donde la naturaleza sea la protagonista.']},
+  frases:['«Tienes una gran capacidad de observación.»','«Me encanta cómo cuidas a los animales y las plantas.»'],
+  cuidado:'Puede sentirse encerrad{o} en una rutina de pantallas y aulas. Asegúrate de que tenga contacto con la naturaleza cada semana.',
+  caminos:['Biólogo o veterinario','Agrónomo','Médico','Ingeniero ambiental','Guía de turismo de naturaleza','Chef o productor de alimentos']}
+};
+
+/* ---------- parte 1: observaciones ---------- */
+var OBS=[
+ {i:'L',t:'{n} disfruta que le lean o leer por su cuenta.'},
+ {i:'M',t:'{n} pregunta el porqué de las cosas y no se queda con cualquier respuesta.'},
+ {i:'E',t:'{n} dibuja, pinta o garabatea con frecuencia y con detalle.'},
+ {i:'C',t:'{n} necesita moverse; le cuesta quedarse quiet{o} mucho tiempo.'},
+ {i:'Mu',t:'{n} tararea, canta o lleva el ritmo con las manos o los pies.'},
+ {i:'I',t:'{n} hace amigos con facilidad.'},
+ {i:'In',t:'{n} sabe decir cómo se siente y por qué.'},
+ {i:'N',t:'{n} se interesa mucho por los animales, las plantas o los insectos.'},
+ {i:'L',t:'{n} usa palabras nuevas o poco comunes para su edad.'},
+ {i:'M',t:'{n} disfruta los rompecabezas, los acertijos o los juegos de estrategia.'},
+ {i:'E',t:'{n} arma cosas con bloques, fichas o materiales en tres dimensiones.'},
+ {i:'C',t:'{n} aprende mejor haciendo y tocando que mirando o escuchando.'},
+ {i:'Mu',t:'{n} recuerda melodías y letras de canciones con facilidad.'},
+ {i:'I',t:'{n} se da cuenta cuando alguien está triste o molesto, aunque no lo diga.'},
+ {i:'In',t:'{n} disfruta momentos a solas para pensar, imaginar o hacer lo suyo.'},
+ {i:'N',t:'{n} disfruta estar al aire libre: parque, campo, río o playa.'},
+ {i:'L',t:'{n} cuenta historias, inventa cuentos o explica las cosas con detalle.'},
+ {i:'M',t:'{n} ordena, clasifica o colecciona cosas siguiendo un criterio.'},
+ {i:'E',t:'{n} se orienta bien: recuerda caminos y lugares.'},
+ {i:'C',t:'{n} tiene buena coordinación en deportes, baile o actividades físicas.'},
+ {i:'Mu',t:'{n} nota cuando una canción está desafinada o un sonido cambia.'},
+ {i:'I',t:'{n} toma el papel de líder o de mediador en los juegos.'},
+ {i:'In',t:'{n} tiene gustos e ideas propias, aunque no sean las del grupo.'},
+ {i:'N',t:'{n} nota cambios en la naturaleza: el clima, las hojas, los animales.'},
+ {i:'L',t:'{n} disfruta los juegos de palabras, las rimas, los chistes o los trabalenguas.'},
+ {i:'M',t:'{n} hace cuentas o cálculos mentales con facilidad para su edad.'},
+ {i:'E',t:'{n} recuerda mejor lo que ve que lo que escucha: imágenes, colores, mapas.'},
+ {i:'C',t:'{n} disfruta los trabajos manuales: construir, desarmar, cocinar, moldear.'},
+ {i:'Mu',t:'{n} se calma o se activa mucho con la música.'},
+ {i:'I',t:'{n} prefiere jugar o hacer tareas con otros que hacerlas sol{o}.'},
+ {i:'In',t:'{n} piensa en sus errores y saca sus propias conclusiones.'},
+ {i:'N',t:'{n} colecciona piedras, hojas, conchas u otras cosas de la naturaleza.'},
+ {i:'L',t:'{n} recuerda con facilidad lo que escucha: nombres, frases, diálogos de películas.'},
+ {i:'M',t:'{n} se interesa por cómo funcionan las cosas: experimentos, máquinas, causas y efectos.'},
+ {i:'E',t:'{n} se fija en detalles visuales que otros no notan.'},
+ {i:'C',t:'{n} imita con facilidad gestos, voces o movimientos de otras personas.'},
+ {i:'Mu',t:'{n} muestra interés por tocar un instrumento o crear sonidos.'},
+ {i:'I',t:'{n} se preocupa por ayudar a otros niños o adultos.'},
+ {i:'In',t:'{n} se pone metas personales y trabaja en ellas por su cuenta.'},
+ {i:'N',t:'{n} hace preguntas sobre el planeta, el cuerpo humano o el universo.'}
+];
+
+/* ---------- parte 2: situaciones ---------- */
+var SIT=[
+ {t:'Si {n} tiene una tarde libre y nadie le dice qué hacer, lo más probable es que…',o:[
+  {i:'E',t:'Dibuje, pinte o construya algo.'},{i:'N',t:'Salga a explorar el jardín o el parque buscando bichos, hojas o piedras.'},
+  {i:'L',t:'Lea, o invente y cuente una historia.'},{i:'C',t:'Corra, baile o se ponga a jugar con una pelota.'}]},
+ {t:'El regalo de cumpleaños soñado de {n} sería…',o:[
+  {i:'Mu',t:'Un instrumento musical.'},{i:'M',t:'Un juego de estrategia o un kit de experimentos.'},
+  {i:'In',t:'Un diario, o un espacio propio para sus cosas.'},{i:'I',t:'Una fiesta con muchos amigos.'}]},
+ {t:'Si le dejan escoger cómo presentar un trabajo del colegio, {n} elegiría…',o:[
+  {i:'N',t:'Investigar sobre animales, plantas o el medio ambiente.'},{i:'Mu',t:'Crear una canción o un rap con el tema.'},
+  {i:'M',t:'Una investigación con datos, tablas o gráficas.'},{i:'L',t:'Escribir un cuento o hacer una exposición oral.'}]},
+ {t:'Cuando algo le sale mal, {n} suele…',o:[
+  {i:'I',t:'Buscar a alguien para contárselo.'},{i:'C',t:'Descargarse con el cuerpo: correr, patear, moverse.'},
+  {i:'In',t:'Irse a solas a pensar y volver con su propia conclusión.'},{i:'Mu',t:'Poner música o cantar para calmarse.'}]},
+ {t:'En un museo o un paseo, {n} se va directo a…',o:[
+  {i:'M',t:'Averiguar cómo funciona cada cosa.'},{i:'I',t:'Hablar con el guía o con otros niños.'},
+  {i:'N',t:'La sección de animales o de naturaleza.'},{i:'E',t:'Mirar con calma las obras, los mapas y las maquetas.'}]},
+ {t:'Para aprender un juego nuevo, {n} prefiere…',o:[
+  {i:'C',t:'Probar de una vez y aprender jugando.'},{i:'L',t:'Leer las instrucciones o que se las expliquen.'},
+  {i:'In',t:'Intentarlo a su ritmo, sin que nadie {lo} apure.'},{i:'E',t:'Mirar cómo lo hacen otros o los dibujos de la caja.'}]},
+ {t:'En un trabajo en grupo, el papel natural de {n} es…',o:[
+  {i:'In',t:'Hacer su parte por su cuenta, y bien hecha.'},{i:'E',t:'Hacer el cartel, el diseño o la maqueta.'},
+  {i:'I',t:'Organizar y poner de acuerdo a todos.'},{i:'M',t:'Resolver la parte más difícil del problema.'}]},
+ {t:'En un viaje, lo que más disfruta {n} es…',o:[
+  {i:'L',t:'Conversar y escuchar historias del lugar.'},{i:'N',t:'Los paisajes, los animales y la naturaleza.'},
+  {i:'Mu',t:'La música del lugar o ir cantando en el carro.'},{i:'C',t:'Las actividades físicas: nadar, caminar, montar.'}]}
+];
+
+/* =====================================================================
+   ESTADO
+   ===================================================================== */
+var persona={nombre:'',genero:'',edad:''};
+var R={},paso=0,N1=OBS.length,N2=SIT.length,TOTAL=N1+N2;
+var CLAVE='hostify_inteligencias_v1';
+
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function nom(){return persona.nombre||(persona.genero==='f'?'tu hija':'tu hijo')}
+function Nom(){var n=nom();return n.charAt(0).toUpperCase()+n.slice(1)}
+function t(s){
+  var f=persona.genero==='f';
+  return String(s).replace(/(^|[.!?]\s+|«)\{n\}/g,function(m,p){return p+Nom()}).replace(/\{n\}/g,nom())
+    .replace(/\{o\}/g,f?'a':'o').replace(/\{el\}/g,f?'ella':'él').replace(/\{lo\}/g,f?'la':'lo').replace(/\{hijo\}/g,f?'hija':'hijo');
+}
+function pintarChips(){
+  $('generos').innerHTML=GENEROS.map(function(g){return '<button type="button" class="chip'+(persona.genero===g.id?' on':'')+'" onclick="gen(\''+g.id+'\')">'+g.n+'</button>'}).join('');
+  $('edades').innerHTML=EDADES.map(function(e){return '<button type="button" class="chip'+(persona.edad===e.id?' on':'')+'" onclick="eda(\''+e.id+'\')">'+e.n+'</button>'}).join('');
+}
+function gen(id){persona.genero=id;pintarChips()}
+function eda(id){persona.edad=id;pintarChips()}
+function guardar(){try{localStorage.setItem(CLAVE,JSON.stringify({persona:persona,R:R,paso:paso}))}catch(e){}var g=$('guardado');g.classList.add('ver');clearTimeout(guardar.t);guardar.t=setTimeout(function(){g.classList.remove('ver')},900)}
+function cargar(){try{var g=JSON.parse(localStorage.getItem(CLAVE)||'null');if(g&&g.persona){persona=g.persona;R=g.R||{};paso=g.paso||0;return g}}catch(e){}return null}
+
+function empezar(){
+  persona.nombre=$('nombre').value.trim().split(/\s+/)[0]||'';
+  if(!persona.genero){$('avisoIntro').textContent='Elige si es niño o niña.';return}
+  if(!persona.edad){$('avisoIntro').textContent='Elige la edad de tu hijo o hija.';return}
+  $('avisoIntro').textContent='';$('intro').style.display='none';$('test').style.display='block';
+  pintar();guardar();window.scrollTo(0,0);
+}
+function claveDe(p){return p<N1?'o'+p:'s'+(p-N1)}
+function pintar(){
+  var k=claveDe(paso);
+  $('barra').style.width=Math.round(paso/TOTAL*100)+'%';
+  $('paso').textContent=(paso+1)+' de '+TOTAL;
+  $('atras').style.visibility=paso===0?'hidden':'visible';
+  $('sig').disabled=R[k]==null;
+  $('sig').textContent=paso===TOTAL-1?'Ver el resultado →':'Siguiente →';
+  var h;
+  if(paso<N1){
+    $('parte').textContent='Parte 1 · Lo que ves en su día a día';
+    h=(paso===0?'<p class="suave" style="margin-bottom:.8rem">Piensa en lo que has visto en los últimos meses, no en lo que te gustaría que hiciera.</p>':'')+'<div class="preg">'+esc(t(OBS[paso].t))+'</div><div class="escala">';
+    for(var v=1;v<=5;v++){h+='<button type="button" class="'+(R[k]===v?'on':'')+'" onclick="elegir(\''+k+'\','+v+')"><b>'+v+'</b>'+ESCALA[v]+'</button>'}
+    h+='</div>';
+  }else{
+    var s=SIT[paso-N1];
+    $('parte').textContent='Parte 2 · Lo que elige cuando es libre';
+    h=(paso===N1?'<p class="suave" style="margin-bottom:.8rem">Ahora elige la opción que más se parece a lo que haría. Si dudas, piensa en lo que hace con más frecuencia.</p>':'')+'<div class="preg">'+esc(t(s.t))+'</div><div class="opciones">'+
+      s.o.map(function(o,i){return '<button type="button" class="'+(R[k]===i?'on':'')+'" onclick="elegir(\''+k+'\','+i+')">'+esc(t(o.t))+'</button>'}).join('')+'</div>';
+  }
+  $('pregunta').innerHTML=h;
+}
+function elegir(k,v){R[k]=v;guardar();pintar();setTimeout(function(){if(claveDe(paso)===k&&paso<TOTAL-1)mover(1)},260)}
+function mover(d){
+  if(d>0&&R[claveDe(paso)]==null)return;
+  if(d>0&&paso===TOTAL-1){terminar();return}
+  paso=Math.max(0,Math.min(TOTAL-1,paso+d));guardar();pintar();
+}
+
+/* =====================================================================
+   CÁLCULO
+   ===================================================================== */
+function calcular(){
+  var obs={},sit={};ORDEN_I.forEach(function(i){obs[i]=0;sit[i]=0});
+  OBS.forEach(function(it,j){obs[it.i]+=R['o'+j]||3});
+  SIT.forEach(function(s,j){var o=s.o[R['s'+j]];if(o)sit[o.i]++});
+  var pObs={},pSit={},pct={};
+  ORDEN_I.forEach(function(i){pObs[i]=Math.round((obs[i]-5)/20*100);pSit[i]=Math.round(sit[i]/4*100);pct[i]=Math.round(pObs[i]*.75+pSit[i]*.25)});
+  var orden=ORDEN_I.slice().sort(function(a,b){return pct[b]-pct[a]||pObs[b]-pObs[a]});
+  var topObs=ORDEN_I.slice().sort(function(a,b){return pObs[b]-pObs[a]})[0];
+  var topSit=ORDEN_I.slice().sort(function(a,b){return pSit[b]-pSit[a]||pObs[b]-pObs[a]})[0];
+  return {pct:pct,pObs:pObs,pSit:pSit,sit:sit,orden:orden,top:orden.slice(0,3),baja:orden[7],topObs:topObs,topSit:topSit};
+}
+function banda(p){return p>=70?{k:'f',n:'Muy desarrollada'}:(p>=45?{k:'d',n:'En desarrollo'}:{k:'p',n:'Por explorar'})}
+
+/* =====================================================================
+   RESULTADO
+   ===================================================================== */
+function terminar(){
+  var c=calcular(),p=INT[c.top[0]],edadId=persona.edad||'e6';
+  var edadN=(EDADES.filter(function(e){return e.id===edadId})[0]||{}).n||'';
+  var h='';
+
+  h+='<div class="res-hero"><div class="ceja">Las inteligencias de '+esc(nom())+'</div><h2>'+p.ico+' '+p.n+'</h2>'+
+     '<p class="lema">'+esc(p.lema)+'</p><p style="color:#a1a1a6;font-size:.9rem;margin-top:.8rem;position:relative;z-index:1">Su constelación: '+c.top.map(function(i){return INT[i].corto}).join(' · ')+'</p></div>';
+
+  h+='<div class="card"><div class="ceja">Su constelación</div><h2>Las tres inteligencias más fuertes de '+esc(nom())+'</h2><p class="suave">Ningún niño tiene una sola inteligencia. Su forma única de ser inteligente está en cómo se combinan estas tres.</p><div class="constelacion">'+
+     c.top.map(function(i,k){var x=INT[i];return '<div style="background:'+x.f+'"><i>'+x.ico+'</i><b>'+x.n+'</b><small>'+(k===0?'Principal':(k===1?'Segunda':'Tercera'))+' · '+c.pct[i]+'</small></div>'}).join('')+'</div></div>';
+
+  h+='<div class="card"><div class="ceja">Su mapa completo</div><h2>Las 8 inteligencias</h2><p class="suave" style="margin-bottom:1rem">De 0 a 100. Combina lo que ves en su día a día con lo que elige cuando es libre.</p>';
+  c.orden.forEach(function(i){var x=INT[i],b=banda(c.pct[i]);
+    h+='<div class="dim"><div class="cab"><b>'+x.ico+' '+x.n+'<span class="tag t-'+b.k+'">'+b.n+'</span></b><span>'+c.pct[i]+'</span></div><div class="riel"><span style="width:'+Math.max(3,c.pct[i])+'%;background:'+x.c+'"></span></div></div>'});
+  h+='</div>';
+
+  h+='<div class="card"><div class="ceja">Su inteligencia principal</div><h2>'+p.ico+' '+p.n+'</h2>'+p.desc.map(function(x){return '<p>'+esc(t(x))+'</p>'}).join('')+
+     '<h3>Cómo aprende mejor</h3><ul class="lista">'+p.aprende.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul>'+
+     '<h3>Para potenciarla en casa · '+esc(edadN)+'</h3>'+p.act[edadId].map(function(x){return '<div class="actividad"><i>✦</i><span>'+esc(t(x))+'</span></div>'}).join('')+
+     '<h3>Frases que la alimentan</h3>'+p.frases.map(function(x){return '<div class="frase">'+esc(x)+'</div>'}).join('')+
+     '<h3>Un cuidado</h3><p>'+esc(t(p.cuidado))+'</p>'+
+     '<h3>Caminos donde esta inteligencia brilla</h3><p class="suave">No es para decidir su futuro hoy, sino para mostrarle que su forma de ser tiene lugar en el mundo: '+p.caminos.join(', ').toLowerCase()+'.</p></div>';
+
+  [1,2].forEach(function(k){var x=INT[c.top[k]];
+    h+='<div class="card"><div class="ceja">'+(k===1?'Segunda':'Tercera')+' inteligencia</div><div class="idioma" style="display:flex;gap:.9rem;align-items:center"><div style="width:2.6rem;height:2.6rem;border-radius:14px;display:grid;place-items:center;font-size:1.35rem;background:'+x.f+'">'+x.ico+'</div><h2 style="margin:0">'+x.n+'</h2></div>'+
+       '<p style="margin-top:.8rem">'+esc(t(x.desc[0]))+'</p><h3>Actividades para su edad</h3>'+x.act[edadId].slice(0,2).map(function(a){return '<div class="actividad"><i>✦</i><span>'+esc(t(a))+'</span></div>'}).join('')+'</div>'});
+
+  // cómo estudiar
+  var a=INT[c.top[0]],b=INT[c.top[1]];
+  h+='<div class="card"><div class="ceja">Tareas y estudio</div><h2>Cómo ayudar a '+esc(nom())+' a estudiar</h2><p>Con '+a.corto.toLowerCase()+' y '+b.corto.toLowerCase()+' como sus fuertes, estas estrategias le van a funcionar mejor que repetir de memoria:</p><ul class="lista">'+
+     '<li>'+esc(a.aprende[0])+'</li><li>'+esc(a.aprende[1])+'</li><li>'+esc(b.aprende[0])+'</li><li>'+esc(b.aprende[2])+'</li></ul>'+
+     '<p class="suave">Si en el colegio le cuesta una materia, pregúntate si se la están enseñando en su idioma. Muchas veces no es falta de capacidad, es falta de la puerta correcta.</p></div>';
+
+  // contraste
+  var mismo=c.topObs===c.topSit;
+  h+='<div class="card"><div class="ceja">Dos fuentes</div><h2>'+(mismo?'Lo que ves y lo que elige coinciden':'Lo que ves y lo que elige son distintos')+'</h2>'+
+     '<div class="contraste"><div><small>En su día a día</small><strong>'+INT[c.topObs].ico+' '+INT[c.topObs].corto+'</strong></div><div><small>Cuando es libre</small><strong>'+INT[c.topSit].ico+' '+INT[c.topSit].corto+'</strong></div></div>'+
+     (mismo?'<p>Lo que observas en su rutina y lo que escoge cuando nadie le dice qué hacer apuntan a lo mismo. Su inteligencia principal está muy clara.</p>'
+       :'<p>En la rutina destaca su inteligencia <b>'+INT[c.topObs].n.toLowerCase()+'</b>, pero cuando es libre escoge actividades de la <b>'+INT[c.topSit].n.toLowerCase()+'</b>. A veces la rutina (colegio, horarios, lo que se espera) muestra una cara, y la libertad muestra la otra. Dale espacio a las dos.</p>')+
+     '</div>';
+
+  // puerta por abrir
+  var bj=INT[c.baja];
+  h+='<div class="card"><div class="ceja">Una puerta por abrir</div><h2>'+bj.ico+' '+bj.n+'</h2><p>Es su inteligencia menos visible hoy. No es una debilidad: es una puerta que quizá no ha tenido oportunidad de abrir. No la fuerces; ofrécesela como juego.</p>'+
+     bj.act[edadId].slice(0,2).map(function(x){return '<div class="actividad"><i>✦</i><span>'+esc(t(x))+'</span></div>'}).join('')+'</div>';
+
+  // 21 días
+  var dias=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+  function semana(ti,sub,r){return '<div class="semana"><h3>'+ti+'</h3><p class="suave">'+sub+'</p>'+r.map(function(x,i){return '<div class="dia"><b>'+dias[i]+'</b><span>'+esc(t(x))+'</span></div>'}).join('')+'</div>'}
+  var s1=['Observa en qué se le pasa el tiempo volando.','Dile una de las «frases que la alimentan».','Pregúntale qué es lo que más le gusta hacer y por qué.','Fíjate qué hace cuando se aburre.','Cuéntale cuál crees que es su inteligencia principal.','Busquen juntos un video de alguien que brilla con esa inteligencia.','Escribe tres cosas en las que viste brillar a '+nom()+' esta semana.'];
+  var s2=p.act[edadId].concat(b.act[edadId].slice(0,2)).concat(['Usa una estrategia de estudio de su inteligencia en una tarea.','Celebra un logro suyo con detalle: «vi que…».']);
+  var s3=bj.act[edadId].slice(0,2).concat(INT[c.top[2]].act[edadId].slice(0,2)).concat(['Pregúntale qué descubrió de sí '+(persona.genero==='f'?'misma':'mismo')+'.','Cuéntale a otro familiar algo en lo que '+nom()+' es muy bueno.','Haz de nuevo este test en seis meses: los niños cambian.']);
+  h+='<div class="card"><div class="ceja">Plan de 21 días</div><h2>Para que '+esc(nom())+' florezca</h2>'+
+     semana('Semana 1 · Observar y nombrar','Ver su inteligencia y decírsela con palabras.',s1)+
+     semana('Semana 2 · Potenciar sus fuertes','Actividades de su inteligencia principal y la segunda.',s2)+
+     semana('Semana 3 · Abrir puertas nuevas','Jugar con lo que aún no ha explorado.',s3)+'</div>';
+
+  // libros
+  var libros=[{t:'Inteligencias múltiples en el aula',a:'Thomas Armstrong',d:'Guía práctica para reconocer y trabajar cada inteligencia en niños y jóvenes.'},
+   {t:'El Elemento',a:'Ken Robinson',d:'Cómo descubrir aquello para lo que uno nació, y por qué el colegio tradicional a veces no lo ve.'},
+   {t:'Mindset: la actitud del éxito',a:'Carol Dweck',d:'Por qué elogiar el esfuerzo y no la «inteligencia» hace a los niños más capaces.'},
+   {t:'El cerebro del niño',a:'Daniel J. Siegel y Tina Payne Bryson',d:'Cómo se desarrolla el cerebro y cómo acompañarlo en cada etapa.'}];
+  h+='<div class="card"><div class="ceja">Para seguir aprendiendo</div><h2>Biblioteca recomendada</h2>'+libros.map(function(l){return '<div class="libro"><i>📖</i><div><b>'+esc(l.t)+'</b> · '+esc(l.a)+'<br><span class="suave">'+esc(l.d)+'</span></div></div>'}).join('')+'</div>';
+
+  h+='<div class="card"><div class="ceja">Un último mensaje</div><h2>Todos los niños son inteligentes</h2><p>Las calificaciones miden sobre todo dos inteligencias: la lingüística y la lógico-matemática. Si '+esc(nom())+' brilla en otras, no es menos capaz: es capaz de otra forma. Tu mirada es lo que más va a definir cómo se ve a sí mism'+(persona.genero==='f'?'a':'o')+'.</p>'+
+     '<p class="suave">Si notas dificultades persistentes de aprendizaje, de atención o de lenguaje, consulta con un profesional. Este test muestra fortalezas, no diagnostica.</p>'+
+     '<div class="btns no-imprimir"><a class="btn sec" style="text-decoration:none" href="/tests/estilo-crianza" target="_top">¿Y tú? Haz «Tu estilo de crianza» →</a></div></div>';
+
+  h+='<div class="card no-imprimir"><div class="ceja">Comparte el resultado</div><div class="compartir"><img id="tarjeta" alt="Resultado para compartir en Instagram">'+
+     '<div><h2>Su historia para Instagram</h2><p>Lista para subir, sin el nombre de tu '+(persona.genero==='f'?'hija':'hijo')+': su inteligencia principal y su constelación. Ideal para que otros papás descubran la de sus hijos.</p>'+
+     '<div class="btns"><button class="btn" onclick="compartir()">Compartir</button><button class="btn sec" onclick="descargar()">Descargar imagen</button></div>'+
+     '<p class="suave" style="font-size:.85rem;margin-top:.8rem">En el celular, «Compartir» te deja elegir Instagram directamente. En computador, descárgala y súbela desde tu teléfono.</p></div></div></div>';
+
+  h+='<div class="btns no-imprimir" style="justify-content:center"><button class="btn osc" onclick="window.print()">Guardar en PDF o imprimir</button><button class="btn sec" onclick="reiniciar()">Responder de nuevo</button></div>';
+
+  $('test').style.display='none';$('intro').style.display='none';
+  var r=$('resultado');r.innerHTML=h;r.style.display='block';
+  try{window._tarjeta=dibujarTarjeta(c);$('tarjeta').src=window._tarjeta.toDataURL('image/png')}catch(e){}
+  try{localStorage.setItem(CLAVE,JSON.stringify({persona:persona,R:R,paso:paso,fin:true}))}catch(e){}
+  window.scrollTo(0,0);
+}
+
+/* ---------- imagen para Instagram: sin el nombre del niño ---------- */
+function dibujarTarjeta(c){
+  var W=1080,H=1920,cv=document.createElement('canvas');cv.width=W;cv.height=H;
+  var x=cv.getContext('2d'),F='-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif';
+  function fuente(px,peso){x.font=(peso||400)+' '+px+'px '+F}
+  function espacio(v){if('letterSpacing' in x)x.letterSpacing=v+'px'}
+  function lineas(s,max){var pal=s.split(' '),out=[],l='';pal.forEach(function(w){var q=l?l+' '+w:w;if(x.measureText(q).width>max&&l){out.push(l);l=w}else l=q});if(l)out.push(l);return out}
+  function redondo(x0,y0,w,h,r){x.beginPath();x.moveTo(x0+r,y0);x.arcTo(x0+w,y0,x0+w,y0+h,r);x.arcTo(x0+w,y0+h,x0,y0+h,r);x.arcTo(x0,y0+h,x0,y0,r);x.arcTo(x0,y0,x0+w,y0,r);x.closePath()}
+  var M=90,ancho=W-2*M,p=INT[c.top[0]];
+  var g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#0b1514');g.addColorStop(.55,'#10201e');g.addColorStop(1,'#0a3a34');
+  x.fillStyle=g;x.fillRect(0,0,W,H);
+  var r=x.createRadialGradient(W-60,260,0,W-60,260,620);r.addColorStop(0,'rgba(14,159,142,.55)');r.addColorStop(1,'rgba(14,159,142,0)');
+  x.fillStyle=r;x.fillRect(0,0,W,H);
+  x.fillStyle='#0E9F8E';redondo(M,218,22,22,5);x.fill();
+  fuente(32,600);espacio(7);x.fillStyle='#c9ced8';x.fillText('HOSTIFY TESTS',M+42,240);
+  var y=380;fuente(38,800);espacio(6);x.fillStyle='#3fd3c0';
+  x.fillText('LA INTELIGENCIA DE MI '+(persona.genero==='f'?'HIJA':'HIJO'),M,y);
+  espacio(-2);var tm=120;fuente(tm,800);var ls=lineas('Inteligencia '+p.n.toLowerCase(),ancho);
+  while((ls.length>2||ls.some(function(l){return x.measureText(l).width>ancho}))&&tm>70){tm-=6;fuente(tm,800);ls=lineas('Inteligencia '+p.n.toLowerCase(),ancho)}
+  x.fillStyle='#fff';ls.forEach(function(l){y+=tm+6;x.fillText(l,M,y)});
+  espacio(0);fuente(44,400);x.fillStyle='#d2d2d7';y+=30;
+  lineas(p.lema,ancho).slice(0,2).forEach(function(l){y+=62;x.fillText(l,M,y)});
+  y+=60;x.fillStyle='rgba(255,255,255,.15)';x.fillRect(M,y,ancho,2);
+  y+=90;fuente(34,800);espacio(6);x.fillStyle='#3fd3c0';x.fillText('SU CONSTELACIÓN',M,y);espacio(0);
+  c.top.forEach(function(i,k){var v=c.pct[i];y+=86;
+    fuente(k===0?48:42,k===0?700:500);x.fillStyle=k===0?'#fff':'#d2d2d7';x.fillText(INT[i].ico+'  '+INT[i].n,M,y);
+    y+=28;x.fillStyle='rgba(255,255,255,.12)';redondo(M,y,ancho,16,8);x.fill();
+    x.fillStyle=INT[i].c;redondo(M,y,Math.max(20,ancho*v/100),16,8);x.fill()});
+  var by=Math.min(H-400,y+80);x.fillStyle='rgba(255,255,255,.08)';redondo(M,by,ancho,170,36);x.fill();
+  fuente(42,700);x.fillStyle='#fff';x.fillText('¿Cómo es inteligente tu hijo?',M+48,by+74);
+  fuente(36,600);x.fillStyle='#3fd3c0';x.fillText('Descúbrelo en '+SITIO,M+48,by+128);
+  return cv;
+}
+function nombreArchivo(){return 'inteligencias-de-mi-'+(persona.genero==='f'?'hija':'hijo')+'.png'}
+function descargar(){if(!window._tarjeta)return;var a=document.createElement('a');a.download=nombreArchivo();a.href=window._tarjeta.toDataURL('image/png');document.body.appendChild(a);a.click();a.remove()}
+function compartir(){
+  if(!window._tarjeta)return;
+  window._tarjeta.toBlob(function(b){
+    var f=null;try{f=new File([b],nombreArchivo(),{type:'image/png'})}catch(e){}
+    if(f&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],text:'Esta es la inteligencia principal de mi '+(persona.genero==='f'?'hija':'hijo')+'. ¿Y la del tuyo? '+SITIO}).catch(function(){})}
+    else{descargar()}
+  },'image/png');
+}
+function reiniciar(){
+  if(!confirm('¿Empezar de nuevo? Se borra este resultado de este dispositivo. Si quieres guardarlo, primero descárgalo en PDF.'))return;
+  try{localStorage.removeItem(CLAVE)}catch(e){}
+  persona={nombre:'',genero:'',edad:''};R={};paso=0;$('nombre').value='';
+  $('resultado').style.display='none';$('intro').style.display='block';pintarChips();window.scrollTo(0,0);
+}
+(function(){
+  var g=cargar();pintarChips();
+  if(persona.nombre)$('nombre').value=persona.nombre;
+  if(g){if(g.fin){terminar()}else if(Object.keys(R).length){$('intro').style.display='none';$('test').style.display='block';pintar()}}
+})();
+</script>
+</body>
+</html>

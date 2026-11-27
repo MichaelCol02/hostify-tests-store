@@ -27,6 +27,7 @@ const POR_TEST: Record<string, keyof typeof TONOS> = {
   'lenguajes-amor-pareja': 'amor',
   'eneagrama-pareja': 'amor',
   'estilo-crianza': 'familia',
+  'inteligencias-hijo': 'familia',
   eneagrama: 'autoconocimiento',
   '5-heridas': 'autoconocimiento',
   '5-casas': 'autoconocimiento',
